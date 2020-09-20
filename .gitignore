@@ -1,70 +1,72 @@
-######################
-# Project Specific
-######################
-/build/www/**
 
-######################
-# Node
-######################
-/node/
-node_tmp/
-node_modules/
-npm-debug.log.*
+#
+# Project specific excludes
+#
 
-######################
-# SASS
-######################
-.sass-cache/
+tomcat
 
-######################
-# Intellij
-######################
-.idea/
+#
+# Default excludes
+#
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+
+# Maven 
+target/
+
+# Gradle
+*.gradle
+
+# IntelliJ project files 
 *.iml
 *.iws
 *.ipr
-*.ids
-*.orig
+.idea/
 
-######################
-# Maven
-######################
-/log/
-/target/
+# eclipse project file
+.settings/
+.classpath
+.project
 
-######################
-# Package Files
-######################
-*.jar
-*.war
-*.ear
-*.db
+# NetBeans specific
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
-######################
-# Directories
-######################
-/bin/
-/deploy/
 
-######################
-# Logs
-######################
+# OS
+.DS_Store
+
+# Misc
+*.swp
+release.properties
+pom.xml.releaseBackup
+pom.xml.tag
+
+# Log file
 *.log
 
-######################
-# Others
-######################
-*.class
-*.*~
-*~
-.merge_file*
+# BlueJ files
+*.ctxt
 
-######################
-# Maven Wrapper
-######################
-!.mvn/wrapper/maven-wrapper.jar
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-######################
-# ESLint
-######################
-.eslintcache
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
