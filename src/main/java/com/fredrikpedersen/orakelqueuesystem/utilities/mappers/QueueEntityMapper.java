@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem.dto.mappers;
+package com.fredrikpedersen.orakelqueuesystem.utilities.mappers;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
