@@ -23,13 +23,13 @@ public class QueueEntity implements DomainEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstname;
+    private String name;
     private String subject;
     private int studyYear;
     private boolean digitalConsultation;
 
-    public QueueEntity(final String firstname, final String subject, final int studyYear, final boolean digitalConsultation) {
-        this.firstname = firstname;
+    public QueueEntity(final String name, final String subject, final int studyYear, final boolean digitalConsultation) {
+        this.name = name;
         this.subject = subject;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;

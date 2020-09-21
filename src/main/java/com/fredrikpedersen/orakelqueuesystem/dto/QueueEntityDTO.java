@@ -19,7 +19,7 @@ public class QueueEntityDTO implements DTO {
 
     private Long id;
     private String url;
-    private String firstname;
+    private String name;
     private String subject;
     private int studyYear;
     private boolean digitalConsultation;

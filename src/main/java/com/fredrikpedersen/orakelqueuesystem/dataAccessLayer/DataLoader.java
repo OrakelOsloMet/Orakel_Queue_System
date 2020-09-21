@@ -31,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void seedEntities() {
         log.info("Seeding Queue Entities");
-        QueueEntity queueEntity1 = new QueueEntity("Fredrik", "Programmering", 1, false);
+        QueueEntity queueEntity1 = new QueueEntity("Fredrik", "Programmering", 1, true);
         QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", "Algoritmer", 2, false);
         QueueEntity queueEntity3 = new QueueEntity("Maria", "Diskret Mattematikk", 1, false);
 
