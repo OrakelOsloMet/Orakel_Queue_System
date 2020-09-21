@@ -14,7 +14,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "queueentities")
 public class QueueEntity implements DomainEntity{

@@ -1,9 +1,10 @@
-package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
+package com.fredrikpedersen.orakelqueuesystem.serviceLayer.v1;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
-import com.fredrikpedersen.orakelqueuesystem.dto.mappers.QueueEntityMapper;
+import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
+import com.fredrikpedersen.orakelqueuesystem.serviceLayer.QueueEntityService;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.QueueEntityController;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class QueueEntityServiceImpl implements QueueEntityService{
+public class QueueEntityServiceImpl implements QueueEntityService {
 
     private final String URL = QueueEntityController.BASE_URL;
     private final QueueEntityMapper queueEntityMapper;
