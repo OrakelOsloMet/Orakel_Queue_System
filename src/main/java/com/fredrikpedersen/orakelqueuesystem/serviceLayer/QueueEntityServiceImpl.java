@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem.serviceLayer.v1;
+package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
