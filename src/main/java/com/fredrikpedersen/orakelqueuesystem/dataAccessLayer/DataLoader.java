@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 
 /**

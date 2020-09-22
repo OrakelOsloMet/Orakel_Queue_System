@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

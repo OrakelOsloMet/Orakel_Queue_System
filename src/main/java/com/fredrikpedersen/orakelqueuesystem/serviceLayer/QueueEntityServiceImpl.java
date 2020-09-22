@@ -1,10 +1,9 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.QueueEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
-import com.fredrikpedersen.orakelqueuesystem.serviceLayer.QueueEntityService;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.QueueEntityController;
 import org.springframework.stereotype.Service;
 

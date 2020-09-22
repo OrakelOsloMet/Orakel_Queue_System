@@ -1,5 +1,6 @@
-package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models;
+package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue;
 
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.DomainEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "queueentities")
-public class QueueEntity implements DomainEntity{
+public class QueueEntity implements DomainEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
