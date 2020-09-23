@@ -9,6 +9,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authen
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -59,13 +60,15 @@ public class DataLoader implements CommandLineRunner {
         log.info("Seeding Users");
         List<Role> roleList = roleRepository.findAll();
 
-        User testAdmin = new User("Fredrik", "fredrikmail", "fredrikpw");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        User testAdmin = new User("Fredrik", "fredrikmail", encoder.encode("fredrikpw"));
         testAdmin.setRoles(new HashSet<>(roleList));
         userRepository.save(testAdmin);
 
         HashSet<Role> userRole = new HashSet<>();
         userRole.add(roleList.get(0));
-        User testUser = new User("Nikita", "nikitamail", "nikitapw");
+        User testUser = new User("Nikita", "nikitamail", encoder.encode("nikitapw"));
         testUser.setRoles(userRole);
         userRepository.save(testUser);
 

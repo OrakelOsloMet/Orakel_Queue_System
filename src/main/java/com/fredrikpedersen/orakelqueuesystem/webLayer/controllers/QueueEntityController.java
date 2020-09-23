@@ -13,9 +13,9 @@ import java.util.List;
  * @since 20/09/2020 at 22:10
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping(QueueEntityController.BASE_URL)
-@CrossOrigin
 public class QueueEntityController {
 
     public static final String BASE_URL = "/api/queue";
