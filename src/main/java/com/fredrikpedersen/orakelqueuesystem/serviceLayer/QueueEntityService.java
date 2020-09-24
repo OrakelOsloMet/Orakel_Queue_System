@@ -8,5 +8,6 @@ import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
  * @version 1.0
  * @since 20/09/2020 at 21:59
  */
-public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity> {
+public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity, Long> {
+
 }

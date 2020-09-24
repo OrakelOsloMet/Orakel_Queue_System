@@ -2,6 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers;
 
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.QueueEntityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @since 20/09/2020 at 22:10
  */
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping(QueueEntityController.BASE_URL)
@@ -38,9 +40,9 @@ public class QueueEntityController {
         return queueEntityService.createNew(queueEntityDTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteQueueEntity(@RequestBody final QueueEntityDTO queueEntityDTO) {
-        queueEntityService.delete(queueEntityDTO);
+    public void deleteQueueEntity(@PathVariable final Long id) {
+        queueEntityService.deleteById(id);
     }
 }

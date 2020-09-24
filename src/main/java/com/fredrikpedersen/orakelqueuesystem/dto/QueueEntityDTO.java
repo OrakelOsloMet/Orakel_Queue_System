@@ -1,9 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author Fredrik Pedersen
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
