@@ -4,6 +4,7 @@ import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.QueueEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class QueueEntityController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN'')")
     public void deleteQueueEntity(@PathVariable final Long id) {
         queueEntityService.deleteById(id);
     }
