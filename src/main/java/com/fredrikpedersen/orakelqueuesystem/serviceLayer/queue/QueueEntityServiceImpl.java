@@ -32,6 +32,14 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         this.queueEntityRepository = queueEntityRepository;
     }
 
+
+    @Override
+    public List<QueueEntityDTO> findALlNotDone() {
+        return this.findAll().stream()
+                .filter(queueEntity -> !queueEntity.isConfirmedDone())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public List<QueueEntityDTO> findAll() {
         return queueEntityRepository.findAll()

@@ -32,7 +32,7 @@ public class QueueEntityController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<QueueEntityDTO> getAllQueueEntities() {
-        return queueEntityService.findAll();
+        return queueEntityService.findALlNotDone();
     }
 
     @PostMapping
