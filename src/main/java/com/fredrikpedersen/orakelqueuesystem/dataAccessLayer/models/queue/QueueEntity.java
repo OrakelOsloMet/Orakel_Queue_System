@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author Fredrik Pedersen
@@ -29,11 +30,14 @@ public class QueueEntity implements DomainEntity {
 
     private int studyYear;
     private boolean digitalConsultation;
+    private boolean confirmedDone;
+    private Date timeConfirmedDone;
 
     public QueueEntity(final String name, final ESubject subject, final int studyYear, final boolean digitalConsultation) {
         this.name = name;
         this.subject = subject;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;
+        this.confirmedDone = false;
     }
 }
