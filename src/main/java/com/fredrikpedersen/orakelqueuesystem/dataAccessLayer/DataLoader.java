@@ -13,8 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author Fredrik Pedersen
