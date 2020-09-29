@@ -12,4 +12,5 @@ import java.util.ArrayList;
  * @since 20/09/2020 at 21:59
  */
 public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity, Long> {
+    void confirmDone(Long id);
 }

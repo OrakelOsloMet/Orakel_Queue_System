@@ -1,6 +1,9 @@
 package com.fredrikpedersen.orakelqueuesystem.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Fredrik Pedersen
@@ -20,4 +23,6 @@ public class QueueEntityDTO implements DTO {
     private String subject;
     private int studyYear;
     private boolean digitalConsultation;
+    private boolean confirmedDone;
+    private String timeConfirmedDone;
 }

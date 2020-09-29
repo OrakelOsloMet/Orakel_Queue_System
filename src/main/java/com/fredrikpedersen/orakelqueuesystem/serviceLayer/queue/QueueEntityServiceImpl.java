@@ -8,7 +8,9 @@ import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue.QueueEnt
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -54,6 +56,19 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     public void deleteById(final Long id) {
         queueEntityRepository.deleteById(id);
+    }
+
+    @Override
+    public void confirmDone(final Long id) {
+
+        if (queueEntityRepository.findById(id).isPresent()) {
+            QueueEntity doneEntity = queueEntityRepository.findById(id).get();
+            doneEntity.setConfirmedDone(true);
+            doneEntity.setTimeConfirmedDone(new Date());
+            queueEntityRepository.save(doneEntity);
+        }
+
+        //TODO Throw an exception if an invalid id is passed here
     }
 
     @Override

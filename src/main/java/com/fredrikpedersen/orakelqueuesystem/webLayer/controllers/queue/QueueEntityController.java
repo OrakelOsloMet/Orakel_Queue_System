@@ -41,6 +41,13 @@ public class QueueEntityController {
         return queueEntityService.createNew(queueEntityDTO);
     }
 
+    @PostMapping("confirmdone/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void confirmDone(@PathVariable final Long id) {
+        queueEntityService.confirmDone(id);
+    }
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
