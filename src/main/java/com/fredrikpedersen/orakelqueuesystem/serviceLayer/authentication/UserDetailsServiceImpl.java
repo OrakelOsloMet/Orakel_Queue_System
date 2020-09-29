@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
+package com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.User;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;

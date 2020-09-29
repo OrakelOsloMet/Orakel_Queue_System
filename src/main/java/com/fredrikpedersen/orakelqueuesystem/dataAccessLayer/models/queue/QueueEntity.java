@@ -1,7 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.DomainEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,11 +23,14 @@ public class QueueEntity implements DomainEntity {
     private Long id;
 
     private String name;
-    private String subject;
+
+    @Enumerated(EnumType.STRING)
+    private ESubject subject;
+
     private int studyYear;
     private boolean digitalConsultation;
 
-    public QueueEntity(final String name, final String subject, final int studyYear, final boolean digitalConsultation) {
+    public QueueEntity(final String name, final ESubject subject, final int studyYear, final boolean digitalConsultation) {
         this.name = name;
         this.subject = subject;
         this.studyYear = studyYear;

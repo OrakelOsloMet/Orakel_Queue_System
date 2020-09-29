@@ -1,10 +1,11 @@
-package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
+package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
-import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.QueueEntityController;
+import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue.QueueEntityController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  * @since 20/09/2020 at 21:58
  */
 
+@Slf4j
 @Service
 public class QueueEntityServiceImpl implements QueueEntityService {
 

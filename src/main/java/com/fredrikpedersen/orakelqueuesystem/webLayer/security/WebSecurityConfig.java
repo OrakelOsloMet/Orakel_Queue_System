@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.security;
 
-import com.fredrikpedersen.orakelqueuesystem.serviceLayer.UserDetailsServiceImpl;
+import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsServiceImpl;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthEntryPointJwt;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthTokenFilter;
 import org.springframework.context.annotation.Bean;
@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/queue/**").permitAll()
+                .antMatchers("/api/subjects/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

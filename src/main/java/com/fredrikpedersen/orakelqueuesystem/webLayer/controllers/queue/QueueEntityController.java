@@ -1,7 +1,7 @@
-package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers;
+package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
-import com.fredrikpedersen.orakelqueuesystem.serviceLayer.QueueEntityService;
+import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(QueueEntityController.BASE_URL)
 public class QueueEntityController {
 
-    public static final String BASE_URL = "/api/queue";
+    public static final String BASE_URL = "/api/queue/";
 
     private final QueueEntityService queueEntityService;
 
@@ -41,9 +41,9 @@ public class QueueEntityController {
         return queueEntityService.createNew(queueEntityDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ADMIN'')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteQueueEntity(@PathVariable final Long id) {
         queueEntityService.deleteById(id);
     }

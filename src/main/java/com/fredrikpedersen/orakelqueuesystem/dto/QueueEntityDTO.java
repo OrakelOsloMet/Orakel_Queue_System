@@ -12,7 +12,6 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class QueueEntityDTO implements DTO {
 
     private Long id;

@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
+package com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.User;

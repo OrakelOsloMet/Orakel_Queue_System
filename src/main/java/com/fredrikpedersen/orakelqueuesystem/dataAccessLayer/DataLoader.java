@@ -3,6 +3,7 @@ package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.ERole;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.Role;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.User;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESubject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
@@ -46,9 +47,9 @@ public class DataLoader implements CommandLineRunner {
 
     private void seedEntities() {
         log.info("Seeding Queue Entities");
-        QueueEntity queueEntity1 = new QueueEntity("Fredrik", "Programmering", 1, true);
-        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", "Algoritmer", 2, false);
-        QueueEntity queueEntity3 = new QueueEntity("Maria", "Diskret Mattematikk", 1, false);
+        QueueEntity queueEntity1 = new QueueEntity("Fredrik", ESubject.PROGRAMMING, 1, true);
+        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", ESubject.DISCRETE_MATHEMATICS, 2, false);
+        QueueEntity queueEntity3 = new QueueEntity("Maria", ESubject.WEB_DEVELOPMENT, 1, false);
 
         entityRepository.save(queueEntity1);
         entityRepository.save(queueEntity2);

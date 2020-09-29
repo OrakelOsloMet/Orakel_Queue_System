@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt;
 
-import com.fredrikpedersen.orakelqueuesystem.serviceLayer.UserDetailsServiceImpl;
+import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
