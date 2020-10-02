@@ -117,4 +117,10 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    //TODO Finish this method
+    @GetMapping
+    public boolean checkTokenExpired() {
+        return false;
+    }
 }
