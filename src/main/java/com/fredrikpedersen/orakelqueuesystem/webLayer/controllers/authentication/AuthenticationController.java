@@ -11,6 +11,7 @@ import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.request.SignupReq
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.response.JwtResponse;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.response.MessageResponse;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,12 +21,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(AuthenticationController.BASE_URL)
@@ -118,9 +121,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    //TODO Finish this method
-    @GetMapping
-    public boolean checkTokenExpired() {
-        return false;
+    @PostMapping("isTokenValid")
+    public boolean isTokenValid(@RequestBody final String token, HttpServletRequest request) {
+        return jwtUtils.validateJwtToken(token, request);
     }
 }
