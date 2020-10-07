@@ -67,12 +67,6 @@ public class DataLoader implements CommandLineRunner {
         testAdmin.setRoles(new HashSet<>(roleList));
         userRepository.save(testAdmin);
 
-        HashSet<Role> userRole = new HashSet<>();
-        userRole.add(roleList.get(0));
-        User testUser = new User("Nikita", "nikitamail", encoder.encode("nikitapw"));
-        testUser.setRoles(userRole);
-        userRepository.save(testUser);
-
         log.info("Done seeding Users!");
     }
 
