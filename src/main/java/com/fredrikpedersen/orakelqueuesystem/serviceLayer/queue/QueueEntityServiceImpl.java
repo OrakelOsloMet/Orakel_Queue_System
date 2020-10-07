@@ -46,7 +46,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         return queueEntityRepository.findAll()
                 .stream()
                 .map(queueEntity -> {
-                    QueueEntityDTO queueEntityDTO = queueEntityMapper.queueEntityToQueueEntityDTO(queueEntity);
+                    QueueEntityDTO queueEntityDTO = queueEntityMapper.toDto(queueEntity);
                     queueEntityDTO.setUrl(URL + queueEntity.getId());
                     return queueEntityDTO;
                 })
@@ -55,12 +55,12 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
-        return saveAndReturnDTO(queueEntityMapper.queueEntityDTOToQueueEntity(queueEntityDTO));
+        return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
     }
 
     @Override
     public void delete(final QueueEntityDTO queueEntityDTO) {
-        queueEntityRepository.delete(queueEntityMapper.queueEntityDTOToQueueEntity(queueEntityDTO));
+        queueEntityRepository.delete(queueEntityMapper.toEntity(queueEntityDTO));
     }
 
     public void deleteById(final Long id) {
@@ -84,7 +84,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     public QueueEntityDTO saveAndReturnDTO(final QueueEntity queueEntity) {
         QueueEntity savedEntity = queueEntityRepository.save(queueEntity);
 
-        QueueEntityDTO queueEntityDTO = queueEntityMapper.queueEntityToQueueEntityDTO(savedEntity);
+        QueueEntityDTO queueEntityDTO = queueEntityMapper.toDto(savedEntity);
         queueEntityDTO.setUrl(URL + savedEntity.getId());
 
         return queueEntityDTO;

@@ -26,9 +26,9 @@ import java.util.List;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private QueueEntityRepository entityRepository;
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
+    private final QueueEntityRepository entityRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     public DataLoader(final QueueEntityRepository queueEntityRepository, final UserRepository userRepository, final RoleRepository roleRepository) {
         this.entityRepository = queueEntityRepository;

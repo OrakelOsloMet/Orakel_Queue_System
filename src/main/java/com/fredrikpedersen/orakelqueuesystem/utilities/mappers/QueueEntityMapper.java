@@ -6,27 +6,21 @@ import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 22:13
- */
-
 @Mapper(componentModel = "spring")
-public abstract class QueueEntityMapper {
-
-    public abstract QueueEntity queueEntityDTOToQueueEntity(final QueueEntityDTO queueEntityDTO);
+public interface QueueEntityMapper extends IEntityMapper<QueueEntityDTO, QueueEntity> {
 
     @Mapping(target = "url", source = "")
-    public abstract QueueEntityDTO queueEntityToQueueEntityDTO(final QueueEntity queueEntity);
+    QueueEntityDTO toDto(final QueueEntity queueEntity);
 
-    String subjectEnumToString(ESubject subjectEnum) {
+    QueueEntity toEntity(final QueueEntityDTO queueEntityDTO);
+
+    default String subjectEnumToString(final ESubject subjectEnum) {
         return subjectEnum.label;
     }
 
-    ESubject subjectStringToEnum(String subjectString) {
-        for(ESubject subjectEnum : ESubject.values()) {
-            if(subjectEnum.label.equals(subjectString)) {
+    default ESubject subjectStringToEnum(final String subjectString) {
+        for (ESubject subjectEnum : ESubject.values()) {
+            if (subjectEnum.label.equals(subjectString)) {
                 return subjectEnum;
             }
         }

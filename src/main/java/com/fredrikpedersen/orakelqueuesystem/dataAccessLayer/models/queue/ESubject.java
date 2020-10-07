@@ -11,7 +11,7 @@ public enum ESubject {
 
     public final String label;
 
-    private ESubject(final String label) {
+    ESubject(final String label) {
         this.label = label;
     }
 }
