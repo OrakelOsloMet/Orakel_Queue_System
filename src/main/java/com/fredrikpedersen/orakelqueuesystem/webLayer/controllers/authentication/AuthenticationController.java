@@ -6,6 +6,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authenticati
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsImpl;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.request.LoginRequest;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.request.SignupRequest;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.response.JwtResponse;
@@ -31,11 +32,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(AuthenticationController.BASE_URL)
+@RequestMapping(URLs.AUTHENTICATION_BASE_URL)
 //TODO This controller has waaaay to much logic in it. Move some, if all of it to a service class
 public class AuthenticationController {
-
-    public static final String BASE_URL = "/api/auth/";
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
@@ -51,7 +50,7 @@ public class AuthenticationController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("signin")
+    @PostMapping(URLs.AUTHENTICATION_SIGN_IN)
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -72,7 +71,7 @@ public class AuthenticationController {
                 roles));
     }
 
-    @PostMapping("signup")
+    @PostMapping(URLs.AUTHENTICATION_SIGN_UP)
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -121,7 +120,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("isTokenValid")
+    @PostMapping(URLs.AUTHENTICATION_TOKEN_VALID)
     public boolean isTokenValid(@RequestBody final String token, HttpServletRequest request) {
         return jwtUtils.validateJwtToken(token, request);
     }

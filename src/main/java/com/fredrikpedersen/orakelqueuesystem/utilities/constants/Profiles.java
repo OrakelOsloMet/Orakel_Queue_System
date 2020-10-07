@@ -1,6 +1,6 @@
-package com.fredrikpedersen.orakelqueuesystem.utilities.mappers;
+package com.fredrikpedersen.orakelqueuesystem.utilities.constants;
 
-public class Constants {
+public class Profiles {
 
     //Profiles
     public static final String DEV_PROFILE = "dev";

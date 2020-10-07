@@ -2,6 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +19,8 @@ import java.util.List;
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping(QueueEntityController.BASE_URL)
+@RequestMapping(URLs.QUEUE_BASE_URL)
 public class QueueEntityController {
-
-    public static final String BASE_URL = "/api/queue/";
 
     private final QueueEntityService queueEntityService;
 
@@ -41,7 +40,7 @@ public class QueueEntityController {
         return queueEntityService.createNew(queueEntityDTO);
     }
 
-    @PostMapping("confirmdone/{id}")
+    @PostMapping(URLs.QUEUE_CONFIRM_DONE + "/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasRole('ADMIN')")
     public void confirmDone(@PathVariable final Long id) {

@@ -3,6 +3,7 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue.QueueEntityController;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class QueueEntityServiceImpl implements QueueEntityService {
 
-    private final String URL = QueueEntityController.BASE_URL;
+    private final String URL = URLs.QUEUE_BASE_URL;
     private final QueueEntityMapper queueEntityMapper;
     private final QueueEntityRepository queueEntityRepository;
 

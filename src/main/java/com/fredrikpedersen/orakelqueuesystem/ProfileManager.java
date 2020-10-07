@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem;
 
-import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.Constants;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -20,14 +20,14 @@ public class ProfileManager {
     }
 
     public boolean isProduction() {
-        return activeProfiles.contains(Constants.PRODUCTION_PROFILE);
+        return activeProfiles.contains(Profiles.PRODUCTION_PROFILE);
     }
 
     public boolean isDev() {
-        return activeProfiles.contains(Constants.DEV_PROFILE);
+        return activeProfiles.contains(Profiles.DEV_PROFILE);
     }
 
     public boolean isTest() {
-        return activeProfiles.contains(Constants.TEST_PROFILE);
+        return activeProfiles.contains(Profiles.TEST_PROFILE);
     }
 }

@@ -1,6 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.SubjectService;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +11,8 @@ import java.util.ArrayList;
 
 @CrossOrigin
 @RestController
-@RequestMapping(SubjectController.BASE_URL)
+@RequestMapping(URLs.SUBJECT_BASE_URL)
 public class SubjectController {
-
-    public static final String BASE_URL = "/api/subjects/";
 
     private SubjectService subjectService;
 
