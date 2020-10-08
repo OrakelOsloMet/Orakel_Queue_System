@@ -7,12 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 21:32
- */
-
 @Data
 @NoArgsConstructor
 @Entity

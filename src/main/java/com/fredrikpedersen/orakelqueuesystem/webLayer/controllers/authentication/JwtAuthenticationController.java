@@ -27,12 +27,12 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping(URLs.AUTHENTICATION_SIGN_IN)
-    public ResponseEntity<?> authenticateLoginRequest(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateLoginRequest(@Valid @RequestBody final LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticationService.authenticateLoginRequest(loginRequest));
     }
 
     @PostMapping(URLs.AUTHENTICATION_TOKEN_VALID)
-    public boolean isTokenValid(@RequestBody final String token, HttpServletRequest request) {
+    public boolean isTokenValid(@RequestBody final String token, final HttpServletRequest request) {
         return jwtUtils.validateJwtToken(token, request);
     }
 }

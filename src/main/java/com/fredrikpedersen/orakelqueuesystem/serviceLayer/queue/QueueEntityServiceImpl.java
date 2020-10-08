@@ -5,20 +5,12 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueE
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
-import com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue.QueueEntityController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 21:58
- */
 
 @Slf4j
 @Service
