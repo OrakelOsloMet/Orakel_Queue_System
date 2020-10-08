@@ -16,12 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 21:37
- */
-
 @Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {

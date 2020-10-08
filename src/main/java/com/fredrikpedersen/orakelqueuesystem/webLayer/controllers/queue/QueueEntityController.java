@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.util.List;
 
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 22:10
- */
-
 @Slf4j
 @CrossOrigin
 @RestController

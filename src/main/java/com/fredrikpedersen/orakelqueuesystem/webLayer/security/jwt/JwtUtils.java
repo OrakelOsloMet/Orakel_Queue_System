@@ -18,17 +18,16 @@ public class JwtUtils {
     @Value("${orakelqueue.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${orakelqueue.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private final int JWT_EXPIRATION_MS = 14400000;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(final Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + JWT_EXPIRATION_MS))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
@@ -58,7 +57,7 @@ public class JwtUtils {
         return false;
     }
 
-    public String parseJwt(HttpServletRequest request) {
+    public String parseJwt(final HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {

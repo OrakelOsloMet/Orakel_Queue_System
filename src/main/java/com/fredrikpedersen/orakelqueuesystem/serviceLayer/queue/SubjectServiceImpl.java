@@ -12,7 +12,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public ArrayList<String> getSubjectList() {
-        ArrayList<String> subjects = new ArrayList<>();
+        final ArrayList<String> subjects = new ArrayList<>();
 
         for(ESubject subject : ESubject.values()) {
             subjects.add(subject.label);

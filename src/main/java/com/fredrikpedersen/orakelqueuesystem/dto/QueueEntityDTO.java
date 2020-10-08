@@ -5,12 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- * @author Fredrik Pedersen
- * @version 1.0
- * @since 20/09/2020 at 22:07
- */
-
 @Data
 @ToString
 @NoArgsConstructor
