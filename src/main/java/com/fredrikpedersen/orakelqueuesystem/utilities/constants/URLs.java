@@ -9,7 +9,7 @@ public class URLs {
 
     //Queue
     public static final String QUEUE_BASE_URL = "/api/queue/";
-    public static final String QUEUE_CONFIRM_DONE = "confirmdone";
+    public static final String QUEUE_CONFIRM_DONE = "confirmdone/";
 
     //Subject
     public static final String SUBJECT_BASE_URL = "/api/subjects/";
