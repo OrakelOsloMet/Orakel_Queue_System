@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.security;
 
-import com.fredrikpedersen.orakelqueuesystem.ProfileManager;
+import com.fredrikpedersen.orakelqueuesystem.utilities.ProfileManager;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsServiceImpl;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthEntryPointJwt;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthTokenFilter;

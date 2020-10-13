@@ -8,6 +8,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueE
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
+import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Profile({"dev", "test"})
+@Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE})
 public class DataLoader implements CommandLineRunner {
 
     private final QueueEntityRepository entityRepository;
