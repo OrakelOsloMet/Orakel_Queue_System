@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem;
+package com.fredrikpedersen.orakelqueuesystem.utilities;
 
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class ProfileManager {
     }
 
     public boolean isProduction() {
-        return activeProfiles.contains(Profiles.PRODUCTION_PROFILE);
+        return activeProfiles.contains(Profiles.PROD_PROFILE);
     }
 
     public boolean isDev() {

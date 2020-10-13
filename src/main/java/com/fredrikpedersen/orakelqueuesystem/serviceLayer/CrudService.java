@@ -8,7 +8,7 @@ import java.util.List;
 public interface CrudService<T extends DTO, S extends DomainEntity, ID extends Long> {
 
     List<T> findAll();
-    T createNew(final T dtoObject);
+    T createNew(T dtoObject);
     void delete(T dtoObject);
     void deleteById(ID id);
 

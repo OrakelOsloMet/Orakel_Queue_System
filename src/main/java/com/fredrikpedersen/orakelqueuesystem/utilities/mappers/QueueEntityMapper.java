@@ -10,11 +10,11 @@ import org.mapstruct.Mapping;
 public interface QueueEntityMapper extends IEntityMapper<QueueEntityDTO, QueueEntity> {
 
     @Mapping(target = "url", source = "")
-    QueueEntityDTO toDto(final QueueEntity queueEntity);
+    QueueEntityDTO toDto(QueueEntity queueEntity);
 
-    QueueEntity toEntity(final QueueEntityDTO queueEntityDTO);
+    QueueEntity toEntity(QueueEntityDTO queueEntityDTO);
 
-    default String subjectEnumToString(final ESubject subjectEnum) {
+    default String subjectEnumToString(ESubject subjectEnum) {
         return subjectEnum.label;
     }
 

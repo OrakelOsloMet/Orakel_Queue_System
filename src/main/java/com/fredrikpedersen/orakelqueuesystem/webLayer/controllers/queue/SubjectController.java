@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @RequestMapping(URLs.SUBJECT_BASE_URL)
 public class SubjectController {
 
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
     private final Bucket bucket;
 
     public SubjectController(final SubjectService subjectService) {

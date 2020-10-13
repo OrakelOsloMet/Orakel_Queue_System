@@ -2,8 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication;
 
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.request.LoginRequest;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.response.JwtResponse;
-import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.JwtUtils;
-import io.jsonwebtoken.Jwt;
+import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.JwtUtilities;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,18 +17,18 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationServiceImpl implements AuthenticationService<JwtResponse, LoginRequest> {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+    private final JwtUtilities jwtUtilities;
 
-    public JwtAuthenticationServiceImpl(final AuthenticationManager authenticationManager, final JwtUtils jwtUtils) {
+    public JwtAuthenticationServiceImpl(final AuthenticationManager authenticationManager, final JwtUtilities jwtUtilities) {
         this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
+        this.jwtUtilities = jwtUtilities;
     }
 
     @Override
     public JwtResponse authenticateLoginRequest(final LoginRequest loginRequest) {
 
         final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        final String jwtToken = jwtUtils.generateJwtToken(authentication);
+        final String jwtToken = jwtUtilities.generateJwt(authentication);
         final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         final List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -37,8 +36,9 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService<JwtRe
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new JwtResponse(jwtToken,
+        return new JwtResponse(
                 userDetails.getId(),
+                jwtToken,
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles);

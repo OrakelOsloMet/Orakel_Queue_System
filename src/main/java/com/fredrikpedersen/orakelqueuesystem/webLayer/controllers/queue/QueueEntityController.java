@@ -35,6 +35,7 @@ public class QueueEntityController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<QueueEntityDTO>> getAllQueueEntities() {
         if (bucket.tryConsume(1)) {
             return ResponseEntity.ok(queueEntityService.findALlNotDone());
@@ -53,7 +54,7 @@ public class QueueEntityController {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 
-    @PostMapping(URLs.QUEUE_CONFIRM_DONE + "/{id}")
+    @PostMapping(URLs.QUEUE_CONFIRM_DONE + "{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasRole('ADMIN')")
     public void confirmDone(@PathVariable final Long id) {

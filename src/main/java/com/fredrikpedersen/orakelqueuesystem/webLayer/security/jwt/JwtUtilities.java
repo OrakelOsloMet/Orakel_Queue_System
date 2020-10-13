@@ -13,14 +13,15 @@ import java.util.Date;
 
 @Slf4j
 @Component
-public class JwtUtils {
+public class JwtUtilities {
 
     @Value("${orakelqueue.app.jwtSecret}")
     private String jwtSecret;
 
-    private final int JWT_EXPIRATION_MS = 14400000;
+    @Value("${orakelqueue.app.jwtExpirationMs}")
+    private int JWT_EXPIRATION_MS;
 
-    public String generateJwtToken(final Authentication authentication) {
+    public String generateJwt(final Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -32,11 +33,11 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getUserNameFromJwt(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateJwtToken(final String authToken, final HttpServletRequest request) {
+    public boolean validateJwt(final String authToken, final HttpServletRequest request) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;

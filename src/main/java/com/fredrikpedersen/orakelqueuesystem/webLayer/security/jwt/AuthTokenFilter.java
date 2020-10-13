@@ -3,6 +3,7 @@ package com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,22 +21,21 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtUtilities jwtUtilities;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull final HttpServletRequest request, @NonNull final HttpServletResponse response,
+                                    @NonNull final FilterChain filterChain) throws ServletException, IOException {
 
         try {
-            final String jwt = jwtUtils.parseJwt(request);
+            final String jwt = jwtUtilities.parseJwt(request);
 
-            if (jwt != null && jwtUtils.validateJwtToken(jwt, request)) {
+            if (jwt != null && jwtUtilities.validateJwt(jwt, request)) {
 
-                final String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
+                final String username = jwtUtilities.getUserNameFromJwt(jwt);
                 final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

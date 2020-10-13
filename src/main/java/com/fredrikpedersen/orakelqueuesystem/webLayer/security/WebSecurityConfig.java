@@ -1,7 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.security;
 
-import com.fredrikpedersen.orakelqueuesystem.ProfileManager;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.UserDetailsServiceImpl;
+import com.fredrikpedersen.orakelqueuesystem.utilities.ProfileManager;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthEntryPointJwt;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.AuthTokenFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configure(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
