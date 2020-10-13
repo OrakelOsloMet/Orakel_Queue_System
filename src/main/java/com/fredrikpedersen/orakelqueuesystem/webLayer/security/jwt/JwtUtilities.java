@@ -18,7 +18,7 @@ public class JwtUtilities {
     @Value("${orakelqueue.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("{orakelqueue.app.jwtExpirationMs}")
+    @Value("${orakelqueue.app.jwtExpirationMs}")
     private int JWT_EXPIRATION_MS;
 
     public String generateJwt(final Authentication authentication) {
