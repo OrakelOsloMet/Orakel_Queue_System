@@ -9,7 +9,6 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueE
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,15 +21,6 @@ import java.util.List;
 @Component
 @Profile({"dev", "test"})
 public class DataLoader implements CommandLineRunner {
-
-    @Value("${admin.username}")
-    private String adminUsername;
-
-    @Value("${admin.password}")
-    private String adminPassword;
-
-    @Value("${admin.mail}")
-    private String adminMail;
 
     private final QueueEntityRepository entityRepository;
     private final RoleRepository roleRepository;
@@ -69,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        User testAdmin = new User(adminUsername, adminMail, encoder.encode(adminPassword));
+        User testAdmin = new User("Fredrik", "fredrikmail", encoder.encode("fredrikpw"));
         testAdmin.setRoles(new HashSet<>(roleList));
         userRepository.save(testAdmin);
 
