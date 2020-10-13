@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity, Long> {
     List<QueueEntityDTO> findALlNotDone();
-    void confirmDone(final Long id);
+    void confirmDone(Long id);
 }

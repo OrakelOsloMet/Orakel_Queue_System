@@ -4,7 +4,7 @@ import com.fredrikpedersen.orakelqueuesystem.serviceLayer.authentication.Authent
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.request.LoginRequest;
 import com.fredrikpedersen.orakelqueuesystem.webLayer.payloads.response.JwtResponse;
-import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.JwtUtils;
+import com.fredrikpedersen.orakelqueuesystem.webLayer.security.jwt.JwtUtilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ import javax.validation.Valid;
 @RequestMapping(URLs.AUTHENTICATION_BASE_URL)
 public class JwtAuthenticationController {
 
-    private AuthenticationService<JwtResponse, LoginRequest> authenticationService;
-    private JwtUtils jwtUtils;
+    private final AuthenticationService<JwtResponse, LoginRequest> authenticationService;
+    private final JwtUtilities jwtUtilities;
 
-    public JwtAuthenticationController(final JwtUtils jwtUtils, final AuthenticationService<JwtResponse, LoginRequest> authenticationService) {
+    public JwtAuthenticationController(final JwtUtilities jwtUtilities, final AuthenticationService<JwtResponse, LoginRequest> authenticationService) {
         this.authenticationService = authenticationService;
-        this.jwtUtils = jwtUtils;
+        this.jwtUtilities = jwtUtilities;
     }
 
     @PostMapping(URLs.AUTHENTICATION_SIGN_IN)
@@ -33,6 +33,6 @@ public class JwtAuthenticationController {
 
     @PostMapping(URLs.AUTHENTICATION_TOKEN_VALID)
     public boolean isTokenValid(@RequestBody final String token, final HttpServletRequest request) {
-        return jwtUtils.validateJwtToken(token, request);
+        return jwtUtilities.validateJwt(token, request);
     }
 }
