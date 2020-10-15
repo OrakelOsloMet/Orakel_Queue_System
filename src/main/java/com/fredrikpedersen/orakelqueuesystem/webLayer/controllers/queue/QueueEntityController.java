@@ -54,7 +54,7 @@ public class QueueEntityController {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 
-    @PostMapping(URLs.QUEUE_CONFIRM_DONE + "{id}")
+    @PostMapping(URLs.QUEUE_CONFIRM_DONE_URL + "{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasRole('ADMIN')")
     public void confirmDone(@PathVariable final Long id) {
