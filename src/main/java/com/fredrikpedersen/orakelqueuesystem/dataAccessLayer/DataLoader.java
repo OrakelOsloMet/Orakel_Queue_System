@@ -60,7 +60,7 @@ public class DataLoader implements CommandLineRunner {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        User testAdmin = new User("Fredrik", "fredrikmail", encoder.encode("fredrikpw"));
+        User testAdmin = new User("f", "f", encoder.encode("f"));
         testAdmin.setRoles(new HashSet<>(roleList));
         userRepository.save(testAdmin);
 
