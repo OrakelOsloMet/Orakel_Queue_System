@@ -25,7 +25,6 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         this.queueEntityRepository = queueEntityRepository;
     }
 
-
     @Override
     public List<QueueEntityDTO> findALlNotDone() {
         return this.findAll().stream()
@@ -45,6 +44,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
                 .collect(Collectors.toList());
     }
 
+    //TODO Make sure no received values in queueEntityDTO are null before being passed to the mapper
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
         return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
