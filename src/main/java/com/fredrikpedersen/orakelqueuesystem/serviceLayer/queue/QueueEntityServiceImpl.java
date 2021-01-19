@@ -43,8 +43,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
                 .map(queueEntityMapper::toDto)
                 .collect(Collectors.toList());
     }
-
-    //TODO Make sure no received values in queueEntityDTO are null before being passed to the mapper
+    
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
         return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
