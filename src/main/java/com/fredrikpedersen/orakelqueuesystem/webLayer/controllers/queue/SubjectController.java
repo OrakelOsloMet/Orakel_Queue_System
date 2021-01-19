@@ -69,8 +69,21 @@ public class SubjectController {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 
-    @DeleteMapping("{id}")
+    @PutMapping("edit/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SubjectDTO> editSubject(@RequestBody final SubjectDTO subjectDTO, @PathVariable Long id) {
+        if (bucket.tryConsume(1)) {
+            if (FieldValidator.validateForNulls(subjectDTO)) {
+                return ResponseEntity.ok(subjectService.edit(subjectDTO, id));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @DeleteMapping("delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteSubject(@PathVariable final Long id) {subjectService.deleteById(id);}
+
 }

@@ -49,6 +49,11 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
     }
 
+    @Override
+    public QueueEntityDTO edit(final QueueEntityDTO queueEntityDTO, final Long id) {
+        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
+    }
+
     public void deleteById(final Long id) {
         queueEntityRepository.deleteById(id);
     }

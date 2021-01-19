@@ -6,9 +6,11 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.Subjec
 import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.SubjectMapper;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -53,6 +55,16 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public SubjectDTO createNew(final SubjectDTO subjectDTO) {
         return saveAndReturnDTO(subjectMapper.toEntity(subjectDTO));
+    }
+
+    @Override
+    public SubjectDTO edit(final SubjectDTO subjectDTO, final Long id) {
+        return subjectRepository.findById(id)
+                .map(subject -> {
+                    subject.setName(subjectDTO.getName());
+                    subject.setSemester(subjectMapper.semesterStringToEnum(subjectDTO.getSemester()));
+                    return saveAndReturnDTO(subject);
+                }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
     }
 
     @Override
