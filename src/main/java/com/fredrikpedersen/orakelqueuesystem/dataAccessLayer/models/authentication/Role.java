@@ -7,6 +7,11 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:42
+ */
+
 @Getter
 @Setter
 @ToString

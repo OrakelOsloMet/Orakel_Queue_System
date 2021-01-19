@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Duration;
 import java.util.ArrayList;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping(URLs.SUBJECT_BASE_URL)

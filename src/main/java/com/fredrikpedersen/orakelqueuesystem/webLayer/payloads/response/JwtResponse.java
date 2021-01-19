@@ -5,6 +5,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @Getter
 @Setter
 public class JwtResponse {

@@ -5,6 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @Data
 @ToString
 @NoArgsConstructor
