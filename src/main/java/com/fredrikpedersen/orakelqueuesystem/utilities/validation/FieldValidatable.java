@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface FieldValidatable {
 
-    default List<Field> getRequiredFields() {
+    default List<Field> requiredFields() {
         Field[] declaredFields = this.getClass().getDeclaredFields();
         ArrayList<Field> annotatedFields = new ArrayList<>();
 
