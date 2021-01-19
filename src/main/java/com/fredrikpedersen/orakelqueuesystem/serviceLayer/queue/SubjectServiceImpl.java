@@ -53,7 +53,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDTO createNew(final SubjectDTO subjectDTO) {
-        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
+        return saveAndReturnDTO(subjectMapper.toEntity(subjectDTO));
     }
 
     @Override
@@ -69,7 +69,8 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDTO saveAndReturnDTO(Subject subject) {
-        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
+        Subject savedEntity = subjectRepository.save(subject);
+        return subjectMapper.toDto(savedEntity);
     }
 
     private ESemester determineSemester() {

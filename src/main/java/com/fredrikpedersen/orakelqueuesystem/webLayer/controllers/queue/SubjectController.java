@@ -1,9 +1,9 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.SubjectService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
+import com.fredrikpedersen.orakelqueuesystem.utilities.validation.FieldValidator;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
@@ -53,6 +53,17 @@ public class SubjectController {
             return ResponseEntity.ok(subjectService.findSubjectsCurrentSemester());
         }
 
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<SubjectDTO> postSubject(@RequestBody final SubjectDTO subjectDTO) {
+        if (bucket.tryConsume(1)) {
+            if (FieldValidator.validateForNulls(subjectDTO)) {
+                return ResponseEntity.ok(subjectService.createNew(subjectDTO));
+            }
+        }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 }

@@ -43,7 +43,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
                 .map(queueEntityMapper::toDto)
                 .collect(Collectors.toList());
     }
-    
+
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
         return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
