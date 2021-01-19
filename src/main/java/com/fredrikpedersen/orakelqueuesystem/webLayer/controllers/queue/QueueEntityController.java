@@ -3,6 +3,7 @@ package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
+import com.fredrikpedersen.orakelqueuesystem.utilities.validation.FieldValidator;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
@@ -53,7 +54,9 @@ public class QueueEntityController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QueueEntityDTO> postQueueEntity(@RequestBody final QueueEntityDTO queueEntityDTO) {
         if (bucket.tryConsume(1)) {
-            return ResponseEntity.ok(queueEntityService.createNew(queueEntityDTO));
+            if (FieldValidator.validateForNulls(queueEntityDTO)) {
+                return ResponseEntity.ok(queueEntityService.createNew(queueEntityDTO));
+            }
         }
 
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
