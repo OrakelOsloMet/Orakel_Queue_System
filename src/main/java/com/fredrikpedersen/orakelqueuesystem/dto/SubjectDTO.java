@@ -7,20 +7,17 @@ import lombok.ToString;
 
 /**
  * @author Fredrik Pedersen
- * @since 20/09/2020 at 21:41
+ * @since 19/01/2021 at 12:47
  */
 
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueueEntityDTO implements DTO {
+public class SubjectDTO implements DTO {
 
     private Long id;
     private String name;
-    private String subject;
-    private int studyYear;
-    private boolean digitalConsultation;
-    private boolean confirmedDone;
-    private String timeConfirmedDone;
+    private String semester;
+
 }

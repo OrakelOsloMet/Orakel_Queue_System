@@ -6,6 +6,11 @@ import com.fredrikpedersen.orakelqueuesystem.serviceLayer.CrudService;
 
 import java.util.List;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity, Long> {
     List<QueueEntityDTO> findALlNotDone();
     void confirmDone(Long id);

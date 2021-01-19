@@ -1,5 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
+import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.SubjectService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import io.github.bucket4j.Bandwidth;
@@ -8,13 +10,10 @@ import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Fredrik Pedersen
@@ -40,9 +39,18 @@ public class SubjectController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList<String>> getSubjects() {
+    public ResponseEntity<List<SubjectDTO>> getSubjects() {
         if (bucket.tryConsume(1)) {
-            return ResponseEntity.ok(subjectService.getSubjectList());
+            return ResponseEntity.ok(subjectService.findAll());
+        }
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @GetMapping("current")
+    public ResponseEntity<List<SubjectDTO>> getSubjectsCurrentSemester() {
+        if (bucket.tryConsume(1)) {
+            return ResponseEntity.ok(subjectService.findSubjectsCurrentSemester());
         }
 
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
