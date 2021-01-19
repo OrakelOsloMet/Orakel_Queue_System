@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
-    private final String URL = URLs.SUBJECT_BASE_URL;
     private final SubjectMapper subjectMapper;
     private final SubjectRepository subjectRepository;
 
@@ -58,8 +57,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void deleteById(final Long id) {
-        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
-
+        subjectRepository.deleteById(id);
     }
 
     @Override

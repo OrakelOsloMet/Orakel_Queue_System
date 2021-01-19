@@ -10,6 +10,7 @@ import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -58,6 +59,7 @@ public class SubjectController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SubjectDTO> postSubject(@RequestBody final SubjectDTO subjectDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(subjectDTO)) {
@@ -66,4 +68,9 @@ public class SubjectController {
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteSubject(@PathVariable final Long id) {subjectService.deleteById(id);}
 }
