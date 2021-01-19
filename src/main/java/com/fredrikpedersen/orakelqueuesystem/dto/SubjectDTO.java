@@ -1,5 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dto;
 
+import com.fredrikpedersen.orakelqueuesystem.utilities.annotations.Required;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.ToString;
 public class SubjectDTO implements DTO {
 
     private Long id;
-    private String name;
-    private String semester;
+    @Required private String name;
+    @Required private String semester;
 
 }

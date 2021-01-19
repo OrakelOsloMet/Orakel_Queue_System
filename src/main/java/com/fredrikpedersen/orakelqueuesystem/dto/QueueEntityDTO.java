@@ -1,5 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.dto;
 
+import com.fredrikpedersen.orakelqueuesystem.utilities.annotations.Required;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,10 @@ import lombok.ToString;
 public class QueueEntityDTO implements DTO {
 
     private Long id;
-    private String name;
-    private String subject;
-    private int studyYear;
-    private boolean digitalConsultation;
-    private boolean confirmedDone;
+    @Required private String name;
+    @Required private String subject;
+    @Required private int studyYear;
+    @Required private boolean digitalConsultation;
+    @Required private boolean confirmedDone;
     private String timeConfirmedDone;
 }
