@@ -57,18 +57,13 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void delete(SubjectDTO subjectDTO) {
-        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
 
     }
 
     @Override
-    public SubjectDTO saveAndReturnDTO(Subject subject) {
+    public SubjectDTO saveAndReturnDTO(final Subject subject) {
         Subject savedEntity = subjectRepository.save(subject);
         return subjectMapper.toDto(savedEntity);
     }

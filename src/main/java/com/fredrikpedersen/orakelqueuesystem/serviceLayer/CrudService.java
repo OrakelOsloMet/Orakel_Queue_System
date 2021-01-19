@@ -14,7 +14,6 @@ public interface CrudService<T extends DTO, S extends DomainEntity, ID extends L
 
     List<T> findAll();
     T createNew(T dtoObject);
-    void delete(T dtoObject);
     void deleteById(ID id);
 
     T saveAndReturnDTO(final S domainObject);
