@@ -20,5 +20,4 @@ public class SubjectDTO implements DTO {
     private Long id;
     @Required private String name;
     @Required private String semester;
-
 }
