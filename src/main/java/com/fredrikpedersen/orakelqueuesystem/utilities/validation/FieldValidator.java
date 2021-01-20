@@ -27,7 +27,7 @@ public class FieldValidator {
         annotatedFields.forEach(field -> {
             try {
                 if (field.get(object) == null) {
-                    throw new RequiredFieldException(object.getClass().getName() + "." + field.getName());
+                    throw new RequiredFieldException(String.format("%s is null!", field.getName()));
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
