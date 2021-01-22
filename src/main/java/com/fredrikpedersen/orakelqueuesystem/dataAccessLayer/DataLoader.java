@@ -86,11 +86,11 @@ public class DataLoader implements CommandLineRunner {
         ArrayList<Subject> allSubjects = new ArrayList<>();
         ArrayList<String> autumnSubjects = new ArrayList<>(Arrays.asList("Programmering", "Diskret Matte",
                 "Web Utvikling", "Prototyping", "Algoritmer og Datastrukturer", "Matte 2000", "Sytemutvikling", "MMI",
-                "Web Applikasjoner", "Apputvikling", "Annet"));
+                "Web Applikasjoner", "Apputvikling"));
 
         ArrayList<String> springSubjects = new ArrayList<>(Arrays.asList("Databaser", "Webprogrammering",
                 "Internet of Things", "Matte 1000", "Visualisering", "Testing av Programvare", "Fysikk og Kjemi",
-                "Datanettverk og Skytjenester", "Operativsystemer", "Annet"));
+                "Datanettverk og Skytjenester", "Operativsystemer"));
 
         autumnSubjects.forEach(subject -> {
             Subject subjectObject = new Subject(subject, ESemester.AUTUMN);
