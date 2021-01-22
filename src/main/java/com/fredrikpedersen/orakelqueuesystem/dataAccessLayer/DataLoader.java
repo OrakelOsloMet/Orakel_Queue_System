@@ -29,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE, Profiles.PROD_PROFILE})
+@Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE})
 public class DataLoader implements CommandLineRunner {
 
     private final QueueEntityRepository entityRepository;
