@@ -4,9 +4,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemes
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.SubjectRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
-import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.SubjectMapper;
-import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
