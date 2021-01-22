@@ -29,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE})
+@Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE, Profiles.PROD_PROFILE})
 public class DataLoader implements CommandLineRunner {
 
     private final QueueEntityRepository entityRepository;
@@ -51,8 +51,8 @@ public class DataLoader implements CommandLineRunner {
         log.info("Seeding data...");
         List<Subject> allSubjects = seedSubjects();
         seedEntities(allSubjects);
-        seedRoles();
-        seedUsers();
+        //seedRoles();
+        //seedUsers();
         log.info("Seeding done!");
     }
 
