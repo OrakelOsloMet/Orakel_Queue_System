@@ -20,10 +20,10 @@ public interface SubjectMapper extends IEntityMapper<SubjectDTO, Subject> {
 
     default ESemester semesterStringToEnum(final String semesterString) {
         for (ESemester semesterEnum: ESemester.values()) {
-            if (semesterEnum.label.equals(semesterString)) {
+            if (semesterEnum.label.equalsIgnoreCase(semesterString)) {
                 return semesterEnum;
             }
         }
-        return null;
+        return null; //TODO Throw an error indicating an invalid semester has been passed
     }
 }
