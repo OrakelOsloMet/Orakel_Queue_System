@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @Service
 public class JwtAuthenticationServiceImpl implements AuthenticationService<JwtResponse, LoginRequest> {
 

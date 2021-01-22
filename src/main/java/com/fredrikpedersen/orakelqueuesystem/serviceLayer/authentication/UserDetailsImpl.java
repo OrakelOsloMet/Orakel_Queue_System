@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
     private final Long id;

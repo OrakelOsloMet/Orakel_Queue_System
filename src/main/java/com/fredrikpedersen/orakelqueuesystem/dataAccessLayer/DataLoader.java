@@ -3,9 +3,11 @@ package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.ERole;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.Role;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.User;
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESubject;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemester;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.SubjectRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
@@ -15,8 +17,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
 
 @Slf4j
 @Component
@@ -26,27 +35,32 @@ public class DataLoader implements CommandLineRunner {
     private final QueueEntityRepository entityRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final SubjectRepository subjectRepository;
 
-    public DataLoader(final QueueEntityRepository queueEntityRepository, final UserRepository userRepository, final RoleRepository roleRepository) {
+    //TODO Create a dataloader for production to make sure data isn't overriden whenever a new version is pushed to Heroku
+    public DataLoader(final QueueEntityRepository queueEntityRepository, final UserRepository userRepository,
+                      final RoleRepository roleRepository, final SubjectRepository subjectRepository) {
         this.entityRepository = queueEntityRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.subjectRepository = subjectRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         log.info("Seeding data...");
-        seedEntities();
+        List<Subject> allSubjects = seedSubjects();
+        seedEntities(allSubjects);
         seedRoles();
         seedUsers();
         log.info("Seeding done!");
     }
 
-    private void seedEntities() {
+    private void seedEntities(final List<Subject> allSubjects) {
         log.info("Seeding Queue Entities");
-        QueueEntity queueEntity1 = new QueueEntity("Fredrik", ESubject.DATABASES, 1, true);
-        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", ESubject.OS, 2, false);
-        QueueEntity queueEntity3 = new QueueEntity("Maria", ESubject.WEBPROGRAMING, 1, false);
+        QueueEntity queueEntity1 = new QueueEntity("Fredrik", allSubjects.get(1).getName(), 1, true);
+        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", allSubjects.get(2).getName(), 2, false);
+        QueueEntity queueEntity3 = new QueueEntity("Maria", allSubjects.get(3).getName(), 1, false);
 
         entityRepository.save(queueEntity1);
         entityRepository.save(queueEntity2);
@@ -65,6 +79,32 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(testAdmin);
 
         log.info("Done seeding Users!");
+    }
+
+    private List<Subject> seedSubjects() {
+        log.info("Seeding Semesters");
+        ArrayList<Subject> allSubjects = new ArrayList<>();
+        ArrayList<String> autumnSubjects = new ArrayList<>(Arrays.asList("Programmering", "Diskret Matte",
+                "Web Utvikling", "Prototyping", "Algoritmer og Datastrukturer", "Matte 2000", "Sytemutvikling", "MMI",
+                "Web Applikasjoner", "Apputvikling", "Annet"));
+
+        ArrayList<String> springSubjects = new ArrayList<>(Arrays.asList("Databaser", "Webprogrammering",
+                "Internet of Things", "Matte 1000", "Visualisering", "Testing av Programvare", "Fysikk og Kjemi",
+                "Datanettverk og Skytjenester", "Operativsystemer", "Annet"));
+
+        autumnSubjects.forEach(subject -> {
+            Subject subjectObject = new Subject(subject, ESemester.AUTUMN);
+            allSubjects.add(subjectObject);
+            subjectRepository.save(subjectObject);
+        });
+
+        springSubjects.forEach(subject -> {
+            Subject subjectObject = new Subject(subject, ESemester.SPRING);
+            allSubjects.add(subjectObject);
+            subjectRepository.save(subjectObject);
+        });
+
+        return allSubjects;
     }
 
 

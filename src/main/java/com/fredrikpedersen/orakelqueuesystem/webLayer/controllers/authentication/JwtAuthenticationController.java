@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

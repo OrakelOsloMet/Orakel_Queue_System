@@ -1,20 +1,25 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
+import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.SubjectService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
+import com.fredrikpedersen.orakelqueuesystem.utilities.validation.FieldValidator;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
 
 @CrossOrigin
 @RestController
@@ -35,11 +40,50 @@ public class SubjectController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList<String>> getSubjects() {
+    public ResponseEntity<List<SubjectDTO>> getSubjects() {
         if (bucket.tryConsume(1)) {
-            return ResponseEntity.ok(subjectService.getSubjectList());
+            return ResponseEntity.ok(subjectService.findAll());
         }
 
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
+
+    @GetMapping("current")
+    public ResponseEntity<List<SubjectDTO>> getSubjectsCurrentSemester() {
+        if (bucket.tryConsume(1)) {
+            return ResponseEntity.ok(subjectService.findSubjectsCurrentSemester());
+        }
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SubjectDTO> postSubject(@RequestBody final SubjectDTO subjectDTO) {
+        if (bucket.tryConsume(1)) {
+            if (FieldValidator.validateForNulls(subjectDTO)) {
+                return ResponseEntity.ok(subjectService.createNew(subjectDTO));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @PutMapping("edit/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SubjectDTO> editSubject(@RequestBody final SubjectDTO subjectDTO, @PathVariable Long id) {
+        if (bucket.tryConsume(1)) {
+            if (FieldValidator.validateForNulls(subjectDTO)) {
+                return ResponseEntity.ok(subjectService.edit(subjectDTO, id));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    }
+
+    @DeleteMapping("delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteSubject(@PathVariable final Long id) {subjectService.deleteById(id);}
+
 }

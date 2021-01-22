@@ -12,11 +12,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Fredrik Pedersen
+ * @since 20/09/2020 at 21:41
+ */
+
 @Slf4j
 @Service
 public class QueueEntityServiceImpl implements QueueEntityService {
 
-    private final String URL = URLs.QUEUE_BASE_URL;
     private final QueueEntityMapper queueEntityMapper;
     private final QueueEntityRepository queueEntityRepository;
 
@@ -36,23 +40,18 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     public List<QueueEntityDTO> findAll() {
         return queueEntityRepository.findAll()
                 .stream()
-                .map(queueEntity -> {
-                    QueueEntityDTO queueEntityDTO = queueEntityMapper.toDto(queueEntity);
-                    queueEntityDTO.setUrl(URL + queueEntity.getId());
-                    return queueEntityDTO;
-                })
+                .map(queueEntityMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    //TODO Make sure no received values in queueEntityDTO are null before being passed to the mapper
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
         return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
     }
 
     @Override
-    public void delete(final QueueEntityDTO queueEntityDTO) {
-        queueEntityRepository.delete(queueEntityMapper.toEntity(queueEntityDTO));
+    public QueueEntityDTO edit(final QueueEntityDTO queueEntityDTO, final Long id) {
+        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
     }
 
     public void deleteById(final Long id) {
@@ -75,10 +74,6 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     @Override
     public QueueEntityDTO saveAndReturnDTO(final QueueEntity queueEntity) {
         QueueEntity savedEntity = queueEntityRepository.save(queueEntity);
-
-        QueueEntityDTO queueEntityDTO = queueEntityMapper.toDto(savedEntity);
-        queueEntityDTO.setUrl(URL + savedEntity.getId());
-
-        return queueEntityDTO;
+        return queueEntityMapper.toDto(savedEntity);
     }
 }
