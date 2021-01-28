@@ -1,19 +1,19 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer.resources;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.MappingStrategy;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.QuoteMode;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,48 +24,50 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class QueueEntityExportService implements DataExportService<QueueEntity> {
-    private final String[] COLUMNS = {"id", "subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
+public class QueueEntityExportService implements DataExportService<QueueEntityDTO> {
 
+    private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
 
-    /**
-     *
-     * Utilizes OpenCSV to write QueueEntities to a csv file.
-     * Column headers are appended manually due to OpenCSV refusing to add those whenever a mapping strategy is applied
-     * to filter out which data attributes are written to the CSV-file.
-     *
-     * @param entities to be written to csv-file
-     * @param path to file
-     */
-    @Override
-    public void writeEntityToCsv(List<QueueEntity> entities, String path) {
+    private final QueueEntityService queueEntityService;
+
+    public QueueEntityExportService(final QueueEntityService queueEntityService) {
+        this.queueEntityService = queueEntityService;
+    }
+
+    public InputStreamResource generateCsvStreamResourceFromEntities() {
+        List<QueueEntityDTO> entities = queueEntityService.findAllDone();
+        return new InputStreamResource(convertEntitiesToCsvBytes(entities));
+    }
+
+    public ByteArrayInputStream convertEntitiesToCsvBytes(List<QueueEntityDTO> entities) {
+
+        final CSVFormat format = CSVFormat
+                .DEFAULT
+                .withQuoteMode(QuoteMode.MINIMAL)
+                .withHeader(COLUMNS);
 
         try {
-            Writer writer = new FileWriter(path);
-            writer.append(Arrays.toString(COLUMNS).replace("[", "").replace("]", ""));
-            writer.append("\n");
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(outputStream), format);
 
-            StatefulBeanToCsv<QueueEntity> beanToCsv = new StatefulBeanToCsvBuilder<QueueEntity>(writer)
-                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                    .withMappingStrategy(createMappingStrategy())
-                    .build();
+            for (QueueEntityDTO entity : entities) {
+                List<String> data = Arrays.asList(
+                        entity.getSubject(),
+                        String.valueOf(entity.getStudyYear()),
+                        String.valueOf(entity.isDigitalConsultation()),
+                        String.valueOf(entity.getTimeConfirmedDone())
+                );
 
-            beanToCsv.write(entities);
-            writer.close();
+                csvPrinter.printRecord(data);
+            }
+
+            csvPrinter.flush();
+            return new ByteArrayInputStream(outputStream.toByteArray());
 
         } catch (IOException e) {
-            log.error("Something went wrong while initializing Filewriter in " + getClass().getName());
             e.printStackTrace();
-        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
-            log.error("Something went wrong while writing to CSV");
-            e.printStackTrace();
+            throw new RuntimeException("Failed to export data to CSV-file: " + e.getMessage());
         }
     }
 
-    private MappingStrategy<QueueEntity> createMappingStrategy() {
-        ColumnPositionMappingStrategy<QueueEntity> mappingStrategy = new ColumnPositionMappingStrategy<>();
-        mappingStrategy.setType(QueueEntity.class);
-        mappingStrategy.setColumnMapping(COLUMNS);
-        return mappingStrategy;
-    }
 }
