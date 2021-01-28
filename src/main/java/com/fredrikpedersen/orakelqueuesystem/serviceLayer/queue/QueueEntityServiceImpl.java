@@ -3,12 +3,10 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
-import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +35,13 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     }
 
     @Override
+    public List<QueueEntityDTO> findAllDone() {
+        return this.findAll().stream()
+                .filter(QueueEntityDTO::isConfirmedDone)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<QueueEntityDTO> findAll() {
         return queueEntityRepository.findAll()
                 .stream()
@@ -54,6 +59,8 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
     }
 
+    //TODO Add exception handling for not-found IDs
+
     public void deleteById(final Long id) {
         queueEntityRepository.deleteById(id);
     }
@@ -66,8 +73,6 @@ public class QueueEntityServiceImpl implements QueueEntityService {
             doneEntity.markAsDone();
             queueEntityRepository.save(doneEntity);
         }
-
-        //TODO Throw an exception if an invalid id is passed here
     }
 
     @Override
