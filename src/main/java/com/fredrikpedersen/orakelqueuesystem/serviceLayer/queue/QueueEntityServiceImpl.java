@@ -63,8 +63,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
         if (queueEntityRepository.findById(id).isPresent()) {
             QueueEntity doneEntity = queueEntityRepository.findById(id).get();
-            doneEntity.setConfirmedDone(true);
-            doneEntity.setTimeConfirmedDone(new Date());
+            doneEntity.markAsDone();
             queueEntityRepository.save(doneEntity);
         }
 
