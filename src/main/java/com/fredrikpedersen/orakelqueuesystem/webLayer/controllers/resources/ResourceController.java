@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,9 +44,9 @@ public class ResourceController {
                 .contentLength(resource.contentLength())
                 .body(new InputStreamResource(resource.getInputStream()));
     }
-
-    //TODO Remember to only let ADMINS call this endpoint
+    
     @GetMapping(value = URLs.QUEUE_DATA_EXPORT_URL)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> getExportedQueueData() {
         final String filename = "QueueData.csv";
 
