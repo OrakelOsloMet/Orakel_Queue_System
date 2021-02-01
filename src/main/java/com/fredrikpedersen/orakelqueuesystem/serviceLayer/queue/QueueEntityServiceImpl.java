@@ -2,7 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
-import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

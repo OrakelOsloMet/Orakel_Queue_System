@@ -3,7 +3,7 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemester;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.SubjectRepository;
-import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.SubjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

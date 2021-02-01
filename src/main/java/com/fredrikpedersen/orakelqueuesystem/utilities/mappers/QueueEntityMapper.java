@@ -1,7 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.utilities.mappers;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
-import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import org.mapstruct.Mapper;
 
 /**

@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer.resources;
 
-import com.fredrikpedersen.orakelqueuesystem.dto.DTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.DTO;
 import org.springframework.core.io.InputStreamResource;
 
 import java.io.ByteArrayInputStream;

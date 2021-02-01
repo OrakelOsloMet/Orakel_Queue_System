@@ -1,7 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.DomainEntity;
-import com.fredrikpedersen.orakelqueuesystem.dto.DTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.DTO;
 
 import java.util.List;
 

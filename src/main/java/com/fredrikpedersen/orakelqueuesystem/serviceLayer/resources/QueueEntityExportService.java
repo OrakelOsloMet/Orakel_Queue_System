@@ -1,7 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer.resources;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
-import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;

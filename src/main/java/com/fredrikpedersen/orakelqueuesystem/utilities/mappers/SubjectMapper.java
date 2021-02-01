@@ -2,7 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.utilities.mappers;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemester;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
-import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.SubjectDTO;
 import org.mapstruct.Mapper;
 
 /**

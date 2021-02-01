@@ -1,4 +1,4 @@
-package com.fredrikpedersen.orakelqueuesystem.dto;
+package com.fredrikpedersen.orakelqueuesystem.dtos;
 
 import com.fredrikpedersen.orakelqueuesystem.utilities.validation.FieldValidatable;
 
