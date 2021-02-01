@@ -22,4 +22,5 @@ public class URLs {
     //Resources
     public static final String RESOURCES_BASE_URL = "/api/resources/";
     public static final String USER_GUIDE_URL = "userguide";
+    public static final String QUEUE_DATA_EXPORT_URL = "queuedata";
 }

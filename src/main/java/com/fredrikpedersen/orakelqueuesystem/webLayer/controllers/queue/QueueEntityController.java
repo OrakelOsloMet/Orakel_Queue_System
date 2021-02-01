@@ -1,6 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
-import com.fredrikpedersen.orakelqueuesystem.dto.QueueEntityDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.URLs;
 import com.fredrikpedersen.orakelqueuesystem.utilities.validation.FieldValidator;

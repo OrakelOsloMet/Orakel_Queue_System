@@ -4,8 +4,8 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authenticati
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.Role;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.authentication.User;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemester;
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.SubjectRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
@@ -47,7 +47,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Seeding data...");
         List<Subject> allSubjects = seedSubjects();
         seedEntities(allSubjects);
@@ -61,10 +61,19 @@ public class DataLoader implements CommandLineRunner {
         QueueEntity queueEntity1 = new QueueEntity("Fredrik", allSubjects.get(1).getName(), 1, true);
         QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", allSubjects.get(2).getName(), 2, false);
         QueueEntity queueEntity3 = new QueueEntity("Maria", allSubjects.get(3).getName(), 1, false);
+        QueueEntity queueEntity4 = new QueueEntity("Thomas", allSubjects.get(1).getName(), 1, true);
+        QueueEntity queueEntity5 = new QueueEntity("Joakim", allSubjects.get(2).getName(), 2, false);
+        QueueEntity queueEntity6 = new QueueEntity("Chris", allSubjects.get(3).getName(), 1, false);
+        queueEntity4.markAsDone();
+        queueEntity5.markAsDone();
+        queueEntity6.markAsDone();
 
         entityRepository.save(queueEntity1);
         entityRepository.save(queueEntity2);
         entityRepository.save(queueEntity3);
+        entityRepository.save(queueEntity4);
+        entityRepository.save(queueEntity5);
+        entityRepository.save(queueEntity6);
         log.info("Done seeding Queue Entities!");
     }
 
@@ -86,11 +95,11 @@ public class DataLoader implements CommandLineRunner {
         ArrayList<Subject> allSubjects = new ArrayList<>();
         ArrayList<String> autumnSubjects = new ArrayList<>(Arrays.asList("Programmering", "Diskret Matte",
                 "Web Utvikling", "Prototyping", "Algoritmer og Datastrukturer", "Matte 2000", "Sytemutvikling", "MMI",
-                "Web Applikasjoner", "Apputvikling", "Annet"));
+                "Web Applikasjoner", "Apputvikling"));
 
         ArrayList<String> springSubjects = new ArrayList<>(Arrays.asList("Databaser", "Webprogrammering",
                 "Internet of Things", "Matte 1000", "Visualisering", "Testing av Programvare", "Fysikk og Kjemi",
-                "Datanettverk og Skytjenester", "Operativsystemer", "Annet"));
+                "Datanettverk og Skytjenester", "Operativsystemer"));
 
         autumnSubjects.forEach(subject -> {
             Subject subjectObject = new Subject(subject, ESemester.AUTUMN);

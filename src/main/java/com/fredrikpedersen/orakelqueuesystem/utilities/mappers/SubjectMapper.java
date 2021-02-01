@@ -2,7 +2,7 @@ package com.fredrikpedersen.orakelqueuesystem.utilities.mappers;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.ESemester;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
-import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.SubjectDTO;
 import org.mapstruct.Mapper;
 
 /**
@@ -20,10 +20,10 @@ public interface SubjectMapper extends IEntityMapper<SubjectDTO, Subject> {
 
     default ESemester semesterStringToEnum(final String semesterString) {
         for (ESemester semesterEnum: ESemester.values()) {
-            if (semesterEnum.label.equals(semesterString)) {
+            if (semesterEnum.label.equalsIgnoreCase(semesterString)) {
                 return semesterEnum;
             }
         }
-        return null;
+        return null; //TODO Throw an error indicating an invalid semester has been passed
     }
 }

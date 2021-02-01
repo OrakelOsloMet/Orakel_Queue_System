@@ -1,7 +1,7 @@
 package com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue;
 
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subject;
-import com.fredrikpedersen.orakelqueuesystem.dto.SubjectDTO;
+import com.fredrikpedersen.orakelqueuesystem.dtos.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.CrudService;
 
 import java.util.List;

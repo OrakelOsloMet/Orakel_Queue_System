@@ -30,11 +30,18 @@ public class QueueEntity implements DomainEntity {
     private boolean confirmedDone;
     private Date timeConfirmedDone;
 
+    //TODO Remove confirmedDone as an attribute, you only need to check if timeConfirmedDone is set, numbnut.
     public QueueEntity(final String name, final String subject, final int studyYear, final boolean digitalConsultation) {
         this.name = name;
         this.subject = subject;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;
         this.confirmedDone = false;
+    }
+
+    //TODO Remove this once confirmedDone attribute is removed
+    public void markAsDone() {
+        this.confirmedDone = true;
+        this.timeConfirmedDone = new Date();
     }
 }
