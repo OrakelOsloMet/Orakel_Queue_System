@@ -11,6 +11,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.Subjec
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.RoleRepository;
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.authentication.UserRepository;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 @Profile({Profiles.DEV_PROFILE, Profiles.TEST_PROFILE})
 public class DataLoader implements CommandLineRunner {
 
@@ -36,15 +38,6 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final SubjectRepository subjectRepository;
-
-    //TODO Create a dataloader for production to make sure data isn't overriden whenever a new version is pushed to Heroku
-    public DataLoader(final QueueEntityRepository queueEntityRepository, final UserRepository userRepository,
-                      final RoleRepository roleRepository, final SubjectRepository subjectRepository) {
-        this.entityRepository = queueEntityRepository;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.subjectRepository = subjectRepository;
-    }
 
     @Override
     public void run(String... args) {

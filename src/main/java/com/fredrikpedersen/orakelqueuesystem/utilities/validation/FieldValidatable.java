@@ -10,6 +10,8 @@ import java.util.List;
  * @author Fredrik Pedersen
  * @since 19/01/2021 at 17:55
  */
+
+//TODO Replace with Javax Validations
 public interface FieldValidatable {
 
     default List<Field> requiredFields() {
