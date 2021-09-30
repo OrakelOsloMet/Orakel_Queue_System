@@ -51,17 +51,17 @@ public class DataLoader implements CommandLineRunner {
 
     private void seedEntities(final List<Subject> allSubjects) {
         log.info("Seeding Queue Entities");
-        QueueEntity queueEntity1 = new QueueEntity("Fredrik", allSubjects.get(1).getName(), 1, true);
-        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", allSubjects.get(2).getName(), 2, false);
-        QueueEntity queueEntity3 = new QueueEntity("Maria", allSubjects.get(3).getName(), 1, false);
-        QueueEntity queueEntity4 = new QueueEntity("Thomas", allSubjects.get(1).getName(), 1, true);
-        QueueEntity queueEntity5 = new QueueEntity("Joakim", allSubjects.get(2).getName(), 2, false);
-        QueueEntity queueEntity6 = new QueueEntity("Chris", allSubjects.get(3).getName(), 1, false);
+        QueueEntity queueEntity1 = new QueueEntity("Fredrik", allSubjects.get(1).getName(), "1", "Jeg er kul 8)", 1, true);
+        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", allSubjects.get(2).getName(), "2", "Jeg er kul 8)", 2, false);
+        QueueEntity queueEntity3 = new QueueEntity("Maria", allSubjects.get(3).getName(), "2", "Jeg er kul 8)",1, false);
+        QueueEntity queueEntity4 = new QueueEntity("Thomas", allSubjects.get(1).getName(), "3", "Jeg er kul 8)",1, true);
+        QueueEntity queueEntity5 = new QueueEntity("Joakim", allSubjects.get(2).getName(), "4", "Jeg er kul 8)",2, false);
+        QueueEntity queueEntity6 = new QueueEntity("Chris", allSubjects.get(3).getName(), "5", "Jeg er kul 8)", 1, false);
         queueEntity4.markAsDone();
         queueEntity5.markAsDone();
         queueEntity6.markAsDone();
 
-        entityRepository.save(queueEntity1);
+        final QueueEntity saved1 = entityRepository.save(queueEntity1);
         entityRepository.save(queueEntity2);
         entityRepository.save(queueEntity3);
         entityRepository.save(queueEntity4);

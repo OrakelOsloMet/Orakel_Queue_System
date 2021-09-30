@@ -1,47 +1,49 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.DomainEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.PersistableEntity;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * @author Fredrik Pedersen
- * @since 20/09/2020 at 21:31
+ * @version 1.1
+ * @since 30/09/2021 at 14:24
  */
 
-@Data
-@NoArgsConstructor
+@Setter
+@Getter
 @Entity
+@NoArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "queueentities")
-public class QueueEntity implements DomainEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class QueueEntity extends PersistableEntity {
 
     private String name;
     private String subject;
-
+    private String placement;
+    private String comment;
     private int studyYear;
     private boolean digitalConsultation;
-    private boolean confirmedDone;
+
     private Date timeConfirmedDone;
 
-    //TODO Remove confirmedDone as an attribute, you only need to check if timeConfirmedDone is set, numbnut.
-    public QueueEntity(final String name, final String subject, final int studyYear, final boolean digitalConsultation) {
+    @Builder
+    public QueueEntity(final String name, final String subject, final String placement, final String comment,
+                       final int studyYear, final boolean digitalConsultation) {
+        super();
         this.name = name;
         this.subject = subject;
+        this.comment = comment;
+        this.placement = placement;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;
-        this.confirmedDone = false;
     }
 
-    //TODO Remove this once confirmedDone attribute is removed
     public void markAsDone() {
-        this.confirmedDone = true;
         this.timeConfirmedDone = new Date();
     }
 }
