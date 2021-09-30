@@ -19,6 +19,9 @@ public class URLs {
     //Subject
     public static final String SUBJECT_BASE_URL = "/api/subjects/";
 
+    //Placement
+    public static final String PLACEMENT_BASE_URL = "/api/placements/";
+
     //Resources
     public static final String RESOURCES_BASE_URL = "/api/resources/";
     public static final String USER_GUIDE_URL = "userguide";
