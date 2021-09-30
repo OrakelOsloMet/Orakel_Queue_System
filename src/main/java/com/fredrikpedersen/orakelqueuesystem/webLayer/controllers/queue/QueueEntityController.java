@@ -55,7 +55,7 @@ public class QueueEntityController {
     public ResponseEntity<QueueEntityDTO> postQueueEntity(@RequestBody final QueueEntityDTO queueEntityDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(queueEntityDTO)) {
-                return ResponseEntity.ok(queueEntityService.createNew(queueEntityDTO));
+                return new ResponseEntity<>(queueEntityService.createNew(queueEntityDTO), HttpStatus.CREATED);
             }
         }
 
