@@ -1,7 +1,6 @@
 package com.fredrikpedersen.orakelqueuesystem.webLayer.controllers.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueEntity;
 import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
 import com.fredrikpedersen.orakelqueuesystem.utilities.constants.Profiles;
@@ -17,17 +16,18 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
-
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
+ * Class relies on entities beeing seed in DataSeeder.
+ * Should be updated to create it's own entities or atleast muddy the context before writing more tests.
+ *
  * @author Fredrik Pedersen
  * @version 1.0
  * @since 30/09/2021 at 14:37
+ * @see com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.DataLoader
  */
 
 @SpringBootTest
