@@ -5,6 +5,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.Subjec
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.SubjectRepository;
 import com.fredrikpedersen.orakelqueuesystem.dtos.SubjectDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.SubjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +25,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectMapper subjectMapper;
     private final SubjectRepository subjectRepository;
-
-    public SubjectServiceImpl(final SubjectMapper subjectMapper, final SubjectRepository subjectRepository) {
-        this.subjectMapper = subjectMapper;
-        this.subjectRepository = subjectRepository;
-    }
 
     @Override
     public List<SubjectDTO> findSubjectsCurrentSemester() {

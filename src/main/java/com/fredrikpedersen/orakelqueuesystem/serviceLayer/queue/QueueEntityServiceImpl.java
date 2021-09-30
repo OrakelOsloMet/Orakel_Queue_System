@@ -4,6 +4,7 @@ import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue.QueueE
 import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.repositories.QueueEntityRepository;
 import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.utilities.mappers.QueueEntityMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +19,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class QueueEntityServiceImpl implements QueueEntityService {
 
     private final QueueEntityMapper queueEntityMapper;
     private final QueueEntityRepository queueEntityRepository;
-
-    public QueueEntityServiceImpl(final QueueEntityMapper queueEntityMapper, final QueueEntityRepository queueEntityRepository) {
-        this.queueEntityMapper = queueEntityMapper;
-        this.queueEntityRepository = queueEntityRepository;
-    }
 
     @Override
     public List<QueueEntityDTO> findAll() {
