@@ -1,32 +1,38 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.queue;
 
-import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.DomainEntity;
+import com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models.PersistableEntity;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 /**
  * @author Fredrik Pedersen
- * @since 19/01/2021 at 12:20
+ * @version 1.1
+ * @since 30/09/2021 at 14:24
  */
 
-@Data
-@NoArgsConstructor
-@Entity
-@Table(name = "subjects")
-public class Subject implements DomainEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Data
+@Entity
+@NoArgsConstructor
+@Table(name = "subjects")
+@EqualsAndHashCode(callSuper = true)
+public class Subject extends PersistableEntity {
 
     private String name;
 
     @Enumerated(EnumType.STRING)
     private ESemester semester;
 
+    @Builder
     public Subject(final String name, final ESemester semester) {
+        super();
         this.name = name;
         this.semester = semester;
     }
