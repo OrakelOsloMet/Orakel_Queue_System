@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
- * @since 20/09/2020 at 21:41
+ * @version 1.1
+ * @since 30/09/2021 at 14:31
  */
 
 @Slf4j
@@ -28,24 +29,30 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     }
 
     @Override
+    public List<QueueEntityDTO> findAll() {
+        return queueEntityRepository.findAll()
+                .stream()
+                .map(queueEntityMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public QueueEntityDTO findById(final Long id) {
+        return queueEntityRepository.findById(id)
+                .map(queueEntityMapper::toDto)
+                .orElseThrow(RuntimeException::new); //TODO Improve error handling
+    }
+
+    @Override
     public List<QueueEntityDTO> findALlNotDone() {
         return this.findAll().stream()
-                .filter(queueEntity -> !queueEntity.isConfirmedDone())
+                .filter(entityDTO -> entityDTO.getTimeConfirmedDone() == null)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<QueueEntityDTO> findAllDone() {
         return this.findAll().stream()
-                .filter(QueueEntityDTO::isConfirmedDone)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<QueueEntityDTO> findAll() {
-        return queueEntityRepository.findAll()
-                .stream()
-                .map(queueEntityMapper::toDto)
+                .filter(entityDTO -> entityDTO.getTimeConfirmedDone() != null)
                 .collect(Collectors.toList());
     }
 
@@ -77,7 +84,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     @Override
     public QueueEntityDTO saveAndReturnDTO(final QueueEntity queueEntity) {
-        QueueEntity savedEntity = queueEntityRepository.save(queueEntity);
+        final QueueEntity savedEntity = queueEntityRepository.save(queueEntity);
         return queueEntityMapper.toDto(savedEntity);
     }
 }

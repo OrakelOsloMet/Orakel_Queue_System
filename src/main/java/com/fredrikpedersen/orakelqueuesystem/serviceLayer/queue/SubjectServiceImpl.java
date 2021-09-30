@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
- * @since 19/01/2021 at 12:45
+ * @version 1.1
+ * @since 30/09/2021 at 15:16
  */
 
 @Slf4j
@@ -48,6 +49,12 @@ public class SubjectServiceImpl implements SubjectService {
                 .stream()
                 .map(subjectMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public SubjectDTO findById(final Long id) {
+        return subjectRepository.findById(id)
+                .map(subjectMapper::toDto)
+                .orElseThrow(RuntimeException::new); //TODO Improve error handling
     }
 
     @Override
