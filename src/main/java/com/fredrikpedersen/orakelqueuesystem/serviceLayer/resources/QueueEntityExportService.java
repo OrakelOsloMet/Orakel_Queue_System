@@ -2,6 +2,8 @@ package com.fredrikpedersen.orakelqueuesystem.serviceLayer.resources;
 
 import com.fredrikpedersen.orakelqueuesystem.dtos.QueueEntityDTO;
 import com.fredrikpedersen.orakelqueuesystem.serviceLayer.queue.QueueEntityService;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -13,8 +15,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author Fredrik Pedersen
@@ -23,22 +26,19 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class QueueEntityExportService implements DataExportService<QueueEntityDTO> {
 
-    private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
+    @Getter private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
 
     private final QueueEntityService queueEntityService;
 
-    public QueueEntityExportService(final QueueEntityService queueEntityService) {
-        this.queueEntityService = queueEntityService;
-    }
-
-    public InputStreamResource generateCsvStreamResourceFromEntities() {
-        List<QueueEntityDTO> entities = queueEntityService.findAllDone();
+    public InputStreamResource generateCsvStreamResourceFromEntities() throws RuntimeException {
+        final List<QueueEntityDTO> entities = queueEntityService.findAllDone();
         return new InputStreamResource(convertEntitiesToCsvBytes(entities));
     }
 
-    public ByteArrayInputStream convertEntitiesToCsvBytes(List<QueueEntityDTO> entities) {
+    private ByteArrayInputStream convertEntitiesToCsvBytes(final List<QueueEntityDTO> entities) {
 
         final CSVFormat format = CSVFormat
                 .DEFAULT
@@ -46,11 +46,11 @@ public class QueueEntityExportService implements DataExportService<QueueEntityDT
                 .withHeader(COLUMNS);
 
         try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(outputStream), format);
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            final CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(outputStream), format);
 
             for (QueueEntityDTO entity : entities) {
-                List<String> data = Arrays.asList(
+                final List<String> data = asList(
                         entity.getSubject(),
                         String.valueOf(entity.getStudyYear()),
                         String.valueOf(entity.isDigitalConsultation()),
@@ -64,7 +64,6 @@ public class QueueEntityExportService implements DataExportService<QueueEntityDT
             return new ByteArrayInputStream(outputStream.toByteArray());
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed to export data to CSV-file: " + e.getMessage());
         }
     }
