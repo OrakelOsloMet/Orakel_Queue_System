@@ -2,6 +2,7 @@ package com.orakeloslomet.web.controllers.resources;
 
 import com.orakeloslomet.services.resources.QueueEntityExportService;
 import com.orakeloslomet.utilities.constants.URLs;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -25,14 +26,11 @@ import java.io.IOException;
 @Slf4j
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(URLs.RESOURCES_BASE_URL)
 public class ResourceController {
 
-    private QueueEntityExportService queueEntityExportService;
-
-    public ResourceController(final QueueEntityExportService queueEntityExportService) {
-        this.queueEntityExportService = queueEntityExportService;
-    }
+    private final QueueEntityExportService queueEntityExportService;
 
     @GetMapping(value = URLs.USER_GUIDE_URL, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getUserGuideAndDocumentation() throws IOException {

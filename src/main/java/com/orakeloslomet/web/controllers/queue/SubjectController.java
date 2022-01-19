@@ -30,7 +30,6 @@ public class SubjectController {
     private final Bucket bucket;
 
     public SubjectController(final SubjectService subjectService) {
-
         this.subjectService = subjectService;
 
         Bandwidth limit = Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)));
