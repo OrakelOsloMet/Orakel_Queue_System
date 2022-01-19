@@ -3,17 +3,13 @@ package com.orakeloslomet.services.queue;
 import com.orakeloslomet.dtos.QueueEntityDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
-@ComponentScan(basePackages = {"com.orakeloslomet.persistance.repositories"})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class QueueEntityServiceImplIT {
 
     @Autowired

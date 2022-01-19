@@ -63,7 +63,7 @@ public class SubjectController {
     public ResponseEntity<SubjectDTO> postSubject(@RequestBody final SubjectDTO subjectDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(subjectDTO)) {
-                return ResponseEntity.ok(subjectService.createNew(subjectDTO));
+                return ResponseEntity.ok(subjectService.save(subjectDTO));
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
@@ -75,7 +75,7 @@ public class SubjectController {
     public ResponseEntity<SubjectDTO> editSubject(@RequestBody final SubjectDTO subjectDTO, @PathVariable Long id) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(subjectDTO)) {
-                return ResponseEntity.ok(subjectService.edit(subjectDTO, id));
+                return ResponseEntity.ok(subjectService.update(subjectDTO, id));
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();

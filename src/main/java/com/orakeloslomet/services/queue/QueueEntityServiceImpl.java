@@ -7,6 +7,7 @@ import com.orakeloslomet.utilities.mappers.QueueEntityMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,16 +28,13 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     @Override
     public List<QueueEntityDTO> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(entityMapper::toDto)
-                .collect(Collectors.toList());
+        return mapToDtos(repository.findAll());
     }
 
     public QueueEntityDTO findById(final Long id) {
         return repository.findById(id)
                 .map(entityMapper::toDto)
-                .orElseThrow(RuntimeException::new); //TODO Improve error handling
+                .orElseThrow(); //TODO Improve error handling
     }
 
     @Override
@@ -50,33 +48,32 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     }
 
     @Override
-    public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
-        return saveAndReturnDTO(entityMapper.toEntity(queueEntityDTO));
+    public QueueEntityDTO save(final QueueEntityDTO queueEntityDTO) {
+        return saveAndReturnDto(entityMapper.toEntity(queueEntityDTO));
     }
 
     @Override
-    public QueueEntityDTO edit(final QueueEntityDTO queueEntityDTO, final Long id) {
+    public QueueEntityDTO update(final QueueEntityDTO queueEntityDTO, final Long id) {
         throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
     }
 
     //TODO Add exception handling for not-found IDs
-
     public void deleteById(final Long id) {
         repository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void confirmDone(final Long id) {
-
         if (repository.findById(id).isPresent()) {
-            QueueEntity doneEntity = repository.findById(id).get();
+            final QueueEntity doneEntity = repository.findById(id).get();
             doneEntity.markAsDone();
+
             repository.save(doneEntity);
         }
     }
 
-    @Override
-    public QueueEntityDTO saveAndReturnDTO(final QueueEntity queueEntity) {
+    private QueueEntityDTO saveAndReturnDto(final QueueEntity queueEntity) {
         final QueueEntity savedEntity = repository.save(queueEntity);
         return entityMapper.toDto(savedEntity);
     }

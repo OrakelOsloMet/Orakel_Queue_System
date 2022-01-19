@@ -41,17 +41,17 @@ public class PlacementServiceImpl implements PlacementService {
     }
 
     @Override
-    public PlacementDTO createNew(final PlacementDTO placementDTO) {
-        return saveAndReturnDTO(placementMapper.toEntity(placementDTO));
+    public PlacementDTO save(final PlacementDTO placementDTO) {
+        return saveAndReturnDto(placementMapper.toEntity(placementDTO));
     }
 
     @Override
-    public PlacementDTO edit(final PlacementDTO placementDTO, final Long id) {
+    public PlacementDTO update(final PlacementDTO placementDTO, final Long id) {
         return placementRepository.findById(id)
                 .map(placement -> {
                     placement.setPrefix(placementDTO.getPrefix());
                     placement.setNumber(placementDTO.getNumber());
-                    return saveAndReturnDTO(placement);
+                    return saveAndReturnDto(placement);
                 }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
     }
 
@@ -60,8 +60,7 @@ public class PlacementServiceImpl implements PlacementService {
         placementRepository.deleteById(id);
     }
 
-    @Override
-    public PlacementDTO saveAndReturnDTO(final Placement placement) {
+    private PlacementDTO saveAndReturnDto(final Placement placement) {
         final Placement savedEntity = placementRepository.save(placement);
         return placementMapper.toDto(savedEntity);
     }

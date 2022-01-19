@@ -55,7 +55,7 @@ public class PlacementController {
     public ResponseEntity<PlacementDTO> postPlacement(@RequestBody final PlacementDTO placementDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(placementDTO)) {
-                return ResponseEntity.ok(placementService.createNew(placementDTO));
+                return ResponseEntity.ok(placementService.save(placementDTO));
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
@@ -67,7 +67,7 @@ public class PlacementController {
     public ResponseEntity<PlacementDTO> editPlacement(@RequestBody final PlacementDTO placementDTO, @PathVariable Long id) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(placementDTO)) {
-                return ResponseEntity.ok(placementService.edit(placementDTO, id));
+                return ResponseEntity.ok(placementService.update(placementDTO, id));
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();

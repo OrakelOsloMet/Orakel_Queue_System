@@ -55,17 +55,17 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDTO createNew(final SubjectDTO subjectDTO) {
-        return saveAndReturnDTO(subjectMapper.toEntity(subjectDTO));
+    public SubjectDTO save(final SubjectDTO subjectDTO) {
+        return saveAndReturnDto(subjectMapper.toEntity(subjectDTO));
     }
 
     @Override
-    public SubjectDTO edit(final SubjectDTO subjectDTO, final Long id) {
+    public SubjectDTO update(final SubjectDTO subjectDTO, final Long id) {
         return subjectRepository.findById(id)
                 .map(subject -> {
                     subject.setName(subjectDTO.getName());
                     subject.setSemester(subjectMapper.semesterStringToEnum(subjectDTO.getSemester()));
-                    return saveAndReturnDTO(subject);
+                    return saveAndReturnDto(subject);
                 }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
     }
 
@@ -74,8 +74,7 @@ public class SubjectServiceImpl implements SubjectService {
         subjectRepository.deleteById(id);
     }
 
-    @Override
-    public SubjectDTO saveAndReturnDTO(final Subject subject) {
+    private SubjectDTO saveAndReturnDto(final Subject subject) {
         Subject savedEntity = subjectRepository.save(subject);
         return subjectMapper.toDto(savedEntity);
     }
