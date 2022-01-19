@@ -7,6 +7,7 @@ import com.orakeloslomet.utilities.mappers.PlacementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -23,31 +24,32 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlacementServiceImpl implements PlacementService {
 
-    private final PlacementRepository placementRepository;
-    private final PlacementMapper placementMapper;
+    private final PlacementMapper entityMapper;
+    private final PlacementRepository repository;
 
     @Override
     public List<PlacementDTO> findAll() {
-        return placementRepository.findAll().stream()
-                .map(placementMapper::toDto)
+        return repository.findAll().stream()
+                .map(entityMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public PlacementDTO findById(final Long id) {
-        return placementRepository.findById(id)
-                .map(placementMapper::toDto)
-                .orElseThrow(RuntimeException::new); //TODO Better error handling
+        return repository.findById(id)
+                .map(entityMapper::toDto)
+                .orElseThrow(); //TODO Better error handling
     }
 
     @Override
     public PlacementDTO save(final PlacementDTO placementDTO) {
-        return saveAndReturnDto(placementMapper.toEntity(placementDTO));
+        return saveAndReturnDto(entityMapper.toEntity(placementDTO));
     }
 
     @Override
+    @Transactional
     public PlacementDTO update(final PlacementDTO placementDTO, final Long id) {
-        return placementRepository.findById(id)
+        return repository.findById(id)
                 .map(placement -> {
                     placement.setPrefix(placementDTO.getPrefix());
                     placement.setNumber(placementDTO.getNumber());
@@ -57,11 +59,11 @@ public class PlacementServiceImpl implements PlacementService {
 
     @Override
     public void deleteById(final Long id) {
-        placementRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     private PlacementDTO saveAndReturnDto(final Placement placement) {
-        final Placement savedEntity = placementRepository.save(placement);
-        return placementMapper.toDto(savedEntity);
+        final Placement savedEntity = repository.save(placement);
+        return entityMapper.toDto(savedEntity);
     }
 }

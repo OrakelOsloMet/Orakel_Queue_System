@@ -8,6 +8,7 @@ import com.orakeloslomet.utilities.mappers.SubjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.Month;
@@ -28,64 +29,62 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
 
-    private final SubjectMapper subjectMapper;
-    private final SubjectRepository subjectRepository;
+    private final SubjectMapper entityMapper;
+    private final SubjectRepository repository;
 
     @Override
     public List<SubjectDTO> findSubjectsCurrentSemester() {
-        String currentSemester = this.determineSemester().label;
-
-        return this.findAll().stream()
-                .filter(subject -> subject.getSemester().equalsIgnoreCase(currentSemester))
-                .collect(Collectors.toList());
+        final ESemester currentSemester = this.determineSemester();
+        return mapToDtos(repository.findAllBySemester(currentSemester));
     }
 
     @Override
     public List<SubjectDTO> findAll() {
-        return subjectRepository.findAll()
-                .stream()
-                .map(subjectMapper::toDto)
-                .collect(Collectors.toList());
+        return mapToDtos(repository.findAll());
     }
 
     public SubjectDTO findById(final Long id) {
-        return subjectRepository.findById(id)
-                .map(subjectMapper::toDto)
-                .orElseThrow(RuntimeException::new); //TODO Improve error handling
+        return repository.findById(id)
+                .map(entityMapper::toDto)
+                .orElseThrow(); //TODO Improve error handling
     }
 
     @Override
     public SubjectDTO save(final SubjectDTO subjectDTO) {
-        return saveAndReturnDto(subjectMapper.toEntity(subjectDTO));
+        return saveAndReturnDto(entityMapper.toEntity(subjectDTO));
     }
 
     @Override
+    @Transactional
     public SubjectDTO update(final SubjectDTO subjectDTO, final Long id) {
-        return subjectRepository.findById(id)
+        return repository.findById(id)
                 .map(subject -> {
                     subject.setName(subjectDTO.getName());
-                    subject.setSemester(subjectMapper.semesterStringToEnum(subjectDTO.getSemester()));
+                    subject.setSemester(entityMapper.semesterStringToEnum(subjectDTO.getSemester()));
                     return saveAndReturnDto(subject);
                 }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
     }
 
     @Override
     public void deleteById(final Long id) {
-        subjectRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     private SubjectDTO saveAndReturnDto(final Subject subject) {
-        Subject savedEntity = subjectRepository.save(subject);
-        return subjectMapper.toDto(savedEntity);
+        final Subject savedEntity = repository.save(subject);
+        return entityMapper.toDto(savedEntity);
+    }
+
+    private List<SubjectDTO> mapToDtos(final List<Subject> queueEntities) {
+        return queueEntities.stream().map(entityMapper::toDto).collect(Collectors.toList());
     }
 
     private ESemester determineSemester() {
-        EnumSet<Month> spring = EnumSet.of(Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE);
+        final EnumSet<Month> spring = EnumSet.of(Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE);
+        final Month currentMonth = Month.from(ZonedDateTime.now(ZoneId.of("Europe/Paris")));
 
-        ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-        Month currentMonth = Month.from(zdt);
-
-        if (spring.contains(currentMonth)) return ESemester.SPRING;
+        if (spring.contains(currentMonth))
+            return ESemester.SPRING;
 
         return ESemester.AUTUMN;
     }
