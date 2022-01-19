@@ -13,6 +13,9 @@ import java.util.List;
 
 public interface QueueEntityRepository extends JpaRepository<QueueEntity, Long> {
 
-    @Query("SELECT q from QueueEntity q WHERE q.timeConfirmedDone IS NULL")
+    @Query("SELECT q FROM QueueEntity q WHERE q.timeConfirmedDone IS NULL")
     List<QueueEntity> findAllWhereTimeConfirmedDoneNull();
+
+    @Query("SELECT q FROM QueueEntity q WHERE q.timeConfirmedDone IS NOT NULL")
+    List<QueueEntity> findAllWhereTimeConfirmedDoneNotNull();
 }

@@ -22,40 +22,36 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QueueEntityServiceImpl implements QueueEntityService {
 
-    private final QueueEntityMapper queueEntityMapper;
-    private final QueueEntityRepository queueEntityRepository;
+    private final QueueEntityMapper entityMapper;
+    private final QueueEntityRepository repository;
 
     @Override
     public List<QueueEntityDTO> findAll() {
-        return queueEntityRepository.findAll()
+        return repository.findAll()
                 .stream()
-                .map(queueEntityMapper::toDto)
+                .map(entityMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public QueueEntityDTO findById(final Long id) {
-        return queueEntityRepository.findById(id)
-                .map(queueEntityMapper::toDto)
+        return repository.findById(id)
+                .map(entityMapper::toDto)
                 .orElseThrow(RuntimeException::new); //TODO Improve error handling
     }
 
     @Override
     public List<QueueEntityDTO> findALlNotDone() {
-        return this.findAll().stream()
-                .filter(entityDTO -> entityDTO.getTimeConfirmedDone() == null)
-                .collect(Collectors.toList());
+        return mapToDtos(repository.findAllWhereTimeConfirmedDoneNull());
     }
 
     @Override
     public List<QueueEntityDTO> findAllDone() {
-        return this.findAll().stream()
-                .filter(entityDTO -> entityDTO.getTimeConfirmedDone() != null)
-                .collect(Collectors.toList());
+        return mapToDtos(repository.findAllWhereTimeConfirmedDoneNotNull());
     }
 
     @Override
     public QueueEntityDTO createNew(final QueueEntityDTO queueEntityDTO) {
-        return saveAndReturnDTO(queueEntityMapper.toEntity(queueEntityDTO));
+        return saveAndReturnDTO(entityMapper.toEntity(queueEntityDTO));
     }
 
     @Override
@@ -66,22 +62,26 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     //TODO Add exception handling for not-found IDs
 
     public void deleteById(final Long id) {
-        queueEntityRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void confirmDone(final Long id) {
 
-        if (queueEntityRepository.findById(id).isPresent()) {
-            QueueEntity doneEntity = queueEntityRepository.findById(id).get();
+        if (repository.findById(id).isPresent()) {
+            QueueEntity doneEntity = repository.findById(id).get();
             doneEntity.markAsDone();
-            queueEntityRepository.save(doneEntity);
+            repository.save(doneEntity);
         }
     }
 
     @Override
     public QueueEntityDTO saveAndReturnDTO(final QueueEntity queueEntity) {
-        final QueueEntity savedEntity = queueEntityRepository.save(queueEntity);
-        return queueEntityMapper.toDto(savedEntity);
+        final QueueEntity savedEntity = repository.save(queueEntity);
+        return entityMapper.toDto(savedEntity);
+    }
+
+    private List<QueueEntityDTO> mapToDtos(final List<QueueEntity> queueEntities) {
+        return queueEntities.stream().map(entityMapper::toDto).collect(Collectors.toList());
     }
 }
