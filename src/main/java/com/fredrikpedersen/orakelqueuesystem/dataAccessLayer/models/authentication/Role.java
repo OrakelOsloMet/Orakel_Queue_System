@@ -14,10 +14,11 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+@Entity
 @ToString
 @NoArgsConstructor
-@Entity
 @Table(name = "roles")
+
 public class Role {
 
     @Id

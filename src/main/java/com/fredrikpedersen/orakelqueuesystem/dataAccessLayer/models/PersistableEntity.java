@@ -1,16 +1,15 @@
 package com.fredrikpedersen.orakelqueuesystem.dataAccessLayer.models;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * @author Fredrik Pedersen
- * @version 1.0
- * @since 30/09/2021 at 14:09
+ * @version 1.1
+ * @since 19/01/2022 at 14:49
  */
 
 @Setter
@@ -24,4 +23,9 @@ public abstract class PersistableEntity implements DomainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp createdDate;
+
 }
