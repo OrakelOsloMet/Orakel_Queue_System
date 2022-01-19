@@ -61,7 +61,7 @@ public class DataLoader implements CommandLineRunner {
         queueEntity5.markAsDone();
         queueEntity6.markAsDone();
 
-        final QueueEntity saved1 = entityRepository.save(queueEntity1);
+        entityRepository.save(queueEntity1);
         entityRepository.save(queueEntity2);
         entityRepository.save(queueEntity3);
         entityRepository.save(queueEntity4);
