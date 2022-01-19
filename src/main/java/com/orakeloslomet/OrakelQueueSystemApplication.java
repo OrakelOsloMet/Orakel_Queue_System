@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrakelqueuesystemApplication {
+public class OrakelQueueSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrakelqueuesystemApplication.class, args);
+        SpringApplication.run(OrakelQueueSystemApplication.class, args);
     }
 
 }
