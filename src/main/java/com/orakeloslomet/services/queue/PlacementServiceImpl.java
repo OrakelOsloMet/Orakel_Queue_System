@@ -1,8 +1,8 @@
 package com.orakeloslomet.services.queue;
 
+import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.repositories.PlacementRepository;
-import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.utilities.mappers.PlacementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

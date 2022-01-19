@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.queue;
 
-import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.dtos.PlacementDTO;
+import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.services.CrudService;
 
 /**

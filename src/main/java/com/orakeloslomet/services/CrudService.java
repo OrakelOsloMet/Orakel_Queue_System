@@ -1,7 +1,7 @@
 package com.orakeloslomet.services;
 
-import com.orakeloslomet.persistance.models.DomainEntity;
 import com.orakeloslomet.dtos.DTO;
+import com.orakeloslomet.persistance.models.DomainEntity;
 
 import java.util.List;
 

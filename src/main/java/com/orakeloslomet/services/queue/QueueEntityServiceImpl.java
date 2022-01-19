@@ -1,8 +1,8 @@
 package com.orakeloslomet.services.queue;
 
+import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.persistance.repositories.QueueEntityRepository;
-import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.utilities.mappers.QueueEntityMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

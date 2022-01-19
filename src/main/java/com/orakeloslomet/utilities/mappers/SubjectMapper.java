@@ -1,8 +1,8 @@
 package com.orakeloslomet.utilities.mappers;
 
+import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.persistance.models.queue.ESemester;
 import com.orakeloslomet.persistance.models.queue.Subject;
-import com.orakeloslomet.dtos.SubjectDTO;
 import org.mapstruct.Mapper;
 
 /**

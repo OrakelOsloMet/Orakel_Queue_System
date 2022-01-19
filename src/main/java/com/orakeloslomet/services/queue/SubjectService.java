@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.queue;
 
-import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.dtos.SubjectDTO;
+import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.services.CrudService;
 
 import java.util.List;

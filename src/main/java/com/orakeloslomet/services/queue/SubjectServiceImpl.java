@@ -1,9 +1,9 @@
 package com.orakeloslomet.services.queue;
 
+import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.persistance.models.queue.ESemester;
 import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.persistance.repositories.SubjectRepository;
-import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.utilities.mappers.SubjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

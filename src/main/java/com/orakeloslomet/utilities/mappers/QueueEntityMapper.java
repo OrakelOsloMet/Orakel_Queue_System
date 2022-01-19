@@ -1,7 +1,7 @@
 package com.orakeloslomet.utilities.mappers;
 
-import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.dtos.QueueEntityDTO;
+import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import org.mapstruct.Mapper;
 
 /**
