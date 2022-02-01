@@ -62,15 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity httpSecurity) throws Exception {
 
         if (profileManager.isProduction()) {
-            http.requiresChannel()
+            httpSecurity.requiresChannel()
                     .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
                     .requiresSecure();
         }
 
-        http.cors().and().csrf().disable()
+        httpSecurity.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
@@ -79,8 +79,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/queue/**/**").permitAll()
                 .antMatchers("/api/subjects/**").permitAll()
                 .antMatchers("/api/resources/**/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.headers().frameOptions().sameOrigin();
     }
 }
