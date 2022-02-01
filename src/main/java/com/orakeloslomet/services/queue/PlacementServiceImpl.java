@@ -52,7 +52,7 @@ public class PlacementServiceImpl implements PlacementService {
         return repository.findById(id)
                 .map(placement -> {
                     placement.setPrefix(placementDTO.getPrefix());
-                    placement.setNumber(placementDTO.getNumber());
+                    placement.setPlacements(placementDTO.getNumber());
                     return saveAndReturnDto(placement);
                 }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
     }
