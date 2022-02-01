@@ -4,8 +4,10 @@ import com.orakeloslomet.persistance.models.authentication.ERole;
 import com.orakeloslomet.persistance.models.authentication.Role;
 import com.orakeloslomet.persistance.models.authentication.User;
 import com.orakeloslomet.persistance.models.queue.ESemester;
+import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.persistance.models.queue.Subject;
+import com.orakeloslomet.persistance.repositories.PlacementRepository;
 import com.orakeloslomet.persistance.repositories.QueueEntityRepository;
 import com.orakeloslomet.persistance.repositories.SubjectRepository;
 import com.orakeloslomet.persistance.repositories.authentication.RoleRepository;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
@@ -38,35 +41,42 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final SubjectRepository subjectRepository;
+    private final PlacementRepository placementRepository;
 
     @Override
     public void run(String... args) {
         log.info("Seeding data...");
-        List<Subject> allSubjects = seedSubjects();
-        seedEntities(allSubjects);
+        seedSubjects();
         seedRoles();
         seedUsers();
+        seedPlacements();
+        seedEntities();
         log.info("Seeding done!");
+
+        printData();
+
     }
 
-    private void seedEntities(final List<Subject> allSubjects) {
+    private void seedEntities() {
         log.info("Seeding Queue Entities");
-        QueueEntity queueEntity1 = new QueueEntity("Fredrik", allSubjects.get(1).getName(), "1", "Jeg er kul 8)", 1, true);
-        QueueEntity queueEntity2 = new QueueEntity("Ana-Maria", allSubjects.get(2).getName(), "2", "Jeg er kul 8)", 2, false);
-        QueueEntity queueEntity3 = new QueueEntity("Maria", allSubjects.get(3).getName(), "2", "Jeg er kul 8)",1, false);
-        QueueEntity queueEntity4 = new QueueEntity("Thomas", allSubjects.get(1).getName(), "3", "Jeg er kul 8)",1, true);
-        QueueEntity queueEntity5 = new QueueEntity("Joakim", allSubjects.get(2).getName(), "4", "Jeg er kul 8)",2, false);
-        QueueEntity queueEntity6 = new QueueEntity("Chris", allSubjects.get(3).getName(), "5", "Jeg er kul 8)", 1, false);
-        queueEntity4.markAsDone();
-        queueEntity5.markAsDone();
-        queueEntity6.markAsDone();
+        final List<String> subjects = subjectRepository.findAll().stream().map(Subject::getName).collect(Collectors.toList());
+        final List<Placement> placements = placementRepository.findAll();
 
-        entityRepository.save(queueEntity1);
-        entityRepository.save(queueEntity2);
-        entityRepository.save(queueEntity3);
-        entityRepository.save(queueEntity4);
-        entityRepository.save(queueEntity5);
-        entityRepository.save(queueEntity6);
+        if (subjects.size() == 0 || placements.size() == 0) {
+            log.warn("Please seed subjects and placements before seeding queueentities!");
+            return;
+        }
+
+        final List<QueueEntity> queueEntities = List.of(
+                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Jeg er kul 8)", 1, true),
+                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Jeg er kul 8)", 2, false),
+                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Jeg er kul 8)", 1, false),
+                new QueueEntity("Vilde", subjects.get(1), placements.get(3), "Jeg er kul 8)", 1, true),
+                new QueueEntity("Miina", subjects.get(2), placements.get(4), "Jeg er kul 8)", 2, false),
+                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "Jeg er kul 8)", 1, false)
+        );
+
+        entityRepository.saveAll(queueEntities);
         log.info("Done seeding Queue Entities!");
     }
 
@@ -83,7 +93,7 @@ public class DataLoader implements CommandLineRunner {
         log.info("Done seeding Users!");
     }
 
-    private List<Subject> seedSubjects() {
+    private void seedSubjects() {
         log.info("Seeding Semesters");
         ArrayList<Subject> allSubjects = new ArrayList<>();
         ArrayList<String> autumnSubjects = new ArrayList<>(Arrays.asList("Programmering", "Diskret Matte",
@@ -105,10 +115,7 @@ public class DataLoader implements CommandLineRunner {
             allSubjects.add(subjectObject);
             subjectRepository.save(subjectObject);
         });
-
-        return allSubjects;
     }
-
 
     private void seedRoles() {
         log.info("Seeding Roles");
@@ -121,5 +128,35 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.save(user);
         roleRepository.save(admin);
         log.info("Done seeding roles!");
+    }
+
+    private void seedPlacements() {
+        log.info("Seeding Placements");
+        final int datatorgSeats = 26;
+        final int groupRooms = 5;
+
+        final List<Placement> placements = new ArrayList<>();
+
+        for (int i = 1; i <= datatorgSeats; i++) {
+            placements.add(new Placement("Datatorget", i));
+        }
+
+        for (int i = 1; i <= groupRooms; i++) {
+            placements.add(new Placement("Grupperom", i));
+        }
+
+        placementRepository.saveAll(placements);
+        log.info("Done seeding placements!");
+    }
+
+    private void printData() {
+        log.info("#----- Queue Entities ------#");
+        entityRepository.findAll().forEach(queueEntity -> log.info(String.valueOf(queueEntity)));
+
+        log.info("#----- Subjects ------#");
+        subjectRepository.findAll().forEach(subject -> log.info(String.valueOf(subject)));
+
+        log.info("#----- Placements ------#");
+        placementRepository.findAll().forEach(placement -> log.info(String.valueOf(placement)));
     }
 }
