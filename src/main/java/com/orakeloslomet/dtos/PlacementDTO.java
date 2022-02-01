@@ -19,7 +19,6 @@ import lombok.ToString;
 public class PlacementDTO implements DTO {
 
     private Long id;
-    @Required
-    private String prefix;
+    @Required private String prefix;
     @Required private int number;
 }

@@ -4,6 +4,8 @@ import com.orakeloslomet.persistance.models.PersistableEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -24,7 +26,10 @@ public class QueueEntity extends PersistableEntity {
 
     private String name;
     private String subject;
-    private String placement;
+
+    @ManyToOne(optional = false)
+    private Placement placement;
+
     private String comment;
     private int studyYear;
     private boolean digitalConsultation;
@@ -32,7 +37,7 @@ public class QueueEntity extends PersistableEntity {
     private Date timeConfirmedDone;
 
     @Builder
-    public QueueEntity(final String name, final String subject, final String placement, final String comment,
+    public QueueEntity(final String name, final String subject, final Placement placement, final String comment,
                        final int studyYear, final boolean digitalConsultation) {
         super();
         this.name = name;

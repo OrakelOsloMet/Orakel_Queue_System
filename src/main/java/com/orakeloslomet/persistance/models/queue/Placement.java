@@ -24,12 +24,12 @@ import javax.persistence.Table;
 public class Placement extends PersistableEntity {
 
     private String prefix;
-    private Integer placements;
+    private Integer number;
 
     @Builder
-    public Placement(final String prefix, final Integer placements) {
+    public Placement(final String prefix, final Integer number) {
         super();
         this.prefix = prefix;
-        this.placements = placements;
+        this.number = number;
     }
 }

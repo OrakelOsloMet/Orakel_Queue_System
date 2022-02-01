@@ -20,7 +20,7 @@ public class QueueEntityDTO implements DTO {
     @Required
     private String name;
     @Required private String subject;
-    @Required private String placement;
+    @Required private PlacementDTO placement;
     private String comment;
     @Required private int studyYear;
     @Required private boolean digitalConsultation;

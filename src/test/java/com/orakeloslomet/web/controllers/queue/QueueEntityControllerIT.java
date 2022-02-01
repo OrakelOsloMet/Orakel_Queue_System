@@ -1,6 +1,7 @@
 package com.orakeloslomet.web.controllers.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.services.queue.QueueEntityService;
 import com.orakeloslomet.utilities.DataLoader;
@@ -53,7 +54,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
             final QueueEntityDTO givenDTO = QueueEntityDTO.builder()
                     .name("Fredrik Pedersen")
                     .subject("Programmering")
-                    .placement("Datatorget - 1")
+                    .placement(new PlacementDTO(1L, "Datatorget", 1))
                     .comment("Jeg er kul 8)")
                     .studyYear(2)
                     .digitalConsultation(false)
