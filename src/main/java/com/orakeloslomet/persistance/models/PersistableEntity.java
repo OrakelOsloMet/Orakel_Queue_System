@@ -1,6 +1,7 @@
 package com.orakeloslomet.persistance.models;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @ToString
+@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor

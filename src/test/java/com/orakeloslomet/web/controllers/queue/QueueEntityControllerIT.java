@@ -3,10 +3,14 @@ package com.orakeloslomet.web.controllers.queue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.dtos.QueueEntityDTO;
+import com.orakeloslomet.persistance.models.queue.Placement;
+import com.orakeloslomet.persistance.repositories.PlacementRepository;
 import com.orakeloslomet.services.queue.QueueEntityService;
 import com.orakeloslomet.utilities.DataLoader;
 import com.orakeloslomet.utilities.constants.Profiles;
 import com.orakeloslomet.utilities.constants.URLs;
+import com.orakeloslomet.utilities.mappers.PlacementMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Class relies on entities beeing seed in DataSeeder.
- * Should be updated to create it's own entities or atleast muddy the context before writing more tests.
+ * Should be updated to create its own entities or at least muddy the context before writing more tests.
  *
  * @author Fredrik Pedersen
  * @version 1.0
- * @since 30/09/2021 at 14:37
  * @see DataLoader
+ * @since 30/09/2021 at 14:37
  */
 
 @SpringBootTest
@@ -44,6 +48,21 @@ class QueueEntityControllerIT extends BaseControllerTest {
     @Autowired
     private QueueEntityService queueEntityService;
 
+    @Autowired
+    private PlacementRepository placementRepository;
+
+    @Autowired
+    private PlacementMapper placementMapper;
+
+    private PlacementDTO placementDTO;
+
+    @BeforeEach
+    void setUp() {
+        final Placement placement = placementRepository.findById(1L).orElseThrow();
+        placementDTO = placementRepository.findById(1L).map(placementMapper::toDto).orElseThrow();
+    }
+
+
     @Nested
     class postQueueEntity {
 
@@ -54,7 +73,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
             final QueueEntityDTO givenDTO = QueueEntityDTO.builder()
                     .name("Fredrik Pedersen")
                     .subject("Programmering")
-                    .placement(new PlacementDTO(1L, "Datatorget", 1))
+                    .placement(placementDTO)
                     .comment("Jeg er kul 8)")
                     .studyYear(2)
                     .digitalConsultation(false)
@@ -62,15 +81,15 @@ class QueueEntityControllerIT extends BaseControllerTest {
 
             //when
             final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(URLs.QUEUE_BASE_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(mapToJson(givenDTO)))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(mapToJson(givenDTO)))
                     .andExpect(status().isCreated())
                     .andReturn();
 
             //then
             final QueueEntityDTO responseDTO = new ObjectMapper().readValue(result.getResponse().getContentAsString(), QueueEntityDTO.class);
             assertAll("Assterting valid values in ResponseDTO",
-            () -> assertEquals(givenDTO.getName(), responseDTO.getName()),
+                    () -> assertEquals(givenDTO.getName(), responseDTO.getName()),
                     () -> assertEquals(givenDTO.getSubject(), responseDTO.getSubject()),
                     () -> assertEquals(givenDTO.getPlacement(), responseDTO.getPlacement()),
                     () -> assertEquals(givenDTO.getComment(), responseDTO.getComment()),

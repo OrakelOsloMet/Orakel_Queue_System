@@ -3,10 +3,7 @@ package com.orakeloslomet.persistance.models.queue;
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**

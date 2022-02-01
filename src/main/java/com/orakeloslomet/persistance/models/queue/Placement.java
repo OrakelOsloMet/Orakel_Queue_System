@@ -1,10 +1,9 @@
 package com.orakeloslomet.persistance.models.queue;
 
 import com.orakeloslomet.persistance.models.PersistableEntity;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import net.bytebuddy.implementation.bind.annotation.Super;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,7 +17,9 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@SuperBuilder
 @NoArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "placements")
 @EqualsAndHashCode(callSuper = true)
 public class Placement extends PersistableEntity {
@@ -26,7 +27,6 @@ public class Placement extends PersistableEntity {
     private String prefix;
     private Integer number;
 
-    @Builder
     public Placement(final String prefix, final Integer number) {
         super();
         this.prefix = prefix;
