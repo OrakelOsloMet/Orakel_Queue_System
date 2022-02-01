@@ -2,7 +2,9 @@ package com.orakeloslomet.services.queue;
 
 import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.persistance.models.queue.QueueEntity;
+import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
 import com.orakeloslomet.persistance.repositories.QueueEntityRepository;
+import com.orakeloslomet.persistance.repositories.StatisticsRepository;
 import com.orakeloslomet.utilities.mappers.QueueEntityMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +16,8 @@ import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
- * @version 1.1
- * @since 30/09/2021 at 14:31
+ * @version 1.2
+ * @since 01/02/2022 at 15:30
  */
 
 @Slf4j
@@ -25,6 +27,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     private final QueueEntityMapper entityMapper;
     private final QueueEntityRepository repository;
+    private final StatisticsRepository statisticsRepository;
 
     @Override
     public List<QueueEntityDTO> findAll() {
@@ -73,6 +76,15 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         }
     }
 
+    @Override
+    @Transactional
+    public void moveAllToStatisticsTable() {
+        final List<StatisticsEntity> statistics = mapToStatistics(repository.findAll());
+
+        statisticsRepository.saveAll(statistics);
+        repository.deleteAll();
+    }
+
     private QueueEntityDTO saveAndReturnDto(final QueueEntity queueEntity) {
         final QueueEntity savedEntity = repository.save(queueEntity);
         return entityMapper.toDto(savedEntity);
@@ -80,5 +92,9 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     private List<QueueEntityDTO> mapToDtos(final List<QueueEntity> queueEntities) {
         return queueEntities.stream().map(entityMapper::toDto).collect(Collectors.toList());
+    }
+
+    private List<StatisticsEntity> mapToStatistics(final List<QueueEntity> queueEntities) {
+        return queueEntities.stream().map(entityMapper::toStatistics).collect(Collectors.toList());
     }
 }

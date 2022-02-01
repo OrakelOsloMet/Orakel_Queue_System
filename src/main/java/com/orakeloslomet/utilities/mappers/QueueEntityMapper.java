@@ -2,6 +2,7 @@ package com.orakeloslomet.utilities.mappers;
 
 import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.persistance.models.queue.QueueEntity;
+import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
 import org.mapstruct.Mapper;
 
 /**
@@ -10,8 +11,7 @@ import org.mapstruct.Mapper;
  */
 
 @Mapper(componentModel = "spring", uses = {PlacementMapper.class})
-public interface QueueEntityMapper extends IEntityMapper<QueueEntityDTO, QueueEntity> {
+public interface QueueEntityMapper extends DtoMapper<QueueEntityDTO, QueueEntity> {
 
-    QueueEntityDTO toDto(final QueueEntity queueEntity);
-    QueueEntity toEntity(final QueueEntityDTO queueEntityDTO);
+    StatisticsEntity toStatistics(QueueEntity entity);
 }

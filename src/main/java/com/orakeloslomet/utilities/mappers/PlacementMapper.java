@@ -11,8 +11,5 @@ import org.mapstruct.Mapper;
  */
 
 @Mapper(componentModel = "spring")
-public interface PlacementMapper extends IEntityMapper<PlacementDTO, Placement> {
-
-    PlacementDTO toDto(Placement placement);
-    Placement toEntity(PlacementDTO placementDTO);
+public interface PlacementMapper extends DtoMapper<PlacementDTO, Placement> {
 }

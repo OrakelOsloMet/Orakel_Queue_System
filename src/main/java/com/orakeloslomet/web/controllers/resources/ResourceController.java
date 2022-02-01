@@ -1,6 +1,6 @@
 package com.orakeloslomet.web.controllers.resources;
 
-import com.orakeloslomet.services.resources.QueueEntityExportService;
+import com.orakeloslomet.services.resources.QueueStatisticsExportService;
 import com.orakeloslomet.utilities.constants.URLs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import java.io.IOException;
 @RequestMapping(URLs.RESOURCES_BASE_URL)
 public class ResourceController {
 
-    private final QueueEntityExportService queueEntityExportService;
+    private final QueueStatisticsExportService queueStatisticsExportService;
 
     @GetMapping(value = URLs.USER_GUIDE_URL, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getUserGuideAndDocumentation() throws IOException {
@@ -51,6 +51,6 @@ public class ResourceController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
-                .body(queueEntityExportService.generateCsvStreamResourceFromEntities());
+                .body(queueStatisticsExportService.generateCsvStreamResourceFromEntities());
     }
 }

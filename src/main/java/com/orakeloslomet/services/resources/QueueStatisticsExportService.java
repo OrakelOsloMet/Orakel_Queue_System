@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.resources;
 
-import com.orakeloslomet.dtos.QueueEntityDTO;
-import com.orakeloslomet.services.queue.QueueEntityService;
+import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
+import com.orakeloslomet.persistance.repositories.StatisticsRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,24 +21,25 @@ import static java.util.Arrays.asList;
 
 /**
  * @author Fredrik Pedersen
- * @since 28/01/2021 at 16:07
+ * @since 01/02/2022 at 15:34
  */
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class QueueEntityExportService implements DataExportService<QueueEntityDTO> {
+public class QueueStatisticsExportService implements DataExportService {
 
-    @Getter private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
+    @Getter
+    private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
 
-    private final QueueEntityService queueEntityService;
+    private final StatisticsRepository statisticsRepository;
 
     public InputStreamResource generateCsvStreamResourceFromEntities() throws RuntimeException {
-        final List<QueueEntityDTO> entities = queueEntityService.findAllDone();
+        final List<StatisticsEntity> entities = statisticsRepository.findAll();
         return new InputStreamResource(convertEntitiesToCsvBytes(entities));
     }
 
-    private ByteArrayInputStream convertEntitiesToCsvBytes(final List<QueueEntityDTO> entities) {
+    private ByteArrayInputStream convertEntitiesToCsvBytes(final List<StatisticsEntity> entities) {
 
         final CSVFormat format = CSVFormat
                 .DEFAULT
@@ -49,7 +50,7 @@ public class QueueEntityExportService implements DataExportService<QueueEntityDT
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(outputStream), format);
 
-            for (QueueEntityDTO entity : entities) {
+            for (StatisticsEntity entity : entities) {
                 final List<String> data = asList(
                         entity.getSubject(),
                         String.valueOf(entity.getStudyYear()),

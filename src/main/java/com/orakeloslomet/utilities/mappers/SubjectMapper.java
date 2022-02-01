@@ -11,10 +11,7 @@ import org.mapstruct.Mapper;
  */
 
 @Mapper(componentModel = "spring")
-public interface SubjectMapper extends IEntityMapper<SubjectDTO, Subject> {
-
-    SubjectDTO toDto(Subject subject);
-    Subject toEntity(SubjectDTO subjectDTO);
+public interface SubjectMapper extends DtoMapper<SubjectDTO, Subject> {
 
     default String semesterEnumToString(final ESemester semesterEnum) {return semesterEnum.label;}
 

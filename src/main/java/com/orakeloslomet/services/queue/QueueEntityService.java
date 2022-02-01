@@ -12,7 +12,9 @@ import java.util.List;
  */
 
 public interface QueueEntityService extends CrudService<QueueEntityDTO, QueueEntity, Long> {
+
     List<QueueEntityDTO> findALlNotDone();
     List<QueueEntityDTO> findAllDone();
     void confirmDone(Long id);
+    void moveAllToStatisticsTable();
 }
