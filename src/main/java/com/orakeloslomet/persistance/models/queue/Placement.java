@@ -3,7 +3,6 @@ package com.orakeloslomet.persistance.models.queue;
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import net.bytebuddy.implementation.bind.annotation.Super;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,7 +13,6 @@ import javax.persistence.Table;
  * @since 30/09/2021 at 14:08
  */
 
-
 @Data
 @Entity
 @SuperBuilder
@@ -24,12 +22,12 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class Placement extends PersistableEntity {
 
-    private String prefix;
+    private String name;
     private Integer number;
 
-    public Placement(final String prefix, final Integer number) {
+    public Placement(final String name, final Integer number) {
         super();
-        this.prefix = prefix;
+        this.name = name;
         this.number = number;
     }
 }

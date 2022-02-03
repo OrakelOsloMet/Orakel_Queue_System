@@ -68,12 +68,12 @@ public class DataLoader implements CommandLineRunner {
         }
 
         final List<QueueEntity> queueEntities = List.of(
-                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Jeg er kul 8)", 1, true),
-                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Jeg er kul 8)", 2, false),
-                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Jeg er kul 8)", 1, false),
-                new QueueEntity("Vilde", subjects.get(1), placements.get(3), "Jeg er kul 8)", 1, true),
-                new QueueEntity("Miina", subjects.get(2), placements.get(4), "Jeg er kul 8)", 2, false),
-                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "Jeg er kul 8)", 1, false)
+                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Look what I made ma!", 1, true),
+                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Notatboken min er større enn din", 2, false),
+                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Que passo?", 1, false),
+                new QueueEntity("Vilde", subjects.get(1), placements.get(3), null, 1, true),
+                new QueueEntity("Miina", subjects.get(2), placements.get(4), null, 2, false),
+                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "2 kul 4 skul", 1, false)
         );
 
         entityRepository.saveAll(queueEntities);

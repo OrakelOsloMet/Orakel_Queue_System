@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.resources;
 
-import com.orakeloslomet.dtos.QueueEntityDTO;
-import com.orakeloslomet.services.queue.QueueEntityService;
+import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
+import com.orakeloslomet.persistance.repositories.StatisticsRepository;
 import com.orakeloslomet.utilities.constants.Profiles;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class QueueStatisticsExportServiceIT extends CSVParsingTestBase {
 
     @Autowired
-    private QueueEntityService queueEntityService;
+    private StatisticsRepository statisticsRepository;
 
     @Autowired
     private QueueStatisticsExportService queueStatisticsExportService;
@@ -44,7 +44,7 @@ public class QueueStatisticsExportServiceIT extends CSVParsingTestBase {
 
             //given
             final List<String> expectedColumns = asList(queueStatisticsExportService.getCOLUMNS());
-            final List<QueueEntityDTO> queueEntities = queueEntityService.findAllDone();
+            final List<StatisticsEntity> queueEntities = statisticsRepository.findAll();
 
             //when
             final InputStreamResource result = queueStatisticsExportService.generateCsvStreamResourceFromEntities();
@@ -65,16 +65,16 @@ public class QueueStatisticsExportServiceIT extends CSVParsingTestBase {
                 final List<String> entityContent = actualContent.get(i);
                 assertEquals(actualColumns.size(), entityContent.size());
 
-                final QueueEntityDTO queueEntityDTO = queueEntities.get(i - 1);
-                assertContentLineAndEntityEqual(entityContent, queueEntityDTO);
+                final StatisticsEntity statisticsEntity = queueEntities.get(i - 1);
+                assertContentLineAndEntityEqual(entityContent, statisticsEntity);
             }
         }
 
-        private void assertContentLineAndEntityEqual(final List<String> contentLine, final QueueEntityDTO queueEntityDTO) {
-            assertTrue(contentLine.contains(queueEntityDTO.getSubject()));
-            assertTrue(contentLine.contains(String.valueOf(queueEntityDTO.getStudyYear())));
-            assertTrue(contentLine.contains(String.valueOf(queueEntityDTO.isDigitalConsultation())));
-            assertTrue(contentLine.contains(String.valueOf(queueEntityDTO.getTimeConfirmedDone())));
+        private void assertContentLineAndEntityEqual(final List<String> contentLine, final StatisticsEntity statisticsEntity) {
+            assertTrue(contentLine.contains(statisticsEntity.getSubject()));
+            assertTrue(contentLine.contains(String.valueOf(statisticsEntity.getStudyYear())));
+            assertTrue(contentLine.contains(String.valueOf(statisticsEntity.isDigitalConsultation())));
+            assertTrue(contentLine.contains(String.valueOf(statisticsEntity.getCreatedDate())));
         }
     }
 

@@ -3,7 +3,6 @@ package com.orakeloslomet.web.controllers.queue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.dtos.QueueEntityDTO;
-import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.repositories.PlacementRepository;
 import com.orakeloslomet.services.queue.QueueEntityService;
 import com.orakeloslomet.utilities.DataLoader;
@@ -31,10 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Class relies on entities beeing seed in DataSeeder.
  * Should be updated to create its own entities or at least muddy the context before writing more tests.
  *
- * @author Fredrik Pedersen
- * @version 1.0
- * @see DataLoader
- * @since 30/09/2021 at 14:37
  */
 
 @SpringBootTest
@@ -58,7 +53,6 @@ class QueueEntityControllerIT extends BaseControllerTest {
 
     @BeforeEach
     void setUp() {
-        final Placement placement = placementRepository.findById(1L).orElseThrow();
         placementDTO = placementRepository.findById(1L).map(placementMapper::toDto).orElseThrow();
     }
 
@@ -95,7 +89,6 @@ class QueueEntityControllerIT extends BaseControllerTest {
                     () -> assertEquals(givenDTO.getComment(), responseDTO.getComment()),
                     () -> assertEquals(givenDTO.getStudyYear(), responseDTO.getStudyYear()),
                     () -> assertEquals(givenDTO.isDigitalConsultation(), responseDTO.isDigitalConsultation()),
-                    () -> assertNull(responseDTO.getTimeConfirmedDone()),
                     () -> assertNotNull(responseDTO.getId()));
         }
     }
@@ -108,7 +101,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
         void givenValidId_whenConfirmedDone_doneDateIsSet() throws Exception {
 
             //given
-            final QueueEntityDTO givenDTO = queueEntityService.findALlNotDone().get(0);
+            final QueueEntityDTO givenDTO = queueEntityService.findAll().get(0);
 
             //when
             mockMvc.perform(post(URLs.QUEUE_BASE_URL + URLs.QUEUE_CONFIRM_DONE_URL + givenDTO.getId()))
@@ -123,8 +116,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
                     () -> assertEquals(givenDTO.getPlacement(), updatedEntity.getPlacement()),
                     () -> assertEquals(givenDTO.getComment(), updatedEntity.getComment()),
                     () -> assertEquals(givenDTO.getStudyYear(), updatedEntity.getStudyYear()),
-                    () -> assertEquals(givenDTO.isDigitalConsultation(), updatedEntity.isDigitalConsultation()),
-                    () -> assertNotNull(updatedEntity.getTimeConfirmedDone()));
+                    () -> assertEquals(givenDTO.isDigitalConsultation(), updatedEntity.isDigitalConsultation()));
         }
 
     }

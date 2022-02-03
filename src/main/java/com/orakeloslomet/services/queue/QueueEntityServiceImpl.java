@@ -41,16 +41,6 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     }
 
     @Override
-    public List<QueueEntityDTO> findALlNotDone() {
-        return mapToDtos(repository.findAllWhereTimeConfirmedDoneNull());
-    }
-
-    @Override
-    public List<QueueEntityDTO> findAllDone() {
-        return mapToDtos(repository.findAllWhereTimeConfirmedDoneNotNull());
-    }
-
-    @Override
     public QueueEntityDTO save(final QueueEntityDTO queueEntityDTO) {
         return saveAndReturnDto(entityMapper.toEntity(queueEntityDTO));
     }
@@ -70,19 +60,11 @@ public class QueueEntityServiceImpl implements QueueEntityService {
     public void confirmDone(final Long id) {
         if (repository.findById(id).isPresent()) {
             final QueueEntity doneEntity = repository.findById(id).get();
-            doneEntity.markAsDone();
+            final StatisticsEntity statistics = mapToStatistics(doneEntity);
 
-            repository.save(doneEntity);
+            statisticsRepository.save(statistics);
+            repository.delete(doneEntity);
         }
-    }
-
-    @Override
-    @Transactional
-    public void moveAllToStatisticsTable() {
-        final List<StatisticsEntity> statistics = mapToStatistics(repository.findAll());
-
-        statisticsRepository.saveAll(statistics);
-        repository.deleteAll();
     }
 
     private QueueEntityDTO saveAndReturnDto(final QueueEntity queueEntity) {
@@ -94,7 +76,7 @@ public class QueueEntityServiceImpl implements QueueEntityService {
         return queueEntities.stream().map(entityMapper::toDto).collect(Collectors.toList());
     }
 
-    private List<StatisticsEntity> mapToStatistics(final List<QueueEntity> queueEntities) {
-        return queueEntities.stream().map(entityMapper::toStatistics).collect(Collectors.toList());
+    private StatisticsEntity mapToStatistics(final QueueEntity queueEntity) {
+        return entityMapper.toStatistics(queueEntity);
     }
 }

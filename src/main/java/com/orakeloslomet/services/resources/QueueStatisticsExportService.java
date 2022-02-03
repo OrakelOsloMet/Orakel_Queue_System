@@ -55,7 +55,7 @@ public class QueueStatisticsExportService implements DataExportService {
                         entity.getSubject(),
                         String.valueOf(entity.getStudyYear()),
                         String.valueOf(entity.isDigitalConsultation()),
-                        String.valueOf(entity.getTimeConfirmedDone())
+                        String.valueOf(entity.getCreatedDate())
                 );
 
                 csvPrinter.printRecord(data);

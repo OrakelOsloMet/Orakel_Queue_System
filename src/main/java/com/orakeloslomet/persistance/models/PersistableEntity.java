@@ -29,5 +29,4 @@ public abstract class PersistableEntity implements DomainEntity {
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp createdDate;
-
 }

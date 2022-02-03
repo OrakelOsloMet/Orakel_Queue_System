@@ -44,7 +44,7 @@ public class QueueEntityController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<QueueEntityDTO>> getAllQueueEntities() {
         if (bucket.tryConsume(1)) {
-            return ResponseEntity.ok(queueEntityService.findALlNotDone());
+            return ResponseEntity.ok(queueEntityService.findAll());
         }
 
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();

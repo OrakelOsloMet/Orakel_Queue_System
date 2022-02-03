@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -51,10 +52,10 @@ public class PlacementServiceImpl implements PlacementService {
     public PlacementDTO update(final PlacementDTO placementDTO, final Long id) {
         return repository.findById(id)
                 .map(placement -> {
-                    placement.setPrefix(placementDTO.getPrefix());
+                    placement.setName(placementDTO.getName());
                     placement.setNumber(placementDTO.getNumber());
                     return saveAndReturnDto(placement);
-                }).orElseThrow(() -> new EntityNotFoundException(String.format("Subject with ID %s not found!", id)));
+                }).orElseThrow(() -> new EntityNotFoundException(String.format("Placement with ID %s not found!", id)));
     }
 
     @Override

@@ -3,8 +3,9 @@ package com.orakeloslomet.persistance.models.queue;
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author Fredrik Pedersen
@@ -31,8 +32,6 @@ public class QueueEntity extends PersistableEntity {
     private int studyYear;
     private boolean digitalConsultation;
 
-    private Date timeConfirmedDone;
-
     @Builder
     public QueueEntity(final String name, final String subject, final Placement placement, final String comment,
                        final int studyYear, final boolean digitalConsultation) {
@@ -43,9 +42,5 @@ public class QueueEntity extends PersistableEntity {
         this.placement = placement;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;
-    }
-
-    public void markAsDone() {
-        this.timeConfirmedDone = new Date();
     }
 }

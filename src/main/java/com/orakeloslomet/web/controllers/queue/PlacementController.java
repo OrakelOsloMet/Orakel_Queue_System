@@ -76,5 +76,7 @@ public class PlacementController {
     @DeleteMapping("delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public void deletePlacement(@PathVariable final Long id) {placementService.deleteById(id);}
+    public void deletePlacement(@PathVariable final Long id) {
+        placementService.deleteById(id);
+    }
 }

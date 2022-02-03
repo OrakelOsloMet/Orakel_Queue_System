@@ -7,7 +7,6 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * @author Fredrik Pedersen
@@ -31,16 +30,13 @@ public class StatisticsEntity extends PersistableEntity {
     private int studyYear;
     private boolean digitalConsultation;
 
-    private Date timeConfirmedDone;
-
     @Builder
-    public StatisticsEntity(final String subject, final Placement placement,
-                       final int studyYear, final boolean digitalConsultation, final Date timeConfirmedDone) {
+    public StatisticsEntity(final String subject, final Placement placement, final int studyYear,
+                            final boolean digitalConsultation) {
         super();
         this.subject = subject;
         this.placement = placement;
         this.studyYear = studyYear;
         this.digitalConsultation = digitalConsultation;
-        this.timeConfirmedDone = timeConfirmedDone;
     }
 }

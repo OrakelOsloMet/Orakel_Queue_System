@@ -11,10 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.InputStreamResource;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -94,18 +92,21 @@ class QueueStatisticsExportServiceTest extends CSVParsingTestBase {
             assertTrue(contentLine.contains(entity.getSubject()));
             assertTrue(contentLine.contains(String.valueOf(entity.getStudyYear())));
             assertTrue(contentLine.contains(String.valueOf(entity.isDigitalConsultation())));
-            assertTrue(contentLine.contains(String.valueOf(entity.getTimeConfirmedDone())));
+            assertTrue(contentLine.contains(String.valueOf(entity.getCreatedDate())));
         }
     }
 
     private StatisticsEntity createQueueEntityDto() {
         final Random random = new Random();
 
-        return StatisticsEntity.builder()
+        final StatisticsEntity statistics =  StatisticsEntity.builder()
                 .subject("Programmering")
                 .studyYear(random.nextInt())
                 .digitalConsultation(random.nextBoolean())
-                .timeConfirmedDone(new Date())
                 .build();
+
+        statistics.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+
+        return statistics;
     }
 }

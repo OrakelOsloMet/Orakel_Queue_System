@@ -17,12 +17,10 @@ import lombok.*;
 public class QueueEntityDTO implements DTO {
 
     private Long id;
-    @Required
-    private String name;
+    @Required private String name;
     @Required private String subject;
     @Required private PlacementDTO placement;
     private String comment;
     @Required private int studyYear;
     @Required private boolean digitalConsultation;
-    private String timeConfirmedDone;
 }
