@@ -1,6 +1,5 @@
 package com.orakeloslomet.services.resources;
 
-import com.orakeloslomet.persistance.models.PersistableEntity;
 import org.springframework.core.io.InputStreamResource;
 
 /**
