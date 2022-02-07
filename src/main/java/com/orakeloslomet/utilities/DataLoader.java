@@ -59,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void seedEntities() {
         log.info("Seeding Queue Entities");
-        final List<String> subjects = subjectRepository.findAll().stream().map(Subject::getName).collect(Collectors.toList());
+        final List<Subject> subjects = subjectRepository.findAll().stream().collect(Collectors.toList());
         final List<Placement> placements = placementRepository.findAll();
 
         if (subjects.size() == 0 || placements.size() == 0) {
@@ -68,12 +68,12 @@ public class DataLoader implements CommandLineRunner {
         }
 
         final List<QueueEntity> queueEntities = List.of(
-                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Look what I made ma!", 1, true),
-                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Notatboken min er større enn din", 2, false),
-                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Que passo?", 1, false),
-                new QueueEntity("Vilde", subjects.get(1), placements.get(3), null, 1, true),
-                new QueueEntity("Miina", subjects.get(2), placements.get(4), null, 2, false),
-                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "2 kul 4 skul", 1, false)
+                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Look what I made ma!", 1),
+                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Notatboken min er større enn din", 2),
+                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Que passo?", 1),
+                new QueueEntity("Vilde", subjects.get(1), placements.get(3), null, 1),
+                new QueueEntity("Miina", subjects.get(2), placements.get(4), null, 2),
+                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "2 kul 4 skul", 1)
         );
 
         entityRepository.saveAll(queueEntities);
@@ -136,6 +136,7 @@ public class DataLoader implements CommandLineRunner {
         final int groupRooms = 5;
 
         final List<Placement> placements = new ArrayList<>();
+        placements.add(new Placement("Discord", 0));
 
         for (int i = 1; i <= datatorgSeats; i++) {
             placements.add(new Placement("Datatorget", i));

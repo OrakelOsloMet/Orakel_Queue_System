@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
  * @since 19/01/2021 at 14:48
  */
 
-@Mapper(componentModel = "spring", uses = {PlacementMapper.class})
+@Mapper(componentModel = "spring", uses = {PlacementMapper.class, SubjectMapper.class})
 public interface QueueEntityMapper extends DtoMapper<QueueEntityDTO, QueueEntity> {
 
     StatisticsEntity toStatistics(QueueEntity entity);

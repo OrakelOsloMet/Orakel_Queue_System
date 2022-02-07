@@ -3,12 +3,14 @@ package com.orakeloslomet.web.controllers.queue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.dtos.QueueEntityDTO;
-import com.orakeloslomet.persistance.repositories.PlacementRepository;
+import com.orakeloslomet.dtos.SubjectDTO;
+import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
+import com.orakeloslomet.persistance.repositories.StatisticsRepository;
+import com.orakeloslomet.services.queue.PlacementService;
 import com.orakeloslomet.services.queue.QueueEntityService;
-import com.orakeloslomet.utilities.DataLoader;
+import com.orakeloslomet.services.queue.SubjectService;
 import com.orakeloslomet.utilities.constants.Profiles;
 import com.orakeloslomet.utilities.constants.URLs;
-import com.orakeloslomet.utilities.mappers.PlacementMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,16 +46,22 @@ class QueueEntityControllerIT extends BaseControllerTest {
     private QueueEntityService queueEntityService;
 
     @Autowired
-    private PlacementRepository placementRepository;
+    private PlacementService placementService;
 
     @Autowired
-    private PlacementMapper placementMapper;
+    private SubjectService subjectService;
+
+    @Autowired
+    private StatisticsRepository statisticsRepository;
 
     private PlacementDTO placementDTO;
 
+    private SubjectDTO subjectDTO;
+
     @BeforeEach
     void setUp() {
-        placementDTO = placementRepository.findById(1L).map(placementMapper::toDto).orElseThrow();
+        placementDTO = placementService.findById(1L);
+        subjectDTO = subjectService.findById(1L);
     }
 
 
@@ -66,11 +74,10 @@ class QueueEntityControllerIT extends BaseControllerTest {
             //given
             final QueueEntityDTO givenDTO = QueueEntityDTO.builder()
                     .name("Fredrik Pedersen")
-                    .subject("Programmering")
+                    .subject(subjectDTO)
                     .placement(placementDTO)
                     .comment("Jeg er kul 8)")
                     .studyYear(2)
-                    .digitalConsultation(false)
                     .build();
 
             //when
@@ -88,8 +95,8 @@ class QueueEntityControllerIT extends BaseControllerTest {
                     () -> assertEquals(givenDTO.getPlacement(), responseDTO.getPlacement()),
                     () -> assertEquals(givenDTO.getComment(), responseDTO.getComment()),
                     () -> assertEquals(givenDTO.getStudyYear(), responseDTO.getStudyYear()),
-                    () -> assertEquals(givenDTO.isDigitalConsultation(), responseDTO.isDigitalConsultation()),
-                    () -> assertNotNull(responseDTO.getId()));
+                    () -> assertNotNull(responseDTO.getId()),
+                    () -> assertNotNull(responseDTO.getCreatedDate()));
         }
     }
 
@@ -108,15 +115,12 @@ class QueueEntityControllerIT extends BaseControllerTest {
                     .andExpect(status().isAccepted());
 
             //then
-            final QueueEntityDTO updatedEntity = queueEntityService.findById(givenDTO.getId());
+            final StatisticsEntity statistics = statisticsRepository.findById(1l).orElseThrow();
             assertAll("Assterting valid values in ResponseDTO",
-                    () -> assertEquals(givenDTO.getId(), updatedEntity.getId()),
-                    () -> assertEquals(givenDTO.getName(), updatedEntity.getName()),
-                    () -> assertEquals(givenDTO.getSubject(), updatedEntity.getSubject()),
-                    () -> assertEquals(givenDTO.getPlacement(), updatedEntity.getPlacement()),
-                    () -> assertEquals(givenDTO.getComment(), updatedEntity.getComment()),
-                    () -> assertEquals(givenDTO.getStudyYear(), updatedEntity.getStudyYear()),
-                    () -> assertEquals(givenDTO.isDigitalConsultation(), updatedEntity.isDigitalConsultation()));
+                    () -> assertEquals(givenDTO.getSubject().getId(), statistics.getSubject().getId()),
+                    () -> assertEquals(givenDTO.getPlacement().getId(), statistics.getPlacement().getId()),
+                    () -> assertEquals(givenDTO.getStudyYear(), statistics.getStudyYear())
+            );
         }
 
     }

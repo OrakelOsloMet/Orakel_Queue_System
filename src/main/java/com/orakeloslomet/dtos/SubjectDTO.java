@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 /**
  * @author Fredrik Pedersen
  * @since 19/01/2021 at 12:47
@@ -18,6 +20,7 @@ import lombok.ToString;
 public class SubjectDTO implements DTO {
 
     private Long id;
+    private Timestamp createdDate;
     @Required private String name;
     @Required private String semester;
 }

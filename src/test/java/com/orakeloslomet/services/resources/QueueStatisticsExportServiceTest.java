@@ -1,5 +1,8 @@
 package com.orakeloslomet.services.resources;
 
+import com.orakeloslomet.persistance.models.queue.ESemester;
+import com.orakeloslomet.persistance.models.queue.Placement;
+import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
 import com.orakeloslomet.persistance.repositories.StatisticsRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +15,10 @@ import org.springframework.core.io.InputStreamResource;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,6 +65,8 @@ class QueueStatisticsExportServiceTest extends CSVParsingTestBase {
             //Each subsequent line only contains the specified amount of columns, and their values equal that of the entities returned from the service
             for (int i = 1; i < actualContent.size(); i++) {
                 final List<String> entityContent = actualContent.get(i);
+                System.out.println(entityContent);
+                System.out.println(actualColumns);
                 assertEquals(actualColumns.size(), entityContent.size());
 
                 final StatisticsEntity entity = entities.get(i - 1);
@@ -89,9 +97,8 @@ class QueueStatisticsExportServiceTest extends CSVParsingTestBase {
         }
 
         private void assertContentLineAndEntityEqual(final List<String> contentLine, final StatisticsEntity entity) {
-            assertTrue(contentLine.contains(entity.getSubject()));
+            assertTrue(contentLine.contains(entity.getSubject().getName()));
             assertTrue(contentLine.contains(String.valueOf(entity.getStudyYear())));
-            assertTrue(contentLine.contains(String.valueOf(entity.isDigitalConsultation())));
             assertTrue(contentLine.contains(String.valueOf(entity.getCreatedDate())));
         }
     }
@@ -100,9 +107,9 @@ class QueueStatisticsExportServiceTest extends CSVParsingTestBase {
         final Random random = new Random();
 
         final StatisticsEntity statistics =  StatisticsEntity.builder()
-                .subject("Programmering")
+                .subject(new Subject("Programmering", ESemester.AUTUMN))
+                .placement(new Placement("Datatorget", 1))
                 .studyYear(random.nextInt())
-                .digitalConsultation(random.nextBoolean())
                 .build();
 
         statistics.setCreatedDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));

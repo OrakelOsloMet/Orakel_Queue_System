@@ -23,24 +23,24 @@ import javax.persistence.Table;
 public class QueueEntity extends PersistableEntity {
 
     private String name;
-    private String subject;
+
+    @ManyToOne(optional = false)
+    private Subject subject;
 
     @ManyToOne(optional = false)
     private Placement placement;
 
     private String comment;
     private int studyYear;
-    private boolean digitalConsultation;
 
     @Builder
-    public QueueEntity(final String name, final String subject, final Placement placement, final String comment,
-                       final int studyYear, final boolean digitalConsultation) {
+    public QueueEntity(final String name, final Subject subject, final Placement placement, final String comment,
+                       final int studyYear) {
         super();
         this.name = name;
         this.subject = subject;
         this.comment = comment;
         this.placement = placement;
         this.studyYear = studyYear;
-        this.digitalConsultation = digitalConsultation;
     }
 }

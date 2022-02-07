@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 /**
  * @author Fredrik Pedersen
- * @version 1.0
  * @since 30/09/2021 at 15:39
  */
 
@@ -19,6 +20,7 @@ import lombok.ToString;
 public class PlacementDTO implements DTO {
 
     private Long id;
+    private Timestamp createdDate;
     @Required private String name;
     @Required private int number;
 }

@@ -30,7 +30,7 @@ import static java.util.Arrays.asList;
 public class QueueStatisticsExportService implements DataExportService {
 
     @Getter
-    private final String[] COLUMNS = {"subject", "studyYear", "digitalConsultation", "timeConfirmedDone"};
+    private final String[] COLUMNS = {"subject", "studyYear", "placement", "timeConfirmedDone"};
 
     private final StatisticsRepository statisticsRepository;
 
@@ -52,9 +52,9 @@ public class QueueStatisticsExportService implements DataExportService {
 
             for (StatisticsEntity entity : entities) {
                 final List<String> data = asList(
-                        entity.getSubject(),
+                        entity.getSubject().getName(),
                         String.valueOf(entity.getStudyYear()),
-                        String.valueOf(entity.isDigitalConsultation()),
+                        entity.getPlacement().getName() + entity.getPlacement().getNumber(),
                         String.valueOf(entity.getCreatedDate())
                 );
 

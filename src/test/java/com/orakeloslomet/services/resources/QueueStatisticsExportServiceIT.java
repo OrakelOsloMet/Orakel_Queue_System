@@ -71,9 +71,8 @@ public class QueueStatisticsExportServiceIT extends CSVParsingTestBase {
         }
 
         private void assertContentLineAndEntityEqual(final List<String> contentLine, final StatisticsEntity statisticsEntity) {
-            assertTrue(contentLine.contains(statisticsEntity.getSubject()));
+            assertTrue(contentLine.contains(statisticsEntity.getSubject().getName()));
             assertTrue(contentLine.contains(String.valueOf(statisticsEntity.getStudyYear())));
-            assertTrue(contentLine.contains(String.valueOf(statisticsEntity.isDigitalConsultation())));
             assertTrue(contentLine.contains(String.valueOf(statisticsEntity.getCreatedDate())));
         }
     }

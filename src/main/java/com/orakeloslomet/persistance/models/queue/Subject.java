@@ -1,10 +1,8 @@
 package com.orakeloslomet.persistance.models.queue;
 
 import com.orakeloslomet.persistance.models.PersistableEntity;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,8 +18,10 @@ import javax.persistence.Table;
 
 @Data
 @Entity
+@SuperBuilder
 @NoArgsConstructor
 @Table(name = "subjects")
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Subject extends PersistableEntity {
 

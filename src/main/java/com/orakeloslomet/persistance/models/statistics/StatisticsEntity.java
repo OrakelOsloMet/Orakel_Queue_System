@@ -2,6 +2,7 @@ package com.orakeloslomet.persistance.models.statistics;
 
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import com.orakeloslomet.persistance.models.queue.Placement;
+import com.orakeloslomet.persistance.models.queue.Subject;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -22,21 +23,19 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class StatisticsEntity extends PersistableEntity {
 
-    private String subject;
+    @ManyToOne(optional = false)
+    private Subject subject;
 
     @ManyToOne(optional = false)
     private Placement placement;
 
     private int studyYear;
-    private boolean digitalConsultation;
 
     @Builder
-    public StatisticsEntity(final String subject, final Placement placement, final int studyYear,
-                            final boolean digitalConsultation) {
+    public StatisticsEntity(final Subject subject, final Placement placement, final int studyYear) {
         super();
         this.subject = subject;
         this.placement = placement;
         this.studyYear = studyYear;
-        this.digitalConsultation = digitalConsultation;
     }
 }
