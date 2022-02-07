@@ -1,6 +1,6 @@
 CREATE TABLE placements
 (
-    id           IDENTITY     NOT NULL,
+    id           SERIAL8     NOT NULL,
     created_date TIMESTAMP    NOT NULL,
     name         VARCHAR(255) NOT NULL,
     number       INTEGER      NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE placements
 
 CREATE TABLE subjects
 (
-    id           IDENTITY     NOT NULL,
+    id           SERIAL8     NOT NULL,
     created_date TIMESTAMP    NOT NULL,
     name         VARCHAR(255) NOT NULL,
     semester     VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE subjects
 
 CREATE TABLE queue_entities
 (
-    id           IDENTITY     NOT NULL,
+    id           SERIAL8     NOT NULL,
     created_date TIMESTAMP,
     comment      VARCHAR(255),
     name         VARCHAR(255) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE queue_entities
 
 CREATE TABLE queue_statistics
 (
-    id           IDENTITY NOT NULL,
+    id           SERIAL8 NOT NULL,
     created_date TIMESTAMP,
     subject_id   BIGINT   NOT NULL,
     placement_id BIGINT   NOT NULL,
@@ -44,14 +44,14 @@ CREATE TABLE queue_statistics
 
 CREATE TABLE roles
 (
-    id   IDENTITY     NOT NULL,
+    id   SERIAL8     NOT NULL,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE users
 (
-    id       IDENTITY     NOT NULL,
+    id       SERIAL8     NOT NULL,
     email    VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
@@ -66,4 +66,3 @@ CREATE TABLE user_roles
     CONSTRAINT ur_fk_user_id FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT ur_fk_role_id FOREIGN KEY (role_id) REFERENCES roles (id)
 );
-
