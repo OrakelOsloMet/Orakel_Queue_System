@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 @Profile({Profiles.DEV, Profiles.TEST})
-public class DataLoader implements CommandLineRunner {
+public class DevDataLoader implements CommandLineRunner {
 
     private final QueueEntityRepository entityRepository;
     private final RoleRepository roleRepository;
@@ -45,6 +44,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         log.info("Seeding data...");
         seedSubjects();
         seedRoles();
@@ -54,12 +54,11 @@ public class DataLoader implements CommandLineRunner {
         log.info("Seeding done!");
 
         printData();
-
     }
 
     private void seedEntities() {
         log.info("Seeding Queue Entities");
-        final List<Subject> subjects = subjectRepository.findAll().stream().collect(Collectors.toList());
+        final List<Subject> subjects = subjectRepository.findAll();
         final List<Placement> placements = placementRepository.findAll();
 
         if (subjects.size() == 0 || placements.size() == 0) {
@@ -82,11 +81,10 @@ public class DataLoader implements CommandLineRunner {
 
     private void seedUsers() {
         log.info("Seeding Users");
-        List<Role> roleList = roleRepository.findAll();
+        final List<Role> roleList = roleRepository.findAll();
+        final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        User testAdmin = new User("f", "f", encoder.encode("f"));
+        final User testAdmin = new User("f", "f", encoder.encode("f"));
         testAdmin.setRoles(new HashSet<>(roleList));
         userRepository.save(testAdmin);
 

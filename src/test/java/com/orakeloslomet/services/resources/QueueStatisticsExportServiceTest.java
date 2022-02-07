@@ -106,7 +106,7 @@ class QueueStatisticsExportServiceTest extends CSVParsingTestBase {
     private StatisticsEntity createQueueEntityDto() {
         final Random random = new Random();
 
-        final StatisticsEntity statistics =  StatisticsEntity.builder()
+        final StatisticsEntity statistics = StatisticsEntity.builder()
                 .subject(new Subject("Programmering", ESemester.AUTUMN))
                 .placement(new Placement("Datatorget", 1))
                 .studyYear(random.nextInt())
