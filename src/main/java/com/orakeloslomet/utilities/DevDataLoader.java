@@ -1,9 +1,7 @@
 package com.orakeloslomet.utilities;
 
-import com.orakeloslomet.persistance.models.authentication.ERole;
 import com.orakeloslomet.persistance.models.authentication.Role;
 import com.orakeloslomet.persistance.models.authentication.User;
-import com.orakeloslomet.persistance.models.queue.ESemester;
 import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.persistance.models.queue.Subject;
@@ -20,8 +18,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -46,10 +42,7 @@ public class DevDataLoader implements CommandLineRunner {
     public void run(String... args) {
 
         log.info("Seeding data...");
-        seedSubjects();
-        seedRoles();
         seedUsers();
-        seedPlacements();
         seedEntities();
         log.info("Seeding done!");
 
@@ -89,63 +82,6 @@ public class DevDataLoader implements CommandLineRunner {
         userRepository.save(testAdmin);
 
         log.info("Done seeding Users!");
-    }
-
-    private void seedSubjects() {
-        log.info("Seeding Semesters");
-        ArrayList<Subject> allSubjects = new ArrayList<>();
-        ArrayList<String> autumnSubjects = new ArrayList<>(Arrays.asList("Programmering", "Diskret Matte",
-                "Web Utvikling", "Prototyping", "Algoritmer og Datastrukturer", "Matte 2000", "Sytemutvikling", "MMI",
-                "Web Applikasjoner", "Apputvikling"));
-
-        ArrayList<String> springSubjects = new ArrayList<>(Arrays.asList("Databaser", "Webprogrammering",
-                "Internet of Things", "Matte 1000", "Visualisering", "Testing av Programvare", "Fysikk og Kjemi",
-                "Datanettverk og Skytjenester", "Operativsystemer"));
-
-        autumnSubjects.forEach(subject -> {
-            Subject subjectObject = new Subject(subject, ESemester.AUTUMN);
-            allSubjects.add(subjectObject);
-            subjectRepository.save(subjectObject);
-        });
-
-        springSubjects.forEach(subject -> {
-            Subject subjectObject = new Subject(subject, ESemester.SPRING);
-            allSubjects.add(subjectObject);
-            subjectRepository.save(subjectObject);
-        });
-    }
-
-    private void seedRoles() {
-        log.info("Seeding Roles");
-        Role user = new Role();
-        user.setName(ERole.ROLE_USER);
-
-        Role admin = new Role();
-        admin.setName(ERole.ROLE_ADMIN);
-
-        roleRepository.save(user);
-        roleRepository.save(admin);
-        log.info("Done seeding roles!");
-    }
-
-    private void seedPlacements() {
-        log.info("Seeding Placements");
-        final int datatorgSeats = 26;
-        final int groupRooms = 5;
-
-        final List<Placement> placements = new ArrayList<>();
-        placements.add(new Placement("Discord", 0));
-
-        for (int i = 1; i <= datatorgSeats; i++) {
-            placements.add(new Placement("Datatorget", i));
-        }
-
-        for (int i = 1; i <= groupRooms; i++) {
-            placements.add(new Placement("Grupperom", i));
-        }
-
-        placementRepository.saveAll(placements);
-        log.info("Done seeding placements!");
     }
 
     private void printData() {
