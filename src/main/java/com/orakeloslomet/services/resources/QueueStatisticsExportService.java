@@ -54,7 +54,7 @@ public class QueueStatisticsExportService implements DataExportService {
                 final List<String> data = asList(
                         entity.getSubject().getName(),
                         String.valueOf(entity.getStudyYear()),
-                        entity.getPlacement().getName() + entity.getPlacement().getNumber(),
+                        entity.getPlacement().getName() + " " + entity.getPlacement().getNumber(),
                         String.valueOf(entity.getCreatedDate())
                 );
 
