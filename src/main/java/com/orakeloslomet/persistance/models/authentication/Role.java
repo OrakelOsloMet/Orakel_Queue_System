@@ -1,9 +1,6 @@
 package com.orakeloslomet.persistance.models.authentication;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,13 +9,10 @@ import javax.persistence.*;
  * @since 20/09/2020 at 21:42
  */
 
-@Getter
-@Setter
+@Data
 @Entity
-@ToString
 @NoArgsConstructor
 @Table(name = "roles")
-
 public class Role {
 
     @Id

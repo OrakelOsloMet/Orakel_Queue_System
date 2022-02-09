@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-@Profile({Profiles.PROD})
+@Profile({Profiles.PROD, Profiles.SYSTEM_DEV})
 public class ProdDataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -61,6 +61,7 @@ public class ProdDataLoader implements CommandLineRunner {
 
         if (adminUser.isEmpty()) {
             log.info("No existing admin found, creating new with default credentials from server");
+
             final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             final User defaultAdmin = new User(adminUsername, adminEmail, encoder.encode(adminPassword));
             final List<Role> roles = roleRepository.findAll();
