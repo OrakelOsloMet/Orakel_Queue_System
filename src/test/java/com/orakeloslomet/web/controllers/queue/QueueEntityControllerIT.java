@@ -23,6 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -69,6 +70,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
     class postQueueEntity {
 
         @Test
+        @Transactional
         void givenValidDTO_whenPosted_thenIsCreated() throws Exception {
 
             //given
@@ -104,6 +106,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
     class confirmDone {
 
         @Test
+        @Transactional
         @WithMockUser(roles = "ADMIN")
         void givenValidId_whenConfirmedDone_doneDateIsSet() throws Exception {
 
