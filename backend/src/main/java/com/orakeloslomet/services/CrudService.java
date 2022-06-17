@@ -10,7 +10,7 @@ import java.util.List;
  * @since 20/09/2020 at 21:41
  */
 
-public interface CrudService<T extends DTO, S extends DomainEntity, ID extends Long> {
+public interface CrudService<T extends DTO, ID extends Long> {
 
     List<T> findAll();
     T findById(ID id);

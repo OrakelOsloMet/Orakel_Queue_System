@@ -11,6 +11,6 @@ import java.util.List;
  * @since 19/01/2021 at 12:29
  */
 
-public interface SubjectService extends CrudService<SubjectDTO, Subject, Long> {
+public interface SubjectService extends CrudService<SubjectDTO, Long> {
     List<SubjectDTO> findSubjectsCurrentSemester();
 }

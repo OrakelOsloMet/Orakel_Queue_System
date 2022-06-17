@@ -10,5 +10,5 @@ import com.orakeloslomet.services.CrudService;
  * @since 30/09/2021 at 15:39
  */
 
-public interface PlacementService extends CrudService<PlacementDTO, Placement, Long> {
+public interface PlacementService extends CrudService<PlacementDTO, Long> {
 }

@@ -66,26 +66,3 @@ CREATE TABLE user_roles
     CONSTRAINT ur_fk_user_id FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT ur_fk_role_id FOREIGN KEY (role_id) REFERENCES roles (id)
 );
-
-INSERT INTO roles (name) VALUES ('ROLE_USER');
-INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
-
-INSERT INTO subjects (name, semester, created_date) VALUES ('Programmering', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Diskret Matte', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Prototyping', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Algoritmer og Datastrukturer', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Matte 2000', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Sytemutvikling', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('MMI', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Webutvikling', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Webapplikasjoner', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Apputvikling', 'AUTUMN', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Databaser', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Internet of Things', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Matte 1000', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Visualisering', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Testing av Programvare', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Fysikk og Kjemi', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Datanettverk og Skytjenester', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Operativsystemer', 'SPRING', '2022-02-08 14:00:00.0');
-INSERT INTO subjects (name, semester, created_date) VALUES ('Webprogrammering', 'SPRING', '2022-02-08 14:00:00.0');

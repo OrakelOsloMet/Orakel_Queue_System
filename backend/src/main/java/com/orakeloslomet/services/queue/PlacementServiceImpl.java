@@ -42,6 +42,7 @@ public class PlacementServiceImpl implements PlacementService {
     }
 
     @Override
+    @Transactional
     public PlacementDTO save(final PlacementDTO placementDTO) {
         return saveAndReturnDto(entityMapper.toEntity(placementDTO));
     }
@@ -58,6 +59,7 @@ public class PlacementServiceImpl implements PlacementService {
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
         repository.deleteById(id);
     }

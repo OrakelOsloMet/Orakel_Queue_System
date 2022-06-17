@@ -2,6 +2,9 @@ package com.orakeloslomet.services.authentication;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orakeloslomet.persistance.models.authentication.User;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
  * @since 20/09/2020 at 21:41
  */
 
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
     private final Long id;
@@ -26,15 +32,6 @@ public class UserDetailsImpl implements UserDetails {
     private final String password;
 
     private final Collection<? extends GrantedAuthority> authorities;
-
-    public UserDetailsImpl(final Long id, final String username, final String email, final String password,
-                           final Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
 
     public static UserDetailsImpl build(final User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
@@ -48,27 +45,6 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 authorities);
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() { return email; }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -88,15 +64,5 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(id, user.id);
     }
 }

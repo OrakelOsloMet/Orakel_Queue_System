@@ -1,10 +1,7 @@
 package com.orakeloslomet.dtos;
 
 import com.orakeloslomet.utilities.annotations.Required;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Timestamp;
 
@@ -14,6 +11,7 @@ import java.sql.Timestamp;
  */
 
 @Data
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
