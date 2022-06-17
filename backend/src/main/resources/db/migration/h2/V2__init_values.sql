@@ -1,3 +1,6 @@
+-- Initializes mot values needed for integration testing.
+-- Consider adding Spring DBUnit if more extensive data controll is needed when testing
+
 INSERT INTO roles (name) VALUES ('ROLE_USER');
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 

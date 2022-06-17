@@ -23,8 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class QueueEntityControllerIT extends BaseControllerTest {
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
 
     @Autowired
@@ -63,8 +61,6 @@ class QueueEntityControllerIT extends BaseControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
         placementDTO = placementService.findById(1L);
         subjectDTO = subjectService.findById(1L);
     }
@@ -74,6 +70,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
     class postQueueEntity {
 
         @Test
+        @Transactional
         void givenValidDTO_whenPosted_thenIsCreated() throws Exception {
 
             //given
@@ -109,6 +106,7 @@ class QueueEntityControllerIT extends BaseControllerTest {
     class confirmDone {
 
         @Test
+        @Transactional
         @WithMockUser(roles = "ADMIN")
         void givenValidId_whenConfirmedDone_doneDateIsSet() throws Exception {
 
