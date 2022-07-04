@@ -1,7 +1,6 @@
 package com.orakeloslomet.services.queue;
 
 import com.orakeloslomet.dtos.QueueEntityDTO;
-import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.services.CrudService;
 
 /**
@@ -11,5 +10,5 @@ import com.orakeloslomet.services.CrudService;
 
 public interface QueueEntityService extends CrudService<QueueEntityDTO, Long> {
 
-    void confirmDone(Long id);
+    Boolean confirmDone(Long id);
 }

@@ -2,6 +2,7 @@ package com.orakeloslomet.persistance.models.queue;
 
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Entity
+@SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Table(name = "queue_entities")
@@ -33,7 +35,6 @@ public class QueueEntity extends PersistableEntity {
     private String comment;
     private int studyYear;
 
-    @Builder
     public QueueEntity(final String name, final Subject subject, final Placement placement, final String comment,
                        final int studyYear) {
         super();

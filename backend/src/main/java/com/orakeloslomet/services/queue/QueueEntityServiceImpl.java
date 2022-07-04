@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +48,16 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     @Override
     public QueueEntityDTO update(final QueueEntityDTO queueEntityDTO, final Long id) {
-        throw new UnsupportedOperationException("NOT IMPLEMENTED... YET!");
+        return repository.findById(id)
+                .map(queueEntity -> {
+                    final QueueEntity mappedEntity = entityMapper.toEntity(queueEntityDTO);
+                    queueEntity.setName(mappedEntity.getName());
+                    queueEntity.setSubject(mappedEntity.getSubject());
+                    queueEntity.setPlacement(mappedEntity.getPlacement());
+                    queueEntity.setComment(mappedEntity.getComment());
+                    queueEntity.setStudyYear(mappedEntity.getStudyYear());
+                    return saveAndReturnDto(queueEntity);
+                }).orElseThrow(() -> new NoSuchElementException(String.format("QueueEntity with ID %s not found", id)));
     }
 
     //TODO Add exception handling for not-found IDs
@@ -57,14 +67,14 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     @Override
     @Transactional
-    public void confirmDone(final Long id) {
-        if (repository.findById(id).isPresent()) {
-            final QueueEntity doneEntity = repository.findById(id).get();
-            final StatisticsEntity statistics = mapToStatistics(doneEntity);
+    public Boolean confirmDone(final Long id) {
+        final QueueEntity doneEntity = repository.findById(id).orElseThrow();
+        final StatisticsEntity statistics = entityMapper.toStatistics(doneEntity);
 
-            statisticsRepository.save(statistics);
-            repository.delete(doneEntity);
-        }
+        statisticsRepository.save(statistics);
+        repository.delete(doneEntity);
+
+        return true;
     }
 
     private QueueEntityDTO saveAndReturnDto(final QueueEntity queueEntity) {
@@ -74,9 +84,5 @@ public class QueueEntityServiceImpl implements QueueEntityService {
 
     private List<QueueEntityDTO> mapToDtos(final List<QueueEntity> queueEntities) {
         return queueEntities.stream().map(entityMapper::toDto).collect(Collectors.toList());
-    }
-
-    private StatisticsEntity mapToStatistics(final QueueEntity queueEntity) {
-        return entityMapper.toStatistics(queueEntity);
     }
 }

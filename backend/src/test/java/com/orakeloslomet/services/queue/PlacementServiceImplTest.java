@@ -4,36 +4,37 @@ import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.repositories.PlacementRepository;
 import com.orakeloslomet.utilities.mappers.PlacementMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.quality.Strictness;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class PlacementServiceImplTest {
+class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> {
 
-    @Mock
-    private PlacementMapper placementMapper;
-
-    @Mock
-    private PlacementRepository placementRepository;
+    private final PlacementMapper mapper;
+    private final PlacementRepository repository;
 
     @InjectMocks
-    private PlacementServiceImpl placementService;
+    private PlacementServiceImpl classUnderTest;
+
+    protected PlacementServiceImplTest(@Mock final PlacementMapper mapper, @Mock final PlacementRepository repository) {
+        super(mapper, repository);
+        this.mapper = mapper;
+        this.repository = repository;
+    }
 
     @Nested
     class findAll {
@@ -42,19 +43,19 @@ class PlacementServiceImplTest {
         void returnsAllFoundEntities() {
             //given
             final List<Placement> domainPlacements = createPlacements();
-            given(placementRepository.findAll()).willReturn(domainPlacements);
-            domainPlacements.forEach(placement -> given(placementMapper.toDto(placement)).willReturn(toDTO(placement)));
+            given(repository.findAll()).willReturn(domainPlacements);
+            domainPlacements.forEach(placement -> given(mapper.toDto(placement)).willReturn(toDTO(placement)));
 
             //when
-            final List<PlacementDTO> acutalResults = placementService.findAll();
+            final List<PlacementDTO> acutalResults = classUnderTest.findAll();
 
             //then
             assertEquals(domainPlacements.size(), acutalResults.size());
             for (int i = 0; i < domainPlacements.size(); i++) {
                 assertEquals(toDTO(domainPlacements.get(0)), acutalResults.get(0));
             }
-            verify(placementRepository).findAll();
-            verify(placementMapper, times(domainPlacements.size())).toDto(any(Placement.class));
+            verify(repository).findAll();
+            verify(mapper, times(domainPlacements.size())).toDto(any(Placement.class));
         }
     }
 
@@ -67,27 +68,27 @@ class PlacementServiceImplTest {
         void returnsFoundEntity() {
             //given
             final Placement foundById = createPlacement(ID.intValue());
-            when(placementRepository.findById(ID)).thenReturn(Optional.of(foundById));
-            when(placementMapper.toDto(foundById)).thenReturn(toDTO(foundById));
+            when(repository.findById(ID)).thenReturn(Optional.of(foundById));
+            when(mapper.toDto(foundById)).thenReturn(toDTO(foundById));
 
             //when
-            final PlacementDTO actualResult = placementService.findById(ID);
+            final PlacementDTO actualResult = classUnderTest.findById(ID);
 
             //then
             assertEquals(toDTO(foundById), actualResult);
-            verify(placementRepository).findById(ID);
-            verify(placementMapper).toDto(foundById);
+            verify(repository).findById(ID);
+            verify(mapper).toDto(foundById);
         }
 
         @Test
         void throwsNoSuchElementExceptionIfNotFound() {
             //given
-            when(placementRepository.findById(ID)).thenReturn(Optional.empty());
+            when(repository.findById(ID)).thenReturn(Optional.empty());
 
             //when/then
-            assertThrows(NoSuchElementException.class, () -> placementService.findById(ID));
-            verify(placementRepository).findById(ID);
-            verifyNoInteractions(placementMapper);
+            assertThrows(NoSuchElementException.class, () -> classUnderTest.findById(ID));
+            verify(repository).findById(ID);
+            verifyNoInteractions(mapper);
         }
     }
 
@@ -99,18 +100,16 @@ class PlacementServiceImplTest {
             //given
             final Placement domainPlacement = createPlacement(1);
             final PlacementDTO toBeSaved = toDTO(domainPlacement);
-            when(placementMapper.toEntity(toBeSaved)).thenReturn(domainPlacement);
-            when(placementRepository.save(domainPlacement)).thenReturn(domainPlacement);
-            when(placementMapper.toDto(domainPlacement)).thenReturn(toDTO(domainPlacement));
+            when(mapper.toEntity(toBeSaved)).thenReturn(domainPlacement);
+            setupSaveAndReturnDto(toBeSaved, domainPlacement);
 
             //when
-            final PlacementDTO actualResult = placementService.save(toBeSaved);
+            final PlacementDTO actualResult = classUnderTest.save(toBeSaved);
 
             //then
             assertEquals(toBeSaved, actualResult);
-            verify(placementMapper).toEntity(toBeSaved);
-            verify(placementRepository).save(domainPlacement);
-            verify(placementMapper).toDto(domainPlacement);
+            verify(mapper).toEntity(toBeSaved);
+            verifySaveAndReturnDto(domainPlacement);
         }
     }
 
@@ -131,33 +130,31 @@ class PlacementServiceImplTest {
                     .name(UPDATED)
                     .number(NUMBER)
                     .build();
-            when(placementRepository.findById(ID)).thenReturn(Optional.of(domainPlacement));
+            when(repository.findById(ID)).thenReturn(Optional.of(domainPlacement));
             domainPlacement.setName(UPDATED);
             domainPlacement.setNumber(NUMBER);
-            when(placementRepository.save(domainPlacement)).thenReturn(domainPlacement);
-            when(placementMapper.toDto(domainPlacement)).thenReturn(updatedDTO);
+            setupSaveAndReturnDto(updatedDTO, domainPlacement);
 
             //when
-            final PlacementDTO actualResult = placementService.update(updatedDTO, ID);
+            final PlacementDTO actualResult = classUnderTest.update(updatedDTO, ID);
 
             //then
             assertEquals(updatedDTO, actualResult);
-            verify(placementRepository).findById(updatedDTO.getId());
-            verify(placementRepository).save(domainPlacement);
-            verify(placementMapper).toDto(domainPlacement);
+            verify(repository).findById(updatedDTO.getId());
+            verifySaveAndReturnDto(domainPlacement);
         }
 
         @Test
         void throwsNoSuchElementExceptionIfNotFound() {
             //given
             final PlacementDTO updatedDTO = toDTO(createPlacement(ID.intValue()));
-            when(placementRepository.findById(ID)).thenReturn(Optional.empty());
+            when(repository.findById(ID)).thenReturn(Optional.empty());
 
             //when/then
-            assertThrows(EntityNotFoundException.class, () -> placementService.update(updatedDTO, ID));
-            verify(placementRepository).findById(ID);
-            verifyNoMoreInteractions(placementRepository);
-            verifyNoInteractions(placementMapper);
+            assertThrows(NoSuchElementException.class, () -> classUnderTest.update(updatedDTO, ID));
+            verify(repository).findById(ID);
+            verifyNoMoreInteractions(repository);
+            verifyNoInteractions(mapper);
         }
     }
 
@@ -168,18 +165,19 @@ class PlacementServiceImplTest {
         void repositoryIsCalled() {
             //given
             final Long id = 1L;
-            
-            //when
-            placementService.deleteById(id);
 
-            verify(placementRepository).deleteById(id);
+            //when
+            classUnderTest.deleteById(id);
+
+            //then
+            verify(repository).deleteById(id);
         }
     }
 
     private List<Placement> createPlacements() {
         final List<Placement> placements = new ArrayList<>();
 
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             placements.add(createPlacement(i));
         }
 

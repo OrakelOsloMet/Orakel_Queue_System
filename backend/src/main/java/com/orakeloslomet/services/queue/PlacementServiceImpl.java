@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
@@ -55,7 +55,7 @@ public class PlacementServiceImpl implements PlacementService {
                     placement.setName(placementDTO.getName());
                     placement.setNumber(placementDTO.getNumber());
                     return saveAndReturnDto(placement);
-                }).orElseThrow(() -> new EntityNotFoundException(String.format("Placement with ID %s not found!", id)));
+                }).orElseThrow(() -> new NoSuchElementException(String.format("Placement with ID %s not found!", id)));
     }
 
     @Override
