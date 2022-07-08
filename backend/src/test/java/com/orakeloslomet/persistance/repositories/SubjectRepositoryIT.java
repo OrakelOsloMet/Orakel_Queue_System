@@ -1,8 +1,8 @@
 package com.orakeloslomet.persistance.repositories;
 
 import com.orakeloslomet.persistance.models.queue.ESemester;
-import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.models.queue.Subject;
+import com.orakeloslomet.persistance.repositories.queue.SubjectRepository;
 import com.orakeloslomet.utilities.constants.Profiles;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.resources;
 
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
-import com.orakeloslomet.persistance.repositories.StatisticsRepository;
+import com.orakeloslomet.persistance.repositories.statistics.StatisticsRepository;
 import com.orakeloslomet.utilities.constants.Profiles;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

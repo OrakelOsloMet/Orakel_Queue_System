@@ -2,14 +2,13 @@ package com.orakeloslomet.services.queue;
 
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.persistance.models.queue.Placement;
-import com.orakeloslomet.persistance.repositories.PlacementRepository;
-import com.orakeloslomet.utilities.mappers.PlacementMapper;
+import com.orakeloslomet.persistance.repositories.queue.PlacementRepository;
+import com.orakeloslomet.mappers.PlacementMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -131,6 +130,7 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
                     .number(NUMBER)
                     .build();
             when(repository.findById(ID)).thenReturn(Optional.of(domainPlacement));
+            when(mapper.toEntity(updatedDTO)).thenReturn(domainPlacement);
             domainPlacement.setName(UPDATED);
             domainPlacement.setNumber(NUMBER);
             setupSaveAndReturnDto(updatedDTO, domainPlacement);

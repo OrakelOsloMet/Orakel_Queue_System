@@ -1,4 +1,4 @@
-package com.orakeloslomet.utilities.mappers;
+package com.orakeloslomet.mappers;
 
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.persistance.models.queue.Placement;

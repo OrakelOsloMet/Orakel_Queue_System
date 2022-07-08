@@ -1,71 +1,24 @@
 package com.orakeloslomet.services.queue;
 
 import com.orakeloslomet.dtos.PlacementDTO;
+import com.orakeloslomet.mappers.PlacementMapper;
 import com.orakeloslomet.persistance.models.queue.Placement;
-import com.orakeloslomet.persistance.repositories.PlacementRepository;
-import com.orakeloslomet.utilities.mappers.PlacementMapper;
-import lombok.RequiredArgsConstructor;
+import com.orakeloslomet.persistance.repositories.queue.PlacementRepository;
+import com.orakeloslomet.services.CrudServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 /**
  * @author Fredrik Pedersen
- * @version 1.0
- * @since 30/09/2021 at 15:41
+ * @version 1.1
+ * @since 08/07/2022 at 19:38
  */
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
-public class PlacementServiceImpl implements PlacementService {
+public class PlacementServiceImpl extends CrudServiceImpl<PlacementDTO, Placement> implements PlacementService {
 
-    private final PlacementMapper entityMapper;
-    private final PlacementRepository repository;
-
-    @Override
-    public List<PlacementDTO> findAll() {
-        return repository.findAll().stream()
-                .map(entityMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public PlacementDTO findById(final Long id) {
-        return repository.findById(id)
-                .map(entityMapper::toDto)
-                .orElseThrow(); //TODO Better error handling
-    }
-
-    @Override
-    @Transactional
-    public PlacementDTO save(final PlacementDTO placementDTO) {
-        return saveAndReturnDto(entityMapper.toEntity(placementDTO));
-    }
-
-    @Override
-    @Transactional
-    public PlacementDTO update(final PlacementDTO placementDTO, final Long id) {
-        return repository.findById(id)
-                .map(placement -> {
-                    placement.setName(placementDTO.getName());
-                    placement.setNumber(placementDTO.getNumber());
-                    return saveAndReturnDto(placement);
-                }).orElseThrow(() -> new NoSuchElementException(String.format("Placement with ID %s not found!", id)));
-    }
-
-    @Override
-    @Transactional
-    public void deleteById(final Long id) {
-        repository.deleteById(id);
-    }
-
-    private PlacementDTO saveAndReturnDto(final Placement placement) {
-        final Placement savedEntity = repository.save(placement);
-        return entityMapper.toDto(savedEntity);
+    public PlacementServiceImpl(final PlacementMapper dtoMapper, final PlacementRepository repository) {
+        super(dtoMapper, repository);
     }
 }

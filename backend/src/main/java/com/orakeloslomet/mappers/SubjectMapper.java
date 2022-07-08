@@ -1,4 +1,4 @@
-package com.orakeloslomet.utilities.mappers;
+package com.orakeloslomet.mappers;
 
 import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.persistance.models.queue.ESemester;

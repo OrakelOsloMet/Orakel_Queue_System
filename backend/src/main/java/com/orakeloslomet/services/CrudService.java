@@ -1,20 +1,20 @@
 package com.orakeloslomet.services;
 
 import com.orakeloslomet.dtos.DTO;
-import com.orakeloslomet.persistance.models.DomainEntity;
 
 import java.util.List;
 
 /**
  * @author Fredrik Pedersen
- * @since 20/09/2020 at 21:41
+ * @version 1.1
+ * @since 08/07/2022 at 19:38
  */
 
-public interface CrudService<T extends DTO, ID extends Long> {
+public interface CrudService<T extends DTO> {
 
     List<T> findAll();
-    T findById(ID id);
+    T findById(Long id);
     T save(T dtoObject);
-    T update(T dtoObject, ID id);
-    void deleteById(ID id);
+    T update(T dtoObject, Long id);
+    void deleteById(Long id);
 }

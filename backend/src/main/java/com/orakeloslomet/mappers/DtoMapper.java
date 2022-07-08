@@ -1,4 +1,4 @@
-package com.orakeloslomet.utilities.mappers;
+package com.orakeloslomet.mappers;
 
 /**
  * @author Fredrik Pedersen

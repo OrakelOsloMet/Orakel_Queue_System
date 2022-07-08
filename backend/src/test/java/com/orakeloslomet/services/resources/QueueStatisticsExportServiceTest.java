@@ -4,7 +4,7 @@ import com.orakeloslomet.persistance.models.queue.ESemester;
 import com.orakeloslomet.persistance.models.queue.Placement;
 import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
-import com.orakeloslomet.persistance.repositories.StatisticsRepository;
+import com.orakeloslomet.persistance.repositories.statistics.StatisticsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

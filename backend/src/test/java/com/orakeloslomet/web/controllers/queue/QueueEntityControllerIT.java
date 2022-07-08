@@ -5,7 +5,7 @@ import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.dtos.QueueEntityDTO;
 import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
-import com.orakeloslomet.persistance.repositories.StatisticsRepository;
+import com.orakeloslomet.persistance.repositories.statistics.StatisticsRepository;
 import com.orakeloslomet.services.queue.PlacementService;
 import com.orakeloslomet.services.queue.QueueEntityService;
 import com.orakeloslomet.services.queue.SubjectService;

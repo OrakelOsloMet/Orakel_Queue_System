@@ -8,7 +8,7 @@ import com.orakeloslomet.services.CrudService;
  * @since 20/09/2020 at 21:41
  */
 
-public interface QueueEntityService extends CrudService<QueueEntityDTO, Long> {
+public interface QueueEntityService extends CrudService<QueueEntityDTO> {
 
     Boolean confirmDone(Long id);
 }

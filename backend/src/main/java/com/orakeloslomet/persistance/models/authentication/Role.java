@@ -1,6 +1,7 @@
 package com.orakeloslomet.persistance.models.authentication;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

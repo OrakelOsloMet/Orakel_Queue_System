@@ -1,7 +1,7 @@
 package com.orakeloslomet.services.resources;
 
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
-import com.orakeloslomet.persistance.repositories.StatisticsRepository;
+import com.orakeloslomet.persistance.repositories.statistics.StatisticsRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
