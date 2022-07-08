@@ -13,21 +13,19 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 abstract class CrudServiceTest<D extends DTO, E extends DomainEntity> {
 
-    private final JpaRepository repository;
-    private final DtoMapper mapper;
+    private final JpaRepository<E, Long> repository;
+    private final DtoMapper<D, E> mapper;
 
-    protected CrudServiceTest(final DtoMapper mapper, final JpaRepository repository) {
+    protected CrudServiceTest(final DtoMapper<D, E> mapper, final JpaRepository<E, Long> repository) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    @SuppressWarnings("unchecked")
     protected void setupSaveAndReturnDto(final D dto, final E entity) {
         when(repository.save(entity)).thenReturn(entity);
         when(mapper.toDto(entity)).thenReturn(dto);
     }
 
-    @SuppressWarnings("unchecked")
     protected void verifySaveAndReturnDto(final E entity) {
         verify(repository).save(entity);
         verify(mapper).toDto(entity);
