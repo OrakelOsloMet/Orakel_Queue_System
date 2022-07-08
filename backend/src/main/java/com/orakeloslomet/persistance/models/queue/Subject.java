@@ -30,7 +30,6 @@ public class Subject extends PersistableEntity {
     @Enumerated(EnumType.STRING)
     private ESemester semester;
 
-    @Builder
     public Subject(final String name, final ESemester semester) {
         super();
         this.name = name;

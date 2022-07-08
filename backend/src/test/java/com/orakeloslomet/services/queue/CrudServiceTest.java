@@ -13,8 +13,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 abstract class CrudServiceTest<D extends DTO, E extends DomainEntity> {
 
-    private final JpaRepository<E, Long> repository;
-    private final DtoMapper<D, E> mapper;
+    protected final JpaRepository<E, Long> repository;
+    protected final DtoMapper<D, E> mapper;
 
     protected CrudServiceTest(final DtoMapper<D, E> mapper, final JpaRepository<E, Long> repository) {
         this.repository = repository;

@@ -26,7 +26,6 @@ class SubjectRepositoryIT {
     @Autowired
     private SubjectRepository subjectRepository;
 
-
     @Nested
     class findAllBySemester {
 

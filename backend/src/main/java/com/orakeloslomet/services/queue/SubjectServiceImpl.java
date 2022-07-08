@@ -37,20 +37,11 @@ public class SubjectServiceImpl extends CrudServiceImpl<SubjectDTO, Subject> imp
 
     @Override
     public List<SubjectDTO> findSubjectsCurrentSemester() {
-        final ESemester currentSemester = this.determineSemester();
+        final Month currentMonth = Month.from(ZonedDateTime.now(ZoneId.of("Europe/Paris")));
+        final ESemester currentSemester = ESemester.currentSemester(currentMonth);
+
         return subjectRepository.findAllBySemester(currentSemester).stream()
                 .map(dtoMapper::toDto)
                 .collect(Collectors.toList());
-    }
-
-    private ESemester determineSemester() {
-        final EnumSet<Month> spring = EnumSet.of(Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE);
-        final Month currentMonth = Month.from(ZonedDateTime.now(ZoneId.of("Europe/Paris")));
-
-        if (spring.contains(currentMonth)) {
-            return ESemester.SPRING;
-        }
-
-        return ESemester.AUTUMN;
     }
 }

@@ -23,16 +23,11 @@ import static org.mockito.Mockito.*;
 
 class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> {
 
-    private final PlacementMapper mapper;
-    private final PlacementRepository repository;
-
     @InjectMocks
     private PlacementServiceImpl classUnderTest;
 
     protected PlacementServiceImplTest(@Mock final PlacementMapper mapper, @Mock final PlacementRepository repository) {
         super(mapper, repository);
-        this.mapper = mapper;
-        this.repository = repository;
     }
 
     @Nested
@@ -46,12 +41,12 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
             domainPlacements.forEach(placement -> given(mapper.toDto(placement)).willReturn(toDTO(placement)));
 
             //when
-            final List<PlacementDTO> acutalResults = classUnderTest.findAll();
+            final List<PlacementDTO> actualResults = classUnderTest.findAll();
 
             //then
-            assertEquals(domainPlacements.size(), acutalResults.size());
+            assertEquals(domainPlacements.size(), actualResults.size());
             for (int i = 0; i < domainPlacements.size(); i++) {
-                assertEquals(toDTO(domainPlacements.get(0)), acutalResults.get(0));
+                assertEquals(toDTO(domainPlacements.get(0)), actualResults.get(0));
             }
             verify(repository).findAll();
             verify(mapper, times(domainPlacements.size())).toDto(any(Placement.class));

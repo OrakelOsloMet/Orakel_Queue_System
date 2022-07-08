@@ -31,9 +31,7 @@ import static org.mockito.Mockito.*;
 
 class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEntity> {
 
-    private final QueueEntityMapper mapper;
-    private final QueueEntityRepository repository;
-
+    private final QueueEntityMapper queueEntityMapper;
     @Mock
     private StatisticsRepository statisticsRepository;
 
@@ -42,8 +40,7 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
 
     protected QueueEntityServiceImplTest(@Mock final QueueEntityMapper mapper, @Mock final QueueEntityRepository repository) {
         super(mapper, repository);
-        this.mapper = mapper;
-        this.repository = repository;
+        this.queueEntityMapper = mapper;
     }
 
     @Nested
@@ -57,12 +54,12 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
             queueEntities.forEach(placement -> given(mapper.toDto(placement)).willReturn(toDTO(placement)));
 
             //when
-            final List<QueueEntityDTO> acutalResults = classUnderTest.findAll();
+            final List<QueueEntityDTO> actualResults = classUnderTest.findAll();
 
             //then
-            assertEquals(queueEntities.size(), acutalResults.size());
+            assertEquals(queueEntities.size(), actualResults.size());
             for (int i = 0; i < queueEntities.size(); i++) {
-                assertEquals(toDTO(queueEntities.get(0)), acutalResults.get(0));
+                assertEquals(toDTO(queueEntities.get(0)), actualResults.get(0));
             }
             verify(repository).findAll();
             verify(mapper, times(queueEntities.size())).toDto(any(QueueEntity.class));
@@ -196,7 +193,7 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
             final QueueEntity queueEntity = createQueueEntity(1);
             final StatisticsEntity statistics = toStatistics(queueEntity);
             when(repository.findById(id)).thenReturn(Optional.of(queueEntity));
-            when(mapper.toStatistics(queueEntity)).thenReturn(statistics);
+            when(queueEntityMapper.toStatistics(queueEntity)).thenReturn(statistics);
 
             //when
             final Boolean actualResult = classUnderTest.confirmDone(id);
@@ -204,7 +201,7 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
             //then
             assertEquals(true, actualResult);
             verify(repository).findById(id);
-            verify(mapper).toStatistics(queueEntity);
+            verify(queueEntityMapper).toStatistics(queueEntity);
             verify(statisticsRepository).save(statistics);
             verify(repository).delete(queueEntity);
         }
