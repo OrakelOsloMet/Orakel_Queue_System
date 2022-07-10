@@ -2,6 +2,7 @@ package com.orakeloslomet.services.authentication;
 
 import com.orakeloslomet.persistance.models.authentication.User;
 import com.orakeloslomet.persistance.repositories.authentication.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,13 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    public UserDetailsServiceImpl(final UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     @Transactional

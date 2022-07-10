@@ -5,6 +5,7 @@ import com.orakeloslomet.utilities.constants.URLs;
 import com.orakeloslomet.web.payloads.request.LoginRequest;
 import com.orakeloslomet.web.payloads.response.JwtResponse;
 import com.orakeloslomet.web.security.jwt.JwtUtilities;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,14 @@ import javax.validation.Valid;
  */
 
 @Slf4j
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(URLs.AUTHENTICATION_BASE_URL)
 public class JwtAuthenticationController {
 
     private final AuthenticationService<JwtResponse, LoginRequest> authenticationService;
     private final JwtUtilities jwtUtilities;
-
-    public JwtAuthenticationController(final JwtUtilities jwtUtilities, final AuthenticationService<JwtResponse, LoginRequest> authenticationService) {
-        this.authenticationService = authenticationService;
-        this.jwtUtilities = jwtUtilities;
-    }
 
     @PostMapping(URLs.AUTHENTICATION_SIGN_IN_URL)
     public ResponseEntity<?> authenticateLoginRequest(@Valid @RequestBody final LoginRequest loginRequest) {

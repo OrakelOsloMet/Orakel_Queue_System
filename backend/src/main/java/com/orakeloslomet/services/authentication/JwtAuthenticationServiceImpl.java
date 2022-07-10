@@ -3,6 +3,7 @@ package com.orakeloslomet.services.authentication;
 import com.orakeloslomet.web.payloads.request.LoginRequest;
 import com.orakeloslomet.web.payloads.response.JwtResponse;
 import com.orakeloslomet.web.security.jwt.JwtUtilities;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,15 +20,11 @@ import java.util.stream.Collectors;
  */
 
 @Service
+@RequiredArgsConstructor
 public class JwtAuthenticationServiceImpl implements AuthenticationService<JwtResponse, LoginRequest> {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtilities jwtUtilities;
-
-    public JwtAuthenticationServiceImpl(final AuthenticationManager authenticationManager, final JwtUtilities jwtUtilities) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtilities = jwtUtilities;
-    }
 
     @Override
     public JwtResponse authenticateLoginRequest(final LoginRequest loginRequest) {

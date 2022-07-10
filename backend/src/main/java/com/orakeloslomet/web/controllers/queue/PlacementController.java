@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Fredrik Pedersen
  * @version 1.0
@@ -31,8 +33,7 @@ public class PlacementController {
     private final Bucket bucket;
 
     public PlacementController(final PlacementService placementService) {
-
-        this.placementService = placementService;
+        this.placementService = requireNonNull(placementService);
 
         final Bandwidth limit = Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)));
         this.bucket = Bucket4j.builder()

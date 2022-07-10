@@ -20,7 +20,6 @@ public class ProfileManager {
     private final List<String> activeProfiles;
 
     public ProfileManager(final Environment environment) {
-
         this.activeProfiles = Arrays.asList(environment.getActiveProfiles());
     }
 

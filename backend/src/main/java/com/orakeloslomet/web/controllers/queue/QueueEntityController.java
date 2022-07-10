@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Fredrik Pedersen
  * @since 20/09/2020 at 21:41
@@ -32,7 +34,7 @@ public class QueueEntityController {
     private final Bucket bucket;
 
     public QueueEntityController(final QueueEntityService queueEntityService) {
-        this.queueEntityService = queueEntityService;
+        this.queueEntityService = requireNonNull(queueEntityService);
 
         Bandwidth limit = Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)));
         this.bucket = Bucket4j.builder()

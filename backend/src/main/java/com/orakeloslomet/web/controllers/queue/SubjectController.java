@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Fredrik Pedersen
  * @since 20/09/2020 at 21:41
@@ -30,7 +32,7 @@ public class SubjectController {
     private final Bucket bucket;
 
     public SubjectController(final SubjectService subjectService) {
-        this.subjectService = subjectService;
+        this.subjectService = requireNonNull(subjectService);
 
         Bandwidth limit = Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)));
         this.bucket = Bucket4j.builder()

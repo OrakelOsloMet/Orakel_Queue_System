@@ -1,7 +1,10 @@
 package com.orakeloslomet.persistance.models.queue;
 
 import com.orakeloslomet.persistance.models.PersistableEntity;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
