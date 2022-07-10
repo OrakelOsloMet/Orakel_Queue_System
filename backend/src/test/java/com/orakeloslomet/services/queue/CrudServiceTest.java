@@ -1,8 +1,8 @@
 package com.orakeloslomet.services.queue;
 
 import com.orakeloslomet.dtos.DTO;
-import com.orakeloslomet.persistance.models.DomainEntity;
 import com.orakeloslomet.mappers.DtoMapper;
+import com.orakeloslomet.persistance.models.DomainEntity;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.repository.JpaRepository;

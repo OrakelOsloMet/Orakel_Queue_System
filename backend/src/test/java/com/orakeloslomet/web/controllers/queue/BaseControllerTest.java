@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orakeloslomet.utilities.constants.Profiles;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 
@@ -12,7 +16,9 @@ import java.io.IOException;
  * @version 1.0
  * @since 30/09/2021 at 14:43
  */
-
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles(Profiles.TEST)
 public abstract class BaseControllerTest {
 
     /**
