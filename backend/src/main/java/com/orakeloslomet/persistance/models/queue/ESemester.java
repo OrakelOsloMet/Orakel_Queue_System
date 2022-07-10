@@ -1,6 +1,7 @@
 package com.orakeloslomet.persistance.models.queue;
 
 import java.time.Month;
+import java.util.Arrays;
 import java.util.EnumSet;
 
 public enum ESemester {
@@ -22,5 +23,12 @@ public enum ESemester {
         }
 
         return ESemester.AUTUMN;
+    }
+
+    public static ESemester fromString(final String semester) {
+        return Arrays.stream(ESemester.values())
+                .filter(Esemester -> Esemester.name().equalsIgnoreCase(semester))
+                .findFirst()
+                .orElseThrow();
     }
 }
