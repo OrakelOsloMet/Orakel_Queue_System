@@ -42,7 +42,7 @@ public class ResourceController {
                 .contentLength(resource.contentLength())
                 .body(new InputStreamResource(resource.getInputStream()));
     }
-    
+
     @GetMapping(value = URLs.QUEUE_DATA_EXPORT_URL)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> getExportedQueueData() {

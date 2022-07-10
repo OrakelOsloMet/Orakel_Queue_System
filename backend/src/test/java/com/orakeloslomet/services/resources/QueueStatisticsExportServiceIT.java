@@ -53,7 +53,6 @@ public class QueueStatisticsExportServiceIT extends CSVParsingTestBase {
 
             //CSV document contains all returned entities + a header line
             final List<List<String>> actualContent = convertBytesToString2dArray(result.getInputStream().readAllBytes());
-            System.out.println(actualContent);
             assertEquals(queueEntities.size() + 1, actualContent.size());
 
             //CSV headers are the same as defined in the service class

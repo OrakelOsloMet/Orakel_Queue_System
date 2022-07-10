@@ -4,6 +4,7 @@ import com.orakeloslomet.services.authentication.UserDetailsServiceImpl;
 import com.orakeloslomet.utilities.ProfileManager;
 import com.orakeloslomet.web.security.jwt.AuthEntryPointJwt;
 import com.orakeloslomet.web.security.jwt.AuthTokenFilter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,19 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
     private final ProfileManager profileManager;
-
-    public WebSecurityConfig(final UserDetailsServiceImpl userDetailsService, final AuthEntryPointJwt unauthorizedHandler,
-                             final ProfileManager profileManager) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.profileManager = profileManager;
-    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {

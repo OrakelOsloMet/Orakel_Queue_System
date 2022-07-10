@@ -22,7 +22,7 @@ public class JwtResponse {
     private String email;
     private List<String> roles;
 
-    public JwtResponse(final Long id, final String accessToken, final String username, final String email,  final List<String> roles) {
+    public JwtResponse(final Long id, final String accessToken, final String username, final String email, final List<String> roles) {
         this.id = id;
         this.token = accessToken;
         this.username = username;

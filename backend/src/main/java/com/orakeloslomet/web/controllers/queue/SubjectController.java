@@ -83,6 +83,8 @@ public class SubjectController {
     @DeleteMapping("delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteSubject(@PathVariable final Long id) {subjectService.deleteById(id);}
+    public void deleteSubject(@PathVariable final Long id) {
+        subjectService.deleteById(id);
+    }
 
 }
