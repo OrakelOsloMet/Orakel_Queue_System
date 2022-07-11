@@ -9,6 +9,7 @@ import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,10 +34,12 @@ public class QueueEntityController {
     private final QueueEntityService queueEntityService;
     private final Bucket bucket;
 
-    public QueueEntityController(final QueueEntityService queueEntityService) {
+    public QueueEntityController(@Value("${restApi.bucket.limit}") final Integer bucketLimit,
+                                 @Value("${restApi.bucket.duration}") final Integer bucketDuration,
+                                 final QueueEntityService queueEntityService) {
         this.queueEntityService = requireNonNull(queueEntityService);
 
-        Bandwidth limit = Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)));
+        final Bandwidth limit = Bandwidth.classic(bucketLimit, Refill.greedy(bucketLimit, Duration.ofMinutes(bucketDuration)));
         this.bucket = Bucket4j.builder()
                 .addLimit(limit)
                 .build();
@@ -56,7 +59,7 @@ public class QueueEntityController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QueueEntityDTO> postQueueEntity(@RequestBody final QueueEntityDTO queueEntityDTO) {
         if (bucket.tryConsume(1)) {
-            if (FieldValidator.validateForNulls(queueEntityDTO)) {
+            if (FieldValidator.validateForNulls(queueEntityDTO)) { //TODO validation logic should be moved to service layer.
                 return new ResponseEntity<>(queueEntityService.save(queueEntityDTO), HttpStatus.CREATED);
             }
         }
@@ -67,8 +70,8 @@ public class QueueEntityController {
     @PostMapping(URLs.QUEUE_CONFIRM_DONE_URL + "{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasRole('ADMIN')")
-    public void confirmDone(@PathVariable final Long id) {
-        queueEntityService.confirmDone(id);
+    public Boolean confirmDone(@PathVariable final Long id) {
+        return queueEntityService.confirmDone(id);
     }
 
     @DeleteMapping("{id}")

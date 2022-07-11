@@ -32,6 +32,10 @@ import java.util.List;
 @Profile({Profiles.DEV, Profiles.TEST})
 public class DevDataLoader implements CommandLineRunner {
 
+    public static List<Subject> seededSubjects;
+    public static List<Placement> seededPlacements;
+    public static List<QueueEntity> seededQueueEntities;
+
     private final QueueEntityRepository entityRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
@@ -59,16 +63,23 @@ public class DevDataLoader implements CommandLineRunner {
             return;
         }
 
-        final List<QueueEntity> queueEntities = List.of(
-                new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Look what I made ma!", 1),
-                new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Notatboken min er større enn din", 2),
-                new QueueEntity("Maria", subjects.get(3), placements.get(2), "Que passo?", 1),
-                new QueueEntity("Vilde", subjects.get(1), placements.get(3), null, 1),
-                new QueueEntity("Miina", subjects.get(2), placements.get(4), null, 2),
-                new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "2 kul 4 skul", 1)
-        );
+        seededSubjects = subjects;
+        seededPlacements = placements;
 
-        entityRepository.saveAll(queueEntities);
+        if (entityRepository.findAll().size() == 0) {
+            final List<QueueEntity> queueEntities = List.of(
+                    new QueueEntity("Fredrik", subjects.get(1), placements.get(0), "Look what I made ma!", 1),
+                    new QueueEntity("Ana-Maria", subjects.get(2), placements.get(1), "Notatboken min er større enn din", 2),
+                    new QueueEntity("Maria", subjects.get(3), placements.get(2), "Que passo?", 1),
+                    new QueueEntity("Vilde", subjects.get(1), placements.get(3), null, 1),
+                    new QueueEntity("Miina", subjects.get(2), placements.get(4), null, 2),
+                    new QueueEntity("Aleksander", subjects.get(3), placements.get(5), "2 kul 4 skul", 1)
+            );
+
+            entityRepository.saveAll(queueEntities);
+        }
+
+        seededQueueEntities = entityRepository.findAll();
         log.info("Done seeding Queue Entities!");
     }
 
