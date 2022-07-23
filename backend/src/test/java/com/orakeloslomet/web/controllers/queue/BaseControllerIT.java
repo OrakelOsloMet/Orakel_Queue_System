@@ -5,12 +5,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orakeloslomet.utilities.constants.Profiles;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author Fredrik Pedersen
@@ -20,7 +23,12 @@ import java.io.IOException;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles(Profiles.TEST)
-public abstract class BaseControllerTest {
+public abstract class BaseControllerIT {
+
+    @Autowired
+    protected MockMvc mockMvc;
+
+    protected final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * @param object POJO to be mapped to a JSON object
@@ -43,5 +51,10 @@ public abstract class BaseControllerTest {
     protected <T> T mapFromJson(String json, Class<T> clazz)
             throws JsonParseException, JsonMappingException, IOException {
         return new ObjectMapper().readValue(json, clazz);
+    }
+
+    protected <T> T parseResponseData(final MvcResult mvcResult, final Class<T> clazz) throws UnsupportedEncodingException, JsonProcessingException {
+        final String jsonResponse = mvcResult.getResponse().getContentAsString();
+        return objectMapper.readValue(jsonResponse, clazz);
     }
 }

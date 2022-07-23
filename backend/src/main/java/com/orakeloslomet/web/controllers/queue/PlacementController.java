@@ -8,6 +8,7 @@ import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
 import io.github.bucket4j.Refill;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class PlacementController {
     public ResponseEntity<PlacementDTO> postPlacement(@RequestBody final PlacementDTO placementDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(placementDTO)) {
-                return ResponseEntity.ok(placementService.save(placementDTO));
+                return new ResponseEntity<>(placementService.save(placementDTO), HttpStatus.CREATED);
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
@@ -65,10 +66,11 @@ public class PlacementController {
     @PutMapping("edit/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PlacementDTO> editPlacement(@RequestBody final PlacementDTO placementDTO, @PathVariable Long id) {
+    public ResponseEntity<PlacementDTO> editPlacement(@RequestBody final PlacementDTO placementDTO,
+                                                      @PathVariable final Long id) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(placementDTO)) {
-                return ResponseEntity.ok(placementService.update(placementDTO, id));
+                return new ResponseEntity<>(placementService.update(placementDTO, id), HttpStatus.CREATED);
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();

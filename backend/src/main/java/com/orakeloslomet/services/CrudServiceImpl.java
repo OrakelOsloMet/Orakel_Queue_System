@@ -4,6 +4,7 @@ import com.orakeloslomet.dtos.DTO;
 import com.orakeloslomet.mappers.DtoMapper;
 import com.orakeloslomet.persistance.models.PersistableEntity;
 import com.orakeloslomet.persistance.repositories.PersistableEntityRepository;
+import com.orakeloslomet.utilities.exceptions.NoSuchPersistedEntityException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +36,9 @@ public abstract class CrudServiceImpl<T extends DTO, R extends PersistableEntity
     public T findById(final Long id) {
         return repository.findById(id)
                 .map(dtoMapper::toDto)
-                .orElseThrow();
+                .orElseThrow(() ->
+                        new NoSuchPersistedEntityException(String.format("Could not find persisted entity with ID %s", id))
+                );
     }
 
     @Override
@@ -51,14 +54,18 @@ public abstract class CrudServiceImpl<T extends DTO, R extends PersistableEntity
                     mappedEntity.setId(persistableEntity.getId());
                     mappedEntity.setCreatedDate(persistableEntity.getCreatedDate());
                     return saveAndReturnDto(mappedEntity);
-                }).orElseThrow(() -> new NoSuchElementException(
-                        String.format("Could not find persisted entity for %s with ID %s",
+                }).orElseThrow(() ->
+                        new NoSuchPersistedEntityException(String.format("Could not find persisted entity for %s with ID %s",
                                 dtoObject.getClass().getSimpleName(), id))
                 );
     }
 
     @Override
     public void deleteById(final Long id) {
+        repository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchPersistedEntityException(String.format("Could not find persisted entity with ID %s", id)));
+
         repository.deleteById(id);
     }
 
