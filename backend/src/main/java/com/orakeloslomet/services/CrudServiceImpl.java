@@ -7,9 +7,9 @@ import com.orakeloslomet.persistance.repositories.PersistableEntityRepository;
 import com.orakeloslomet.utilities.exceptions.NoSuchPersistedEntityException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
@@ -42,11 +42,13 @@ public abstract class CrudServiceImpl<T extends DTO, R extends PersistableEntity
     }
 
     @Override
+    @Transactional
     public T save(final T dtoObject) {
         return saveAndReturnDto(dtoMapper.toEntity(dtoObject));
     }
 
     @Override
+    @Transactional
     public T update(final T dtoObject, final Long id) {
         return repository.findById(id)
                 .map(persistableEntity -> {
@@ -61,10 +63,10 @@ public abstract class CrudServiceImpl<T extends DTO, R extends PersistableEntity
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
-        repository.findById(id)
-                .orElseThrow(() ->
-                        new NoSuchPersistedEntityException(String.format("Could not find persisted entity with ID %s", id)));
+        repository.findById(id).orElseThrow(() ->
+                new NoSuchPersistedEntityException(String.format("Could not find persisted entity with ID %s", id)));
 
         repository.deleteById(id);
     }

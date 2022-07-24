@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.NoSuchElementException;
-
 /**
  * Take a look here for info on error responses in Spring Boot https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc,
  * specifically the chapter about global exception handling.

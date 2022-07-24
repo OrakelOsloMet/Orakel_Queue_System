@@ -10,6 +10,7 @@ import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.persistance.models.statistics.StatisticsEntity;
 import com.orakeloslomet.persistance.repositories.queue.QueueEntityRepository;
 import com.orakeloslomet.persistance.repositories.statistics.StatisticsRepository;
+import com.orakeloslomet.utilities.exceptions.NoSuchPersistedEntityException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
-class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEntity> {
+class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEntity, QueueEntityServiceImpl> {
 
     private final QueueEntityMapper queueEntityMapper;
     @Mock
@@ -69,33 +70,17 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
     @Nested
     class findById {
 
-        private final Long ID = 1L;
-
         @Test
         void returnsFoundEntity() {
             //given
-            final QueueEntity foundById = createQueueEntity(ID.intValue());
-            when(repository.findById(ID)).thenReturn(Optional.of(foundById));
-            when(mapper.toDto(foundById)).thenReturn(toDTO(foundById));
-
-            //when
-            final QueueEntityDTO actualResult = classUnderTest.findById(ID);
-
-            //then
-            assertEquals(toDTO(foundById), actualResult);
-            verify(repository).findById(ID);
-            verify(mapper).toDto(foundById);
+            final QueueEntity foundById = createQueueEntity(1);
+            final QueueEntityDTO mappedDto = toDTO(foundById);
+            findByIdReturnsFoundEntity(foundById, mappedDto, classUnderTest);
         }
 
         @Test
-        void throwsNoSuchElementExceptionIfNotFound() {
-            //given
-            when(repository.findById(ID)).thenReturn(Optional.empty());
-
-            //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.findById(ID));
-            verify(repository).findById(ID);
-            verifyNoInteractions(mapper);
+        void throwsNoSuchPersistedEntityExceptionIfNotFound() {
+            findByIdEntityNotFoundThrowsException(classUnderTest);
         }
     }
 
@@ -105,18 +90,9 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
         @Test
         void entityIsMappedAndPassedToRepository() {
             //given
-            final QueueEntity domainPlacement = createQueueEntity(1);
-            final QueueEntityDTO toBeSaved = toDTO(domainPlacement);
-            when(mapper.toEntity(toBeSaved)).thenReturn(domainPlacement);
-            setupSaveAndReturnDto(toBeSaved, domainPlacement);
-
-            //when
-            final QueueEntityDTO actualResult = classUnderTest.save(toBeSaved);
-
-            //then
-            assertEquals(toBeSaved, actualResult);
-            verify(mapper).toEntity(toBeSaved);
-            verifySaveAndReturnDto(domainPlacement);
+            final QueueEntity domainQueueEntity = createQueueEntity(1);
+            final QueueEntityDTO toBeSaved = toDTO(domainQueueEntity);
+            saveEntityIsSaved(domainQueueEntity, toBeSaved, classUnderTest);
         }
     }
 
@@ -154,13 +130,13 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
         }
 
         @Test
-        void throwsNoSuchElementExceptionIfNotFound() {
+        void throwsNoSuchPersistedEntityExceptionIfNotFound() {
             //given
             final QueueEntityDTO updatedDTO = toDTO(createQueueEntity(ID.intValue()));
             when(repository.findById(ID)).thenReturn(Optional.empty());
 
             //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.update(updatedDTO, ID));
+            assertThrows(NoSuchPersistedEntityException.class, () -> classUnderTest.update(updatedDTO, ID));
             verify(repository).findById(ID);
             verifyNoMoreInteractions(repository);
             verifyNoInteractions(mapper);
@@ -171,15 +147,13 @@ class QueueEntityServiceImplTest extends CrudServiceTest<QueueEntityDTO, QueueEn
     class deleteById {
 
         @Test
-        void repositoryIsCalled() {
-            //given
-            final Long id = 1L;
+        void givenEntityExists_thenCallsRepository() {
+            deleteByIdEntityFound(classUnderTest, new QueueEntity());
+        }
 
-            //when
-            classUnderTest.deleteById(id);
-
-            //then
-            verify(repository).deleteById(id);
+        @Test
+        void givenEntityDoesNotExits_thenThrowsNoSuchPersistedEntityException() {
+            deleteByIdEntityNotFound(classUnderTest);
         }
     }
 

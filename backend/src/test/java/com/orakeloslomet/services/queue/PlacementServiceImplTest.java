@@ -3,7 +3,9 @@ package com.orakeloslomet.services.queue;
 import com.orakeloslomet.dtos.PlacementDTO;
 import com.orakeloslomet.mappers.PlacementMapper;
 import com.orakeloslomet.persistance.models.queue.Placement;
+import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.persistance.repositories.queue.PlacementRepository;
+import com.orakeloslomet.utilities.exceptions.NoSuchPersistedEntityException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> {
+class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement, PlacementServiceImpl> {
 
     @InjectMocks
     private PlacementServiceImpl classUnderTest;
@@ -56,33 +58,17 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
     @Nested
     class findById {
 
-        private final Long ID = 1L;
-
         @Test
         void returnsFoundEntity() {
             //given
-            final Placement foundById = createPlacement(ID.intValue());
-            when(repository.findById(ID)).thenReturn(Optional.of(foundById));
-            when(mapper.toDto(foundById)).thenReturn(toDTO(foundById));
-
-            //when
-            final PlacementDTO actualResult = classUnderTest.findById(ID);
-
-            //then
-            assertEquals(toDTO(foundById), actualResult);
-            verify(repository).findById(ID);
-            verify(mapper).toDto(foundById);
+            final Placement foundById = createPlacement(1);
+            final PlacementDTO mappedDto = toDTO(foundById);
+            findByIdReturnsFoundEntity(foundById, mappedDto, classUnderTest);
         }
 
         @Test
         void throwsNoSuchElementExceptionIfNotFound() {
-            //given
-            when(repository.findById(ID)).thenReturn(Optional.empty());
-
-            //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.findById(ID));
-            verify(repository).findById(ID);
-            verifyNoInteractions(mapper);
+            findByIdEntityNotFoundThrowsException(classUnderTest);
         }
     }
 
@@ -94,16 +80,7 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
             //given
             final Placement domainPlacement = createPlacement(1);
             final PlacementDTO toBeSaved = toDTO(domainPlacement);
-            when(mapper.toEntity(toBeSaved)).thenReturn(domainPlacement);
-            setupSaveAndReturnDto(toBeSaved, domainPlacement);
-
-            //when
-            final PlacementDTO actualResult = classUnderTest.save(toBeSaved);
-
-            //then
-            assertEquals(toBeSaved, actualResult);
-            verify(mapper).toEntity(toBeSaved);
-            verifySaveAndReturnDto(domainPlacement);
+            saveEntityIsSaved(domainPlacement, toBeSaved, classUnderTest);
         }
     }
 
@@ -140,13 +117,13 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
         }
 
         @Test
-        void throwsNoSuchElementExceptionIfNotFound() {
+        void throwsNoSuchPersistedEntityExceptionIfNotFound() {
             //given
             final PlacementDTO updatedDTO = toDTO(createPlacement(ID.intValue()));
             when(repository.findById(ID)).thenReturn(Optional.empty());
 
             //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.update(updatedDTO, ID));
+            assertThrows(NoSuchPersistedEntityException.class, () -> classUnderTest.update(updatedDTO, ID));
             verify(repository).findById(ID);
             verifyNoMoreInteractions(repository);
             verifyNoInteractions(mapper);
@@ -157,15 +134,13 @@ class PlacementServiceImplTest extends CrudServiceTest<PlacementDTO, Placement> 
     class deleteById {
 
         @Test
-        void repositoryIsCalled() {
-            //given
-            final Long id = 1L;
+        void givenEntityExists_thenCallsRepository() {
+            deleteByIdEntityFound(classUnderTest, new Placement());
+        }
 
-            //when
-            classUnderTest.deleteById(id);
-
-            //then
-            verify(repository).deleteById(id);
+        @Test
+        void givenEntityDoesNotExits_thenThrowsNoSuchPersistedEntityException() {
+            deleteByIdEntityNotFound(classUnderTest);
         }
     }
 

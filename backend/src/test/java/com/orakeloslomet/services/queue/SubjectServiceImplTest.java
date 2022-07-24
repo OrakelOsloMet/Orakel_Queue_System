@@ -3,8 +3,10 @@ package com.orakeloslomet.services.queue;
 import com.orakeloslomet.dtos.SubjectDTO;
 import com.orakeloslomet.mappers.SubjectMapper;
 import com.orakeloslomet.persistance.models.queue.ESemester;
+import com.orakeloslomet.persistance.models.queue.QueueEntity;
 import com.orakeloslomet.persistance.models.queue.Subject;
 import com.orakeloslomet.persistance.repositories.queue.SubjectRepository;
+import com.orakeloslomet.utilities.exceptions.NoSuchPersistedEntityException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject> {
+class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject, SubjectServiceImpl> {
 
     private final SubjectMapper mapper;
     private final SubjectRepository repository;
@@ -66,33 +68,17 @@ class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject> {
     @Nested
     class findById {
 
-        private final Long ID = 1L;
-
         @Test
         void returnsFoundEntity() {
             //given
-            final Subject foundById = createSubject(ID.intValue());
-            when(repository.findById(ID)).thenReturn(Optional.of(foundById));
-            when(mapper.toDto(foundById)).thenReturn(toDTO(foundById));
-
-            //when
-            final SubjectDTO actualResult = classUnderTest.findById(ID);
-
-            //then
-            assertEquals(toDTO(foundById), actualResult);
-            verify(repository).findById(ID);
-            verify(mapper).toDto(foundById);
+            final Subject foundById = createSubject(1);
+            final SubjectDTO mappedDto = toDTO(foundById);
+            findByIdReturnsFoundEntity(foundById, mappedDto, classUnderTest);
         }
 
         @Test
-        void throwsNoSuchElementExceptionIfNotFound() {
-            //given
-            when(repository.findById(ID)).thenReturn(Optional.empty());
-
-            //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.findById(ID));
-            verify(repository).findById(ID);
-            verifyNoInteractions(mapper);
+        void throwsNoSuchPersistedEntityExceptionIfNotFound() {
+            findByIdEntityNotFoundThrowsException(classUnderTest);
         }
     }
 
@@ -104,16 +90,7 @@ class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject> {
             //given
             final Subject domainSubject = createSubject(1);
             final SubjectDTO toBeSaved = toDTO(domainSubject);
-            when(mapper.toEntity(toBeSaved)).thenReturn(domainSubject);
-            setupSaveAndReturnDto(toBeSaved, domainSubject);
-
-            //when
-            final SubjectDTO actualResult = classUnderTest.save(toBeSaved);
-
-            //then
-            assertEquals(toBeSaved, actualResult);
-            verify(mapper).toEntity(toBeSaved);
-            verifySaveAndReturnDto(domainSubject);
+            saveEntityIsSaved(domainSubject, toBeSaved, classUnderTest);
         }
     }
 
@@ -150,13 +127,13 @@ class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject> {
         }
 
         @Test
-        void throwsNoSuchElementExceptionIfNotFound() {
+        void throwsNoSuchPersistedEntityExceptionIfNotFound() {
             //given
             final SubjectDTO updatedDTO = toDTO(createSubject(ID.intValue()));
             when(repository.findById(ID)).thenReturn(Optional.empty());
 
             //when/then
-            assertThrows(NoSuchElementException.class, () -> classUnderTest.update(updatedDTO, ID));
+            assertThrows(NoSuchPersistedEntityException.class, () -> classUnderTest.update(updatedDTO, ID));
             verify(repository).findById(ID);
             verifyNoMoreInteractions(repository);
             verifyNoInteractions(mapper);
@@ -167,15 +144,13 @@ class SubjectServiceImplTest extends CrudServiceTest<SubjectDTO, Subject> {
     class deleteById {
 
         @Test
-        void repositoryIsCalled() {
-            //given
-            final Long id = 1L;
+        void givenEntityExists_thenCallsRepository() {
+            deleteByIdEntityFound(classUnderTest, new Subject());
+        }
 
-            //when
-            classUnderTest.deleteById(id);
-
-            //then
-            verify(repository).deleteById(id);
+        @Test
+        void givenEntityDoesNotExits_thenThrowsNoSuchPersistedEntityException() {
+            deleteByIdEntityNotFound(classUnderTest);
         }
     }
 

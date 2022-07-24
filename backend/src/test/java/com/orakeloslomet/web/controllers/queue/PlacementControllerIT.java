@@ -42,8 +42,7 @@ class PlacementControllerIT extends BaseControllerIT {
                     .andReturn();
 
             final String jsonResponse = result.getResponse().getContentAsString();
-            final List<PlacementDTO> responseDTOs = objectMapper.readValue(jsonResponse, new TypeReference<>() {
-            });
+            final List<PlacementDTO> responseDTOs = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
             assertEquals(DevDataLoader.seededPlacements.size(), responseDTOs.size());
             responseDTOs.forEach(Assertions::assertNotNull);
         }
@@ -236,7 +235,6 @@ class PlacementControllerIT extends BaseControllerIT {
             mockMvc.perform(delete(DELETE_URL + ID))
                     .andExpect(status().isOk());
 
-            assertEquals(DevDataLoader.seededPlacements.size() - 1, placementService.findAll().size());
             assertThrows(NoSuchPersistedEntityException.class, () -> placementService.findById(ID));
         }
 
