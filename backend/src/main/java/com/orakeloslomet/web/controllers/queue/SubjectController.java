@@ -64,7 +64,7 @@ public class SubjectController {
     public ResponseEntity<SubjectDTO> postSubject(@RequestBody final SubjectDTO subjectDTO) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(subjectDTO)) {
-                return ResponseEntity.ok(subjectService.save(subjectDTO));
+                return new ResponseEntity<>(subjectService.save(subjectDTO), HttpStatus.CREATED);
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();

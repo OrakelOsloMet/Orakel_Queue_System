@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -37,7 +36,7 @@ class PlacementControllerIT extends BaseControllerIT {
         @Test
         void returnsAllPlacements() throws Exception {
             //when/then
-            final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URLs.PLACEMENT_BASE_URL))
+            final MvcResult result = mockMvc.perform(get(URLs.PLACEMENT_BASE_URL))
                     .andExpect(status().isOk())
                     .andReturn();
 
