@@ -76,7 +76,7 @@ public class SubjectController {
     public ResponseEntity<SubjectDTO> editSubject(@RequestBody final SubjectDTO subjectDTO, @PathVariable Long id) {
         if (bucket.tryConsume(1)) {
             if (FieldValidator.validateForNulls(subjectDTO)) {
-                return ResponseEntity.ok(subjectService.update(subjectDTO, id));
+                return new ResponseEntity<>(subjectService.update(subjectDTO, id), HttpStatus.CREATED);
             }
         }
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
