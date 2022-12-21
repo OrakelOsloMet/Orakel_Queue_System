@@ -4,12 +4,12 @@ import {FormElementType} from "../constants/constants";
 
 
 //Add cases to this function if more input types in need of validation are added.
-export const createUseFormRef = (inputConfig: InputConfig, register: any) => {
-
+export const createUseFormRef = (inputConfig: InputConfig, register: any, onChange?: Function) => {
     switch (inputConfig.type) {
         case FormElementType.VALIDATED_TEXT:
             return  register(
                 inputConfig.name, {
+                onChange: onChange,
                 required: inputConfig.validation.errorMessage,
                 minLength: {
                     value: inputConfig.validation.minLength,
@@ -18,7 +18,9 @@ export const createUseFormRef = (inputConfig: InputConfig, register: any) => {
             })
 
         default:
-            return register(inputConfig.name, {});
+            return register(inputConfig.name, {
+                onChange: onChange
+            });
     }
 }
 
