@@ -19,7 +19,7 @@ The backend is a Spring Boot 2.7.0 application written in Java 11.
 
 #### Run Application
 
-TODO: The frontend run config must be corrected after migrating from Webpack to Vite
+**TODO: The frontend run config must be corrected after migrating from Webpack to Vite**    
 To easily run both the frontend and backend applications, set up the following run configurations.
 
 ![Backend Run Config](/readmeImages/BackendRun.png)
