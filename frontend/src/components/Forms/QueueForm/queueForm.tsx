@@ -5,7 +5,7 @@ import {DISCORD_URL, FACEBOOK_URL, FormElementType, PLACEMENTS_PATH, UNSELECTED}
 import {SubmitButton} from "../../UI/Buttons/buttons";
 import {convertObjectStringsToPrimitives} from "../../../utilities/objectUtilities";
 import {ISelectConfig, ITextConfig, IValidatedTextConfig} from "../../../models/inputModels"
-import {createUseFormRef, inputHasError} from "../../../utilities/formUtilities";
+import {configureRegister, inputHasError} from "../../../utilities/formUtilities";
 import Input from "../Inputs/input";
 import Select from "../Inputs/select";
 import {IPlacement, IQueueEntity, ISubject} from "../../../models/types"
@@ -42,7 +42,7 @@ const QueueForm: FC<Props> = (props) => {
 
     /* ----- Initialize State, Subcomponents and get Props ----- */
     const {subjects, placements, addQueueEntity, getPlacementData, getSubjectData} = props;
-    const {register, handleSubmit, reset, formState: {isSubmitSuccessful, errors}, formState} = useForm<FormValues>();
+    const {register, handleSubmit, reset, formState: {isSubmitSuccessful, errors}} = useForm<FormValues>();
     const [nameInput] = useState<IValidatedTextConfig>({
         type: FormElementType.VALIDATED_TEXT,
         name: FormElements.FIRSTNAME,
@@ -169,19 +169,19 @@ const QueueForm: FC<Props> = (props) => {
             <div className={"d-flex justify-content-center"}>
                 <div className={"row"}>
                     <div className={"col"}>
-                <Input inputConfig={nameInput} error={inputHasError(errors, nameInput)} {...createUseFormRef(nameInput, register)}/>
+                <Input inputConfig={nameInput} error={inputHasError(errors, nameInput)} register={configureRegister(nameInput, register)}/>
                     </div>
                     <div className={"col"}>
-                <Select inputConfig={subjectSelect} {...createUseFormRef(subjectSelect, register)}/>
+                <Select inputConfig={subjectSelect} register={configureRegister(subjectSelect, register)}/>
                     </div>
                     <div className={"col"}>
-                <Select inputConfig={placementSelect} {...createUseFormRef(placementSelect, register)}/>
+                <Select inputConfig={placementSelect} register={configureRegister(placementSelect, register)}/>
                     </div>
                     <div className={"col"}>
-                <Select inputConfig={yearSelect} {...createUseFormRef(yearSelect, register)}/>
+                <Select inputConfig={yearSelect} register={configureRegister(yearSelect, register)}/>
                     </div>
                     <div className={"col"}>
-                <Input inputConfig={commentInput} error={inputHasError(errors, commentInput)} {...createUseFormRef(commentInput, register)}/>
+                <Input inputConfig={commentInput} error={inputHasError(errors, commentInput)} register={configureRegister(commentInput, register)}/>
                     </div>
                 <SubmitButton className={"mt-4"}>Registrer</SubmitButton>
                 </div>

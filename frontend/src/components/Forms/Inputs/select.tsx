@@ -1,15 +1,15 @@
-import {FormEvent, forwardRef, Ref} from "react";
 import {ISelectConfig} from "../../../models/inputModels"
 import {UNSELECTED} from "../../../constants/constants";
+import {UseFormRegisterReturn} from "react-hook-form";
 
 type Props = {
     inputConfig: ISelectConfig;
-    onChange?: (event: FormEvent<HTMLInputElement>) => void;
     error?: boolean;
+    register: UseFormRegisterReturn<any>;
 };
 
-const Select = forwardRef((props: Props, ref: Ref<any>) => {
-    const {onChange, inputConfig} = props;
+const Select = (props: Props) => {
+    const {inputConfig} = props;
     const placeholderDisplay = inputConfig.placeholderdisplayvalue;
     let classnames = "form-select";
 
@@ -17,15 +17,12 @@ const Select = forwardRef((props: Props, ref: Ref<any>) => {
         classnames += "is-invalid ";
     }
 
-    const handleOnchange = (event: any) => {
-        if (onChange) {
-            onChange(event);
-        }
-    }
-
     return (
         <>
-            <select ref={ref} className={classnames} onChange={handleOnchange} {...inputConfig}>
+            <select
+                className={classnames}
+                {...props.register}
+                {...inputConfig}>
                 {placeholderDisplay ? <option value={UNSELECTED}>{placeholderDisplay}</option> : null}
                 {inputConfig.options.map(option => {
 
@@ -41,6 +38,6 @@ const Select = forwardRef((props: Props, ref: Ref<any>) => {
             </select>
         </>
     )
-})
+}
 
 export default Select;

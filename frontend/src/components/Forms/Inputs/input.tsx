@@ -1,28 +1,22 @@
-import {FormEvent, forwardRef, Ref} from "react";
 import {ITextConfig, IValidatedTextConfig} from "../../../models/inputModels"
+import {UseFormRegisterReturn} from "react-hook-form";
 
 type Props = {
     inputConfig: ITextConfig | IValidatedTextConfig;
-    onChange?: (event: FormEvent<HTMLInputElement>) => void;
     error: boolean;
+    register: UseFormRegisterReturn<any>;
 };
 
-const Input = forwardRef((props: Props, ref: Ref<any>) => {
+const Input = (props: Props) => {
     let classnames = "form-control";
 
     if (props.error) {
         classnames += "is-invalid ";
     }
 
-    const handleOnchange = (event: any) => {
-        if (props.onChange) {
-            props.onChange(event);
-        }
-    }
-
     return (
-        <input ref={ref} className={classnames} onChange={handleOnchange} key={props.inputConfig.key} {...props.inputConfig}/>
+        <input {...props.register} className={classnames} key={props.inputConfig.key} {...props.inputConfig}/>
     )
-})
+}
 
 export default Input;

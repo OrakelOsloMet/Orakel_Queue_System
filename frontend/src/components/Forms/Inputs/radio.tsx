@@ -1,37 +1,30 @@
-import {Ref, forwardRef, FormEvent} from "react";
 import {IRadioConfig} from "../../../models/inputModels"
+import {UseFormRegisterReturn} from "react-hook-form";
 
 type Props = {
     inputConfig: IRadioConfig;
     className?: string;
-    onChange?: (event: FormEvent<HTMLInputElement>) => void;
     error?: boolean;
+    register: UseFormRegisterReturn<any>
 };
 
-const Radio = forwardRef((props: Props, ref: Ref<any>) => {
+const Radio = (props: Props) => {
     let classnames = "form-check form-check-inline " + props.className + " ";
 
     if (props.error) {
         classnames += "is-invalid ";
     }
 
-    const handleOnchange = (event: any) => {
-        if (props.onChange) {
-            props.onChange(event);
-        }
-    }
-
     const radioDivs: Array<JSX.Element> = [];
-    props.inputConfig.buttons.forEach(button => {
+    props.inputConfig.buttons.map((button, index) => {
         radioDivs.push(
-            <div key={button.label} className={classnames}>
+            <div key={button.label + index} className={classnames}>
                 <input
-                    key={`${button.key}radio${button.value}`}
+                    key={`${button.key}radio${index}`}
                     value={button.value}
                     className={"form-check-input "}
-                    ref={ref}
                     defaultChecked={button.defaultChecked}
-                    onChange={handleOnchange}
+                    {...props.register}
                     {...props.inputConfig}/>
                 <label className={"form-check-label"}>{button.label}</label>
             </div>);
@@ -42,7 +35,7 @@ const Radio = forwardRef((props: Props, ref: Ref<any>) => {
             {radioDivs}
         </>
     )
-})
+}
 
 export default Radio;
 
