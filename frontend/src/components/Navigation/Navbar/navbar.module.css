@@ -1,0 +1,85 @@
+/* Must add !important to overwrite css inherited from the bootstrap navbar! */
+
+.brandText {
+    color: white !important;
+    font-weight: bold;
+    font-size: 2em !important;
+    margin-left: 1em;
+}
+
+.brandImage {
+    width: auto;
+    max-width: 140px;
+    display: none;
+}
+
+.defaultLinkText {
+    color: white !important;
+    font-weight: bold;
+    max-width: 30px; /* Locks the nav items to the left-side when expanding the Navbar.Toggle */
+}
+
+.authenticatedBrandText {
+    color: black !important;
+    font-weight: bold;
+    font-size: 2em !important;
+    margin-left: 1em;
+}
+
+.authenticatedLinkText {
+    color: black !important;
+    font-weight: bold;
+    max-width: 30px; /* Locks the nav items to the left-side when expanding the Navbar.Toggle */
+}
+
+.invisibleOnMobile {
+    display: none;
+}
+
+
+@media screen and (min-width: 991px) {
+    .brandText {
+        color: white !important;
+        margin: 0;
+    }
+
+    .brandImage {
+        width: auto;
+        max-width: 140px;
+        display: block;
+    }
+
+    .defaultLinkText {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-weight: bold;
+        width: auto;
+        max-width: 300px;
+    }
+
+    .defaultLinkText:hover {
+        color: rgba(255, 255, 255, 1) !important;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .authenticatedBrandText {
+        color: black !important;
+        margin: 0;
+    }
+
+    .authenticatedLinkText {
+        color: rgba(0, 0, 0, 0.7) !important;
+        font-weight: bold;
+        max-width: 300px;
+    }
+
+    .authenticatedLinkText:hover {
+        color: rgba(0, 0, 0, 1) !important;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .invisibleOnMobile {
+        display: block;
+    }
+}

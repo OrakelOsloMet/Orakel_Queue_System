@@ -34,6 +34,12 @@ target/
 *.iws
 *.ipr
 .idea/
+out/
+
+# Dependencies
+**/node_modules
+/.pnp
+.pnp.js
 
 # eclipse project file
 .settings/
