@@ -101,7 +101,6 @@ const SubjectForm: FC<Props> = (props) => {
     };
 
     const registrationSubmitHandler = async (formData: FormValues) => {
-        console.log("FORMDATA: ", formData)
         const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectSubject));
 
         //A new subject won't have an id, set it to zero in that case
