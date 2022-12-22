@@ -1,4 +1,4 @@
-import {FC, FormEvent, useEffect, useState} from "react";
+import React, {FC, FormEvent, useCallback, useEffect, useState} from "react";
 import {DeleteButton, SubmitButton} from "../../UI/Buttons/buttons";
 import {useForm} from "react-hook-form";
 import Input from "../Inputs/input";
@@ -13,15 +13,15 @@ import {ISubject} from "../../../models/types";
 import SwalConfirmModal from "../../UI/Modals/SwalModals/swalConfirmModal";
 
 enum FormElements {
-    SELECTED_SUBJECT = "selectedSubject",
-    NEW_SUBJECT_NAME = "newSubjectName",
-    CHECKED_SEMESTER = "checkedSemester",
+    SELECT_SUBJECT = "selectSubject",
+    INPUT_SUBJECT_NAME = "inputSubjectName",
+    RADIO_SEMESTER = "radioSemester",
 }
 
 type FormValues = {
-    selectedSubject: string,
-    newSubjectName: string,
-    checkedSemester: string,
+    selectSubject: string,
+    inputSubjectName: string,
+    radioSemester: string,
 }
 
 type Props = {
@@ -35,7 +35,7 @@ type Props = {
 
 const SubjectForm: FC<Props> = (props) => {
     const {subjects} = props;
-    const {NEW_SUBJECT_NAME, SELECTED_SUBJECT, CHECKED_SEMESTER} = FormElements;
+    const {INPUT_SUBJECT_NAME, SELECT_SUBJECT, RADIO_SEMESTER} = FormElements;
     const NEW_SUBJECT = "<New Subject>";
 
     const {register, handleSubmit, reset, formState: {isSubmitSuccessful, errors}, setValue} = useForm<FormValues>();
@@ -43,14 +43,14 @@ const SubjectForm: FC<Props> = (props) => {
 
     const [subjectSelect, setSubjectSelect] = useState<ISelectConfig>({
         type: FormElementType.SELECT,
-        name: SELECTED_SUBJECT,
+        name: SELECT_SUBJECT,
         options: []
     });
 
     const [nameInput, setNameInput] = useState<IValidatedTextConfig>({
         type: FormElementType.VALIDATED_TEXT,
-        name: NEW_SUBJECT_NAME,
-        key: NEW_SUBJECT_NAME,
+        name: INPUT_SUBJECT_NAME,
+        key: INPUT_SUBJECT_NAME,
         placeholder: "Subject Name",
         validation: {
             minLength: 3,
@@ -60,7 +60,7 @@ const SubjectForm: FC<Props> = (props) => {
 
     const [checkedSemester, setCheckedSemester] = useState<IRadioConfig>({
         type: FormElementType.RADIO,
-        name: CHECKED_SEMESTER,
+        name: RADIO_SEMESTER,
         buttons: [
             {label: Semester.SPRING, value: 0, key: Semester.SPRING, defaultChecked: true},
             {label: Semester.AUTUMN, value: 1, key: Semester.AUTUMN, defaultChecked: false}
@@ -102,14 +102,14 @@ const SubjectForm: FC<Props> = (props) => {
 
     const registrationSubmitHandler = async (formData: FormValues) => {
         console.log("FORMDATA: ", formData)
-        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectedSubject));
+        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectSubject));
 
         //A new subject won't have an id, set it to zero in that case
         const subject = {
             id: selectedSubject.id ? selectedSubject.id : 0,
             createdDate: "",
-            name: formData.newSubjectName,
-            semester: formData.checkedSemester === "0" ? Semester.SPRING : Semester.AUTUMN,
+            name: formData.inputSubjectName,
+            semester: formData.radioSemester === "0" ? Semester.SPRING : Semester.AUTUMN,
         }
 
         if (editState) {
@@ -136,7 +136,7 @@ const SubjectForm: FC<Props> = (props) => {
     }
 
     const deleteSubmitHandler = async (formData: FormValues) => {
-        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectedSubject));
+        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectSubject));
         const userConfirmation = await SwalConfirmModal({
             title: `Delete ${selectedSubject.name}?`,
             contentText: "This action is final and cannot be reverted."
@@ -161,13 +161,13 @@ const SubjectForm: FC<Props> = (props) => {
             nameInputFilled.placeholder = "Subject Name";
             nameInputFilled.defaultValue = "";
             nameInputFilled.key = NEW_SUBJECT;
-            setValue(NEW_SUBJECT_NAME, "")
+            setValue(INPUT_SUBJECT_NAME, "")
 
         } else {
             setEditState(true);
             nameInputFilled.defaultValue = selectedSubject.name;
             nameInputFilled.key = selectedSubject.name;
-            setValue(NEW_SUBJECT_NAME, selectedSubject.name)
+            setValue(INPUT_SUBJECT_NAME, selectedSubject.name)
 
             checkedSemesterUpdated.buttons.forEach(button => {
                 button.key = selectedSubject.name;
@@ -177,6 +177,10 @@ const SubjectForm: FC<Props> = (props) => {
 
         setNameInput(nameInputFilled);
         setCheckedSemester(checkedSemesterUpdated);
+
+        //The radio buttons refused to update their checked box in the UI after upgrading to Hook-form 7
+        //This is a hack fix to make the radio buttons update.
+        reset({}, {keepDirty: true})
     }
 
     return (

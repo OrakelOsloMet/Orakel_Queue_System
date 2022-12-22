@@ -18,7 +18,7 @@ const Radio = (props: Props) => {
     const radioDivs: Array<JSX.Element> = [];
     props.inputConfig.buttons.map((button, index) => {
         radioDivs.push(
-            <div key={button.label + index} className={classnames}>
+            <div key={button.label} className={classnames}>
                 <input
                     key={`${button.key}radio${index}`}
                     value={button.value}
