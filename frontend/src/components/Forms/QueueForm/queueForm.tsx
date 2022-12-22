@@ -169,21 +169,27 @@ const QueueForm: FC<Props> = (props) => {
             <div className={"d-flex justify-content-center"}>
                 <div className={"row"}>
                     <div className={"col"}>
-                <Input inputConfig={nameInput} error={inputHasError(errors, nameInput)} register={configureRegister(nameInput, register)}/>
+                        <div className={"mt-2 mb-2"}>
+                            <Input inputConfig={nameInput} error={inputHasError(errors, nameInput)} register={configureRegister(nameInput, register)}/>
+                        </div>
+                        <div className={"mt-2 mb-2"}>
+                            <Select inputConfig={placementSelect} register={configureRegister(placementSelect, register)}/>
+                        </div>
                     </div>
                     <div className={"col"}>
-                <Select inputConfig={subjectSelect} register={configureRegister(subjectSelect, register)}/>
+                        <div className={"mt-2 mb-2"}>
+                            <Select inputConfig={subjectSelect} register={configureRegister(subjectSelect, register)}/>
+                        </div>
+                        <div className={"mt-2 mb-2"}>
+                            <Select inputConfig={yearSelect} register={configureRegister(yearSelect, register)}/>
+                        </div>
                     </div>
-                    <div className={"col"}>
-                <Select inputConfig={placementSelect} register={configureRegister(placementSelect, register)}/>
+                    <div className={"mt-2 mb-2"}>
+                        <Input inputConfig={commentInput} error={inputHasError(errors, commentInput)} register={configureRegister(commentInput, register)}/>
                     </div>
-                    <div className={"col"}>
-                <Select inputConfig={yearSelect} register={configureRegister(yearSelect, register)}/>
+                    <div className={"mt-2 mb-2"}>
+                        <SubmitButton style={{width: "100%"}}>Registrer</SubmitButton>
                     </div>
-                    <div className={"col"}>
-                <Input inputConfig={commentInput} error={inputHasError(errors, commentInput)} register={configureRegister(commentInput, register)}/>
-                    </div>
-                <SubmitButton className={"mt-4"}>Registrer</SubmitButton>
                 </div>
             </div>
         </form>
