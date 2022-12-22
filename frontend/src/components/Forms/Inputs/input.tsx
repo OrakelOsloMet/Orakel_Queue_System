@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Input = (props: Props) => {
-    let classnames = "form-control";
+    let classnames = "form-control ";
 
     if (props.error) {
         classnames += "is-invalid ";
