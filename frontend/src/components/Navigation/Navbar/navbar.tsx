@@ -3,7 +3,7 @@ import {Navbar as BootsrapNav, NavbarProps as BootstrapNavProps} from "react-boo
 import {LinkContainer} from "react-router-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import styles from "./navbar.module.css";
-import {USER_GUIDE_PATH, ADMIN_ROUTE, INDEX_ROUTE} from "../../../constants/constants";
+import {ADMIN_ROUTE, INDEX_ROUTE, USER_GUIDE_PATH} from "../../../constants/constants";
 import SwalMessageModal from "../../UI/Modals/SwalModals/swalMessageModal";
 import SwalLoginModal from "../../UI/Modals/SwalModals/swalLoginModal";
 import {AuthDispatch} from "../../../store/types";

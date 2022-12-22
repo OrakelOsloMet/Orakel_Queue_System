@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
 
 //TODO Look here for proxy setup: https://vitejs.dev/config/server-options.html

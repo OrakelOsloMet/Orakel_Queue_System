@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 
-import {DISCORD_URL, FACEBOOK_URL, FormElementType, PLACEMENTS_PATH, UNSELECTED} from "../../../constants/constants";
+import {DISCORD_URL, FACEBOOK_URL, FormElementType, UNSELECTED} from "../../../constants/constants";
 import {SubmitButton} from "../../UI/Buttons/buttons";
 import {convertObjectStringsToPrimitives} from "../../../utilities/objectUtilities";
 import {ISelectConfig, ITextConfig, IValidatedTextConfig} from "../../../models/inputModels"

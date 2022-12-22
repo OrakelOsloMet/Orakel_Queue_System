@@ -1,4 +1,4 @@
-import {MouseEventHandler, FC, ReactNode} from 'react';
+import {FC, MouseEventHandler, ReactNode} from 'react';
 
 type Props = {
     onClick?: MouseEventHandler,

@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react'
+import {useEffect, useRef} from 'react'
 
 //Taken from https://usehooks-typescript.com/react-hook/use-interval
 const useInterval = (callback: () => void, delay: number | null) => {

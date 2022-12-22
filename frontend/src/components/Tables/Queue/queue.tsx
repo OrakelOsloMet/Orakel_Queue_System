@@ -1,12 +1,12 @@
 import {FC, useEffect} from "react";
 
 import Table from "./QueueTable/queueTable";
-import { jsonArrayEqual } from "../../../utilities/arrayUtilities";
+import {jsonArrayEqual} from "../../../utilities/arrayUtilities";
 import LoadingSpinner from "../../UI/LoadingSpinner/loadingSpinner";
 import useInterval from "../../../hooks/useInterval";
 import usePreviousState from "../../../hooks/usePreviousState";
 import useSound from "use-sound";
-import { IQueueEntity } from "../../../models/types";
+import {IQueueEntity} from "../../../models/types";
 
 import notificationSound from "../../../assets/sounds/hellothere.mp3";
 

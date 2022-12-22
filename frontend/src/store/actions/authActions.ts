@@ -1,6 +1,6 @@
 import {REST_INSTANCE as axios} from "../../axiosApi";
 import {AuthActionTypes} from "./actionTypes";
-import {LOGIN_PATH, CHECK_TOKEN_PATH, LOCAL_STORAGE_USER} from "../../constants/constants";
+import {CHECK_TOKEN_PATH, LOCAL_STORAGE_USER, LOGIN_PATH} from "../../constants/constants";
 import {AuthDispatch, IUser} from "../types";
 
 const authStart = () => {
