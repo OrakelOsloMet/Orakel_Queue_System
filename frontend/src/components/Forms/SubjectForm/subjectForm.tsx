@@ -1,11 +1,11 @@
-import {FC, FormEvent, SyntheticEvent, useEffect, useState} from "react";
+import {FC, FormEvent, useEffect, useState} from "react";
 import {DeleteButton, SubmitButton} from "../../UI/Buttons/buttons";
 import {useForm} from "react-hook-form";
 import Input from "../Inputs/input";
 import Select from "../Inputs/select";
 import {FormElementType, Semester} from "../../../constants/constants";
 import {convertObjectStringsToPrimitives, updateObject} from "../../../utilities/objectUtilities";
-import {createUseFormRef, inputHasError} from "../../../utilities/formUtilities";
+import {configureRegister, inputHasError} from "../../../utilities/formUtilities";
 import {SubjectDispatch} from "../../../store/types";
 import {IRadioConfig, ISelectConfig, IValidatedTextConfig} from "../../../models/inputModels";
 import Radio from "../Inputs/radio";
@@ -101,6 +101,7 @@ const SubjectForm: FC<Props> = (props) => {
     };
 
     const registrationSubmitHandler = async (formData: FormValues) => {
+        console.log("FORMDATA: ", formData)
         const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectedSubject));
 
         //A new subject won't have an id, set it to zero in that case
@@ -117,7 +118,9 @@ const SubjectForm: FC<Props> = (props) => {
                 contentText: `New name: ${subject.name}. New semester: ${subject.semester}`
             });
 
-            if (userConfirmation) props.addEditSubject(subject, true);
+            if (userConfirmation) {
+                props.addEditSubject(subject, true);
+            }
 
         } else {
             const userConfirmation = await SwalConfirmModal({
@@ -150,7 +153,7 @@ const SubjectForm: FC<Props> = (props) => {
      */
     const subjectSelectHandler = (event: FormEvent<HTMLInputElement>) => {
         const nameInputFilled = {...nameInput};
-        const semesterCheckedUpdated = {...checkedSemester};
+        const checkedSemesterUpdated = {...checkedSemester};
         const selectedSubject: ISubject = JSON.parse(event.currentTarget.value);
 
         if (selectedSubject.name === NEW_SUBJECT) {
@@ -166,32 +169,28 @@ const SubjectForm: FC<Props> = (props) => {
             nameInputFilled.key = selectedSubject.name;
             setValue(NEW_SUBJECT_NAME, selectedSubject.name)
 
-            semesterCheckedUpdated.buttons.forEach(button => {
+            checkedSemesterUpdated.buttons.forEach(button => {
                 button.key = selectedSubject.name;
                 button.defaultChecked = button.label === selectedSubject.semester;
             })
         }
 
         setNameInput(nameInputFilled);
-        setCheckedSemester(semesterCheckedUpdated);
+        setCheckedSemester(checkedSemesterUpdated);
     }
 
     return (
-        <form className={"mb-4"} style={{width: "80%", margin: "auto"}}>
+        <form className={"mb-2"} style={{width: "80%", margin: "auto"}}>
             <div className={"row mt-2 mb-2"}>
-                <Select {...createUseFormRef(subjectSelect, register, (event: FormEvent<HTMLInputElement>) => subjectSelectHandler(event))} inputConfig={subjectSelect}/>
+                <Select register={configureRegister(subjectSelect, register, (event: FormEvent<HTMLInputElement>) => subjectSelectHandler(event))} inputConfig={subjectSelect}/>
             </div>
             <div className={"row mt-2 mb-2"}>
-                <Input {...createUseFormRef(nameInput, register)} inputConfig={nameInput} error={inputHasError(errors, nameInput)}/>
+                <Input register={configureRegister(nameInput, register)} inputConfig={nameInput} error={inputHasError(errors, nameInput)}/>
             </div>
-            <Radio {...createUseFormRef(checkedSemester, register)} className={"mt-2 mb-2"} inputConfig={checkedSemester}/>
+            <Radio register={configureRegister(checkedSemester, register)} className={"mt-2 mb-2"} inputConfig={checkedSemester}/>
             <div className={"row mt-2 mb-2"}>
-                <div className={"col"}>
-                    <SubmitButton style={{width: "100%"}} onClick={handleSubmit(registrationSubmitHandler)}>{editState ? "Save Edit" : "Save New"}</SubmitButton>
-                </div>
-                <div className={"col"}>
-                    <DeleteButton style={{width: "100%"}} disabled={!editState} onClick={handleSubmit(deleteSubmitHandler)}>Delete Subject</DeleteButton>
-                </div>
+                    <SubmitButton style={{width: "49%"}} className={"me-1"} onClick={handleSubmit(registrationSubmitHandler)}>{editState ? "Save Edit" : "Save New"}</SubmitButton>
+                    <DeleteButton style={{width: "49%"}} disabled={!editState} onClick={handleSubmit(deleteSubmitHandler)}>Delete</DeleteButton>
             </div>
         </form>
     )
