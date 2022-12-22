@@ -6,15 +6,6 @@ The application also lets us have concrete data on how much work we do, which wa
 
 ## Frontend
 
-The frontend is a React 16 application written in Typescript 4.1. It is heavily reliant on Redux.
-
-The frontend has a couple of outdated dependencies which has proven to be hard to update without breaking the entire application and warranting huge re-writes.
-For the moment, the application has to be installed using the lagacy-peer-deps argument to prevent problems with an older Typescript-dependency from react-scripts.
-
-````Bash
-npm install --legacy-peer-deps
-````
-
 ## Backend
 
 The backend is a Spring Boot 2.7.0 application written in Java 11.
@@ -28,6 +19,7 @@ The backend is a Spring Boot 2.7.0 application written in Java 11.
 
 #### Run Application
 
+TODO: The frontend run config must be corrected after migrating from Webpack to Vite
 To easily run both the frontend and backend applications, set up the following run configurations.
 
 ![Backend Run Config](/readmeImages/BackendRun.png)
