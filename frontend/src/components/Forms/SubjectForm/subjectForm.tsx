@@ -3,7 +3,7 @@ import {DeleteButton, SubmitButton} from "../../UI/Buttons/buttons";
 import {useForm} from "react-hook-form";
 import Input from "../Inputs/input";
 import Select from "../Inputs/select";
-import {FormElementType, Semester} from "../../../constants/constants";
+import {FormElementType, Semester, UNSELECTED} from "../../../constants/constants";
 import {convertObjectStringsToPrimitives, updateObject} from "../../../utilities/objectUtilities";
 import {configureRegister, inputHasError} from "../../../utilities/formUtilities";
 import {SubjectDispatch} from "../../../store/types";
@@ -11,6 +11,7 @@ import {IRadioConfig, ISelectConfig, IValidatedTextConfig} from "../../../models
 import Radio from "../Inputs/radio";
 import {ISubject} from "../../../models/types";
 import SwalConfirmModal from "../../UI/Modals/SwalModals/swalConfirmModal";
+import SwalMessageModal from "../../UI/Modals/SwalModals/swalMessageModal";
 
 enum FormElements {
     SELECT_SUBJECT = "selectSubject",
@@ -42,6 +43,7 @@ const SubjectForm: FC<Props> = (props) => {
     const [editState, setEditState] = useState<boolean>(false);
 
     const [subjectSelect, setSubjectSelect] = useState<ISelectConfig>({
+        placeholderdisplayvalue: "Select Subject...",
         type: FormElementType.SELECT,
         name: SELECT_SUBJECT,
         options: []
@@ -101,36 +103,36 @@ const SubjectForm: FC<Props> = (props) => {
     };
 
     const registrationSubmitHandler = async (formData: FormValues) => {
-        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectSubject));
+        if (formData.selectSubject === UNSELECTED) {
+            SwalMessageModal({
+                title: "Select Subject",
+                iconType: "info",
+                contentText: "Please select an alternative from the dropdown box",
+            })
+            reset();
+            return;
+        }
 
-        //A new subject won't have an id, set it to zero in that case
+        const selectedSubject = convertObjectStringsToPrimitives(JSON.parse(formData.selectSubject));
         const subject = {
-            id: selectedSubject.id ? selectedSubject.id : 0,
+            id: selectedSubject.id ? selectedSubject.id : 0, //A new subject won't have an id, set it to zero in that case
             createdDate: "",
             name: formData.inputSubjectName,
             semester: formData.radioSemester === "0" ? Semester.SPRING : Semester.AUTUMN,
         }
 
-        if (editState) {
-            const userConfirmation = await SwalConfirmModal({
-                title: `Confirm new details of ${selectedSubject.name}`,
-                contentText: `New name: ${subject.name}. New semester: ${subject.semester}`
-            });
+        const editTitle = `Confirm new details of ${selectedSubject.name}`;
+        const editContent = `New name: ${subject.name}. New semester: ${subject.semester}`;
+        const newTitle = `Are you sure you want to add new subject ${subject.name}?`;
+        const newContent = `If you have selected the current semester as this subject's semester, it will be visible to all users once it is saved`;
 
-            if (userConfirmation) {
-                props.addEditSubject(subject, true);
-            }
+        const userConfirmation = await SwalConfirmModal({
+            title: editState ? editTitle : newTitle,
+            contentText: editState ? editContent : newContent
+        });
 
-        } else {
-            const userConfirmation = await SwalConfirmModal({
-                title: `Are you sure you want to add new subject ${subject.name}?`,
-                contentText: `If you have selected the current semester as this subject's semester, it will be visible
-                to all users once it is saved`
-            });
-
-            if (userConfirmation) {
-                props.addEditSubject(subject, false);
-            }
+        if (userConfirmation) {
+            props.addEditSubject(subject, editState);
         }
     }
 
