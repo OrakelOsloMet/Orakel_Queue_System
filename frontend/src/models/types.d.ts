@@ -1,4 +1,4 @@
-import {Semester} from "../../../../OrakelQueueClient/src/constants/constants";
+import {Semester} from "../constants/constants";
 
 interface IQueueEntity {
     id: number;

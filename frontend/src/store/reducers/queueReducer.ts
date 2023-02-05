@@ -1,6 +1,6 @@
-import {QueueActionTypes} from "../../../../../OrakelQueueClient/src/store/actions/actionTypes";
-import {updateObject} from "../../../../../OrakelQueueClient/src/utilities/objectUtilities";
-import {QueueAction, QueueState} from "../../../../../OrakelQueueClient/src/store/types";
+import {QueueActionTypes} from "../actions/actionTypes";
+import {updateObject} from "../../utilities/objectUtilities";
+import {QueueAction, QueueState} from "../types";
 
 const initialState: QueueState = {
     queueData: [],

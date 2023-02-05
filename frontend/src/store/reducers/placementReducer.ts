@@ -1,6 +1,6 @@
-import {updateObject} from "../../../../../OrakelQueueClient/src/utilities/objectUtilities";
-import {PlacementAction, PlacementState} from "../../../../../OrakelQueueClient/src/store/types";
-import {PlacementActionTypes} from "../../../../../OrakelQueueClient/src/store/actions/actionTypes";
+import {updateObject} from "../../utilities/objectUtilities";
+import {PlacementAction, PlacementState} from "../types";
+import {PlacementActionTypes} from "../actions/actionTypes";
 
 const initialState: PlacementState = {
     placementData: [],

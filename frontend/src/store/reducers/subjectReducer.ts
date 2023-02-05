@@ -1,6 +1,6 @@
-import {SubjectActionTypes} from "../../../../../OrakelQueueClient/src/store/actions/actionTypes";
-import {updateObject} from "../../../../../OrakelQueueClient/src/utilities/objectUtilities";
-import {SubjectAction, SubjectState} from "../../../../../OrakelQueueClient/src/store/types";
+import {SubjectActionTypes} from "../actions/actionTypes";
+import {updateObject} from "../../utilities/objectUtilities";
+import {SubjectAction, SubjectState} from "../types";
 
 const initialState: SubjectState = {
     allSubjectData: [],

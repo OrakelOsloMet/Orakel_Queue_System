@@ -1,6 +1,6 @@
-import {AuthActionTypes} from "../../../../../OrakelQueueClient/src/store/actions/actionTypes";
-import {updateObject} from "../../../../../OrakelQueueClient/src/utilities/objectUtilities";
-import {AuthAction, AuthState} from "../../../../../OrakelQueueClient/src/store/types";
+import {AuthActionTypes} from "../actions/actionTypes";
+import {updateObject} from "../../utilities/objectUtilities";
+import {AuthAction, AuthState} from "../types";
 
 const initialState: AuthState = {
     user: null,

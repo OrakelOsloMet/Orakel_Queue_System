@@ -1,4 +1,4 @@
-import {FormElementType} from "../../../../OrakelQueueClient/src/constants/constants";
+import {FormElementType} from "../constants/constants";
 
 export type InputConfig = ITextConfig | IValidatedTextConfig | IRadioConfig | ISelectConfig;
 

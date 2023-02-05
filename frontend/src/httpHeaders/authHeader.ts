@@ -1,4 +1,4 @@
-import {LOCAL_STORAGE_USER} from "../../../../OrakelQueueClient/src/constants/constants";
+import {LOCAL_STORAGE_USER} from "../constants/constants";
 
 const authHeader = () => {
     const USER = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER)!);
