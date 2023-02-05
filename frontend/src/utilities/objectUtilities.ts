@@ -35,5 +35,5 @@ export const convertObjectStringsToPrimitives = (originalObject: any) => {
 }
 
 export const objectConditionalByEnvironment = (devObject: any, productionObject: any) => {
-    return process.env.NODE_ENV === "production" ? productionObject : devObject;
+    return import.meta.env.NODE_ENV === "production" ? productionObject : devObject;
 };
